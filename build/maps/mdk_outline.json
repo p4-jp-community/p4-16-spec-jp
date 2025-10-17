@@ -1,0 +1,1084 @@
+{
+  "source": "build/tmp/P4-16-spec.atx.md",
+  "version": "v1.2.5",
+  "chapters": [
+    {
+      "kind": "chapter",
+      "id": "01",
+      "title": "Scope",
+      "h1_line": 66,
+      "sections": []
+    },
+    {
+      "kind": "chapter",
+      "id": "02",
+      "title": "Terms, definitions, and symbols",
+      "h1_line": 91,
+      "sections": []
+    },
+    {
+      "kind": "chapter",
+      "id": "03",
+      "title": "Overview",
+      "h1_line": 121,
+      "sections": [
+        {
+          "number": "3.1",
+          "sec": "01",
+          "title": "Benefits of P4",
+          "title_stripped": "Benefits of P4",
+          "slug": null,
+          "h2_line": 251,
+          "outfile": null
+        },
+        {
+          "number": "3.2",
+          "sec": "02",
+          "title": "P4 language evolution: comparison to previous versions (P4 v1.0/v1.1)",
+          "title_stripped": "P4 language evolution: comparison to previous versions (P4 v1.0/v1.1)",
+          "slug": null,
+          "h2_line": 280,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "04",
+      "title": "Architecture Model",
+      "h1_line": 323,
+      "sections": [
+        {
+          "number": "4.1",
+          "sec": "01",
+          "title": "Standard architectures",
+          "title_stripped": "Standard architectures",
+          "slug": null,
+          "h2_line": 386,
+          "outfile": null
+        },
+        {
+          "number": "4.2",
+          "sec": "02",
+          "title": "Data plane interfaces",
+          "title_stripped": "Data plane interfaces",
+          "slug": null,
+          "h2_line": 394,
+          "outfile": null
+        },
+        {
+          "number": "4.3",
+          "sec": "03",
+          "title": "Extern objects and functions",
+          "title_stripped": "Extern objects and functions",
+          "slug": null,
+          "h2_line": 423,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "05",
+      "title": "Example: A very simple switch",
+      "h1_line": 442,
+      "sections": [
+        {
+          "number": "5.1",
+          "sec": "01",
+          "title": "Very Simple Switch Architecture",
+          "title_stripped": "Very Simple Switch Architecture",
+          "slug": null,
+          "h2_line": 482,
+          "outfile": null
+        },
+        {
+          "number": "5.2",
+          "sec": "02",
+          "title": "Very Simple Switch Architecture Description",
+          "title_stripped": "Very Simple Switch Architecture Description",
+          "slug": null,
+          "h2_line": 589,
+          "outfile": null
+        },
+        {
+          "number": "5.3",
+          "sec": "03",
+          "title": "A complete Very Simple Switch program",
+          "title_stripped": "A complete Very Simple Switch program",
+          "slug": null,
+          "h2_line": 693,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "06",
+      "title": "P4 language definition",
+      "h1_line": 914,
+      "sections": [
+        {
+          "number": "6.1",
+          "sec": "01",
+          "title": "Syntax and semantics",
+          "title_stripped": "Syntax and semantics",
+          "slug": null,
+          "h2_line": 930,
+          "outfile": null
+        },
+        {
+          "number": "6.2",
+          "sec": "02",
+          "title": "Preprocessing",
+          "title_stripped": "Preprocessing",
+          "slug": null,
+          "h2_line": 968,
+          "outfile": null
+        },
+        {
+          "number": "6.3",
+          "sec": "03",
+          "title": "P4 core library",
+          "title_stripped": "P4 core library",
+          "slug": null,
+          "h2_line": 1005,
+          "outfile": null
+        },
+        {
+          "number": "6.4",
+          "sec": "04",
+          "title": "Lexical constructs",
+          "title_stripped": "Lexical constructs",
+          "slug": null,
+          "h2_line": 1014,
+          "outfile": null
+        },
+        {
+          "number": "6.5",
+          "sec": "05",
+          "title": "Naming conventions",
+          "title_stripped": "Naming conventions",
+          "slug": null,
+          "h2_line": 1149,
+          "outfile": null
+        },
+        {
+          "number": "6.6",
+          "sec": "06",
+          "title": "P4 programs",
+          "title_stripped": "P4 programs",
+          "slug": null,
+          "h2_line": 1169,
+          "outfile": null
+        },
+        {
+          "number": "6.7",
+          "sec": "07",
+          "title": "L-values",
+          "title_stripped": "L-values",
+          "slug": null,
+          "h2_line": 1243,
+          "outfile": null
+        },
+        {
+          "number": "6.8",
+          "sec": "08",
+          "title": "Calling convention: call by copy in/copy out",
+          "title_stripped": "Calling convention: call by copy in/copy out",
+          "slug": null,
+          "h2_line": 1267,
+          "outfile": null
+        },
+        {
+          "number": "6.9",
+          "sec": "09",
+          "title": "Name resolution",
+          "title_stripped": "Name resolution",
+          "slug": null,
+          "h2_line": 1540,
+          "outfile": null
+        },
+        {
+          "number": "6.10",
+          "sec": "10",
+          "title": "Visibility",
+          "title_stripped": "Visibility",
+          "slug": null,
+          "h2_line": 1563,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "07",
+      "title": "P4 data types",
+      "h1_line": 1569,
+      "sections": [
+        {
+          "number": "7.1",
+          "sec": "01",
+          "title": "Base types",
+          "title_stripped": "Base types",
+          "slug": null,
+          "h2_line": 1579,
+          "outfile": null
+        },
+        {
+          "number": "7.2",
+          "sec": "02",
+          "title": "Derived types",
+          "title_stripped": "Derived types",
+          "slug": null,
+          "h2_line": 1868,
+          "outfile": null
+        },
+        {
+          "number": "7.3",
+          "sec": "03",
+          "title": "Default values",
+          "title_stripped": "Default values",
+          "slug": null,
+          "h2_line": 2498,
+          "outfile": null
+        },
+        {
+          "number": "7.4",
+          "sec": "04",
+          "title": "Numeric types",
+          "title_stripped": "Numeric types",
+          "slug": null,
+          "h2_line": 2531,
+          "outfile": null
+        },
+        {
+          "number": "7.5",
+          "sec": "05",
+          "title": "typedef",
+          "title_stripped": "typedef",
+          "slug": null,
+          "h2_line": 2546,
+          "outfile": null
+        },
+        {
+          "number": "7.6",
+          "sec": "06",
+          "title": "Introducing new types",
+          "title_stripped": "Introducing new types",
+          "slug": null,
+          "h2_line": 2571,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "08",
+      "title": "Expressions",
+      "h1_line": 2604,
+      "sections": [
+        {
+          "number": "8.1",
+          "sec": "01",
+          "title": "Expression evaluation order",
+          "title_stripped": "Expression evaluation order",
+          "slug": null,
+          "h2_line": 2663,
+          "outfile": null
+        },
+        {
+          "number": "8.2",
+          "sec": "02",
+          "title": "Operations on `error` types",
+          "title_stripped": "Operations on `error` types",
+          "slug": null,
+          "h2_line": 2678,
+          "outfile": null
+        },
+        {
+          "number": "8.3",
+          "sec": "03",
+          "title": "Operations on `enum` types",
+          "title_stripped": "Operations on `enum` types",
+          "slug": null,
+          "h2_line": 2690,
+          "outfile": null
+        },
+        {
+          "number": "8.4",
+          "sec": "04",
+          "title": "Operations on `match_kind` types",
+          "title_stripped": "Operations on `match_kind` types",
+          "slug": null,
+          "h2_line": 2845,
+          "outfile": null
+        },
+        {
+          "number": "8.5",
+          "sec": "05",
+          "title": "Expressions on Booleans",
+          "title_stripped": "Expressions on Booleans",
+          "slug": null,
+          "h2_line": 2853,
+          "outfile": null
+        },
+        {
+          "number": "8.6",
+          "sec": "06",
+          "title": "Operations on fixed-width bit types (unsigned integers)",
+          "title_stripped": "Operations on fixed-width bit types (unsigned integers)",
+          "slug": null,
+          "h2_line": 2897,
+          "outfile": null
+        },
+        {
+          "number": "8.7",
+          "sec": "07",
+          "title": "Operations on fixed-width signed integers",
+          "title_stripped": "Operations on fixed-width signed integers",
+          "slug": null,
+          "h2_line": 3010,
+          "outfile": null
+        },
+        {
+          "number": "8.8",
+          "sec": "08",
+          "title": "Operations on arbitrary-precision integers",
+          "title_stripped": "Operations on arbitrary-precision integers",
+          "slug": null,
+          "h2_line": 3106,
+          "outfile": null
+        },
+        {
+          "number": "8.9",
+          "sec": "09",
+          "title": "Concatenation and shifts",
+          "title_stripped": "Concatenation and shifts",
+          "slug": null,
+          "h2_line": 3185,
+          "outfile": null
+        },
+        {
+          "number": "8.10",
+          "sec": "10",
+          "title": "Operations on variable-size bit types",
+          "title_stripped": "Operations on variable-size bit types",
+          "slug": null,
+          "h2_line": 3234,
+          "outfile": null
+        },
+        {
+          "number": "8.11",
+          "sec": "11",
+          "title": "Casts",
+          "title_stripped": "Casts",
+          "slug": null,
+          "h2_line": 3272,
+          "outfile": null
+        },
+        {
+          "number": "8.12",
+          "sec": "12",
+          "title": "Operations on tuple expressions",
+          "title_stripped": "Operations on tuple expressions",
+          "slug": null,
+          "h2_line": 3399,
+          "outfile": null
+        },
+        {
+          "number": "8.13",
+          "sec": "13",
+          "title": "Operations on structure-valued expressions",
+          "title_stripped": "Operations on structure-valued expressions",
+          "slug": null,
+          "h2_line": 3474,
+          "outfile": null
+        },
+        {
+          "number": "8.14",
+          "sec": "14",
+          "title": "Operations on lists",
+          "title_stripped": "Operations on lists",
+          "slug": null,
+          "h2_line": 3524,
+          "outfile": null
+        },
+        {
+          "number": "8.15",
+          "sec": "15",
+          "title": "Operations on sets",
+          "title_stripped": "Operations on sets",
+          "slug": null,
+          "h2_line": 3541,
+          "outfile": null
+        },
+        {
+          "number": "8.16",
+          "sec": "16",
+          "title": "Operations on struct types",
+          "title_stripped": "Operations on struct types",
+          "slug": null,
+          "h2_line": 3647,
+          "outfile": null
+        },
+        {
+          "number": "8.17",
+          "sec": "17",
+          "title": "Operations on headers",
+          "title_stripped": "Operations on headers",
+          "slug": null,
+          "h2_line": 3677,
+          "outfile": null
+        },
+        {
+          "number": "8.18",
+          "sec": "18",
+          "title": "Operations on header stacks",
+          "title_stripped": "Operations on header stacks",
+          "slug": null,
+          "h2_line": 3731,
+          "outfile": null
+        },
+        {
+          "number": "8.19",
+          "sec": "19",
+          "title": "Operations on header unions",
+          "title_stripped": "Operations on header unions",
+          "slug": null,
+          "h2_line": 3864,
+          "outfile": null
+        },
+        {
+          "number": "8.20",
+          "sec": "20",
+          "title": "Method invocations and function calls",
+          "title_stripped": "Method invocations and function calls",
+          "slug": null,
+          "h2_line": 3998,
+          "outfile": null
+        },
+        {
+          "number": "8.21",
+          "sec": "21",
+          "title": "Constructor invocations",
+          "title_stripped": "Constructor invocations",
+          "slug": null,
+          "h2_line": 4048,
+          "outfile": null
+        },
+        {
+          "number": "8.22",
+          "sec": "22",
+          "title": "Operations on `extern` objects",
+          "title_stripped": "Operations on `extern` objects",
+          "slug": null,
+          "h2_line": 4080,
+          "outfile": null
+        },
+        {
+          "number": "8.23",
+          "sec": "23",
+          "title": "Operations on types introduced by `type`",
+          "title_stripped": "Operations on types introduced by `type`",
+          "slug": null,
+          "h2_line": 4098,
+          "outfile": null
+        },
+        {
+          "number": "8.24",
+          "sec": "24",
+          "title": "Operations on types that are type variables",
+          "title_stripped": "Operations on types that are type variables",
+          "slug": null,
+          "h2_line": 4114,
+          "outfile": null
+        },
+        {
+          "number": "8.25",
+          "sec": "25",
+          "title": "Reading uninitialized values and writing fields of invalid headers",
+          "title_stripped": "Reading uninitialized values and writing fields of invalid headers",
+          "slug": null,
+          "h2_line": 4135,
+          "outfile": null
+        },
+        {
+          "number": "8.26",
+          "sec": "26",
+          "title": "Initializing with default values",
+          "title_stripped": "Initializing with default values",
+          "slug": null,
+          "h2_line": 4245,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "09",
+      "title": "Compile-time size determination",
+      "h1_line": 4281,
+      "sections": []
+    },
+    {
+      "kind": "chapter",
+      "id": "10",
+      "title": "Function declarations",
+      "h1_line": 4346,
+      "sections": []
+    },
+    {
+      "kind": "chapter",
+      "id": "11",
+      "title": "Constants and variable declarations",
+      "h1_line": 4370,
+      "sections": [
+        {
+          "number": "11.1",
+          "sec": "01",
+          "title": "Constants",
+          "title_stripped": "Constants",
+          "slug": null,
+          "h2_line": 4372,
+          "outfile": null
+        },
+        {
+          "number": "11.2",
+          "sec": "02",
+          "title": "Variables",
+          "title_stripped": "Variables",
+          "slug": null,
+          "h2_line": 4389,
+          "outfile": null
+        },
+        {
+          "number": "11.3",
+          "sec": "03",
+          "title": "Instantiations",
+          "title_stripped": "Instantiations",
+          "slug": null,
+          "h2_line": 4430,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "12",
+      "title": "Statements",
+      "h1_line": 4508,
+      "sections": [
+        {
+          "number": "12.1",
+          "sec": "01",
+          "title": "Assignment statement",
+          "title_stripped": "Assignment statement",
+          "slug": null,
+          "h2_line": 4532,
+          "outfile": null
+        },
+        {
+          "number": "12.2",
+          "sec": "02",
+          "title": "Empty statement",
+          "title_stripped": "Empty statement",
+          "slug": null,
+          "h2_line": 4541,
+          "outfile": null
+        },
+        {
+          "number": "12.3",
+          "sec": "03",
+          "title": "Block statement",
+          "title_stripped": "Block statement",
+          "slug": null,
+          "h2_line": 4548,
+          "outfile": null
+        },
+        {
+          "number": "12.4",
+          "sec": "04",
+          "title": "Return statement",
+          "title_stripped": "Return statement",
+          "slug": null,
+          "h2_line": 4562,
+          "outfile": null
+        },
+        {
+          "number": "12.5",
+          "sec": "05",
+          "title": "Exit statement",
+          "title_stripped": "Exit statement",
+          "slug": null,
+          "h2_line": 4577,
+          "outfile": null
+        },
+        {
+          "number": "12.6",
+          "sec": "06",
+          "title": "Conditional statement",
+          "title_stripped": "Conditional statement",
+          "slug": null,
+          "h2_line": 4635,
+          "outfile": null
+        },
+        {
+          "number": "12.7",
+          "sec": "07",
+          "title": "Switch statement",
+          "title_stripped": "Switch statement",
+          "slug": null,
+          "h2_line": 4649,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "13",
+      "title": "Packet parsing",
+      "h1_line": 4747,
+      "sections": [
+        {
+          "number": "13.1",
+          "sec": "01",
+          "title": "Parser states",
+          "title_stripped": "Parser states",
+          "slug": null,
+          "h2_line": 4752,
+          "outfile": null
+        },
+        {
+          "number": "13.2",
+          "sec": "02",
+          "title": "Parser declarations",
+          "title_stripped": "Parser declarations",
+          "slug": null,
+          "h2_line": 4767,
+          "outfile": null
+        },
+        {
+          "number": "13.3",
+          "sec": "03",
+          "title": "The Parser abstract machine",
+          "title_stripped": "The Parser abstract machine",
+          "slug": null,
+          "h2_line": 4820,
+          "outfile": null
+        },
+        {
+          "number": "13.4",
+          "sec": "04",
+          "title": "Parser states",
+          "title_stripped": "Parser states",
+          "slug": null,
+          "h2_line": 4841,
+          "outfile": null
+        },
+        {
+          "number": "13.5",
+          "sec": "05",
+          "title": "Transition statements",
+          "title_stripped": "Transition statements",
+          "slug": null,
+          "h2_line": 4882,
+          "outfile": null
+        },
+        {
+          "number": "13.6",
+          "sec": "06",
+          "title": "Select expressions",
+          "title_stripped": "Select expressions",
+          "slug": null,
+          "h2_line": 4915,
+          "outfile": null
+        },
+        {
+          "number": "13.7",
+          "sec": "07",
+          "title": "verify",
+          "title_stripped": "verify",
+          "slug": null,
+          "h2_line": 5008,
+          "outfile": null
+        },
+        {
+          "number": "13.8",
+          "sec": "08",
+          "title": "Data extraction",
+          "title_stripped": "Data extraction",
+          "slug": null,
+          "h2_line": 5030,
+          "outfile": null
+        },
+        {
+          "number": "13.9",
+          "sec": "09",
+          "title": "Header stacks",
+          "title_stripped": "Header stacks",
+          "slug": null,
+          "h2_line": 5238,
+          "outfile": null
+        },
+        {
+          "number": "13.10",
+          "sec": "10",
+          "title": "Sub-parsers",
+          "title_stripped": "Sub-parsers",
+          "slug": null,
+          "h2_line": 5271,
+          "outfile": null
+        },
+        {
+          "number": "13.11",
+          "sec": "11",
+          "title": "Parser Value Sets",
+          "title_stripped": "Parser Value Sets",
+          "slug": null,
+          "h2_line": 5326,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "14",
+      "title": "Control blocks",
+      "h1_line": 5364,
+      "sections": [
+        {
+          "number": "14.1",
+          "sec": "01",
+          "title": "Actions",
+          "title_stripped": "Actions",
+          "slug": null,
+          "h2_line": 5408,
+          "outfile": null
+        },
+        {
+          "number": "14.2",
+          "sec": "02",
+          "title": "Tables",
+          "title_stripped": "Tables",
+          "slug": null,
+          "h2_line": 5463,
+          "outfile": null
+        },
+        {
+          "number": "14.3",
+          "sec": "03",
+          "title": "The Match-Action Pipeline Abstract Machine",
+          "title_stripped": "The Match-Action Pipeline Abstract Machine",
+          "slug": null,
+          "h2_line": 6187,
+          "outfile": null
+        },
+        {
+          "number": "14.4",
+          "sec": "04",
+          "title": "Invoking controls",
+          "title_stripped": "Invoking controls",
+          "slug": null,
+          "h2_line": 6204,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "15",
+      "title": "Parameterization",
+      "h1_line": 6247,
+      "sections": [
+        {
+          "number": "15.1",
+          "sec": "01",
+          "title": "Direct type invocation",
+          "title_stripped": "Direct type invocation",
+          "slug": null,
+          "h2_line": 6287,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "16",
+      "title": "Deparsing",
+      "h1_line": 6347,
+      "sections": [
+        {
+          "number": "16.1",
+          "sec": "01",
+          "title": "Data insertion into packets",
+          "title_stripped": "Data insertion into packets",
+          "slug": null,
+          "h2_line": 6364,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "17",
+      "title": "Architecture description",
+      "h1_line": 6405,
+      "sections": [
+        {
+          "number": "17.1",
+          "sec": "01",
+          "title": "Example architecture description",
+          "title_stripped": "Example architecture description",
+          "slug": null,
+          "h2_line": 6425,
+          "outfile": null
+        },
+        {
+          "number": "17.2",
+          "sec": "02",
+          "title": "Example architecture program",
+          "title_stripped": "Example architecture program",
+          "slug": null,
+          "h2_line": 6478,
+          "outfile": null
+        },
+        {
+          "number": "17.3",
+          "sec": "03",
+          "title": "A Packet Filter Model",
+          "title_stripped": "A Packet Filter Model",
+          "slug": null,
+          "h2_line": 6520,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "18",
+      "title": "P4 abstract machine: Evaluation",
+      "h1_line": 6549,
+      "sections": [
+        {
+          "number": "18.1",
+          "sec": "01",
+          "title": "Compile-time known and local compile-time known values",
+          "title_stripped": "Compile-time known and local compile-time known values",
+          "slug": null,
+          "h2_line": 6559,
+          "outfile": null
+        },
+        {
+          "number": "18.2",
+          "sec": "02",
+          "title": "Compile-time Evaluation",
+          "title_stripped": "Compile-time Evaluation",
+          "slug": null,
+          "h2_line": 6629,
+          "outfile": null
+        },
+        {
+          "number": "18.3",
+          "sec": "03",
+          "title": "Control plane names",
+          "title_stripped": "Control plane names",
+          "slug": null,
+          "h2_line": 6708,
+          "outfile": null
+        },
+        {
+          "number": "18.4",
+          "sec": "04",
+          "title": "Dynamic evaluation",
+          "title_stripped": "Dynamic evaluation",
+          "slug": null,
+          "h2_line": 6913,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "19",
+      "title": "Static assertions",
+      "h1_line": 6990,
+      "sections": []
+    },
+    {
+      "kind": "chapter",
+      "id": "20",
+      "title": "Annotations",
+      "h1_line": 7017,
+      "sections": [
+        {
+          "number": "20.1",
+          "sec": "01",
+          "title": "Bodies of Unstructured Annotations",
+          "title_stripped": "Bodies of Unstructured Annotations",
+          "slug": null,
+          "h2_line": 7071,
+          "outfile": null
+        },
+        {
+          "number": "20.2",
+          "sec": "02",
+          "title": "Bodies of Structured Annotations",
+          "title_stripped": "Bodies of Structured Annotations",
+          "slug": null,
+          "h2_line": 7089,
+          "outfile": null
+        },
+        {
+          "number": "20.3",
+          "sec": "03",
+          "title": "Predefined annotations",
+          "title_stripped": "Predefined annotations",
+          "slug": null,
+          "h2_line": 7189,
+          "outfile": null
+        },
+        {
+          "number": "20.4",
+          "sec": "04",
+          "title": "Target-specific annotations",
+          "title_stripped": "Target-specific annotations",
+          "slug": null,
+          "h2_line": 7330,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "appendix",
+      "id": "A",
+      "title": "Revision History",
+      "h1_line": 7345,
+      "sections": [
+        {
+          "number": "A.1",
+          "sec": "01",
+          "title": "Summary of changes made in unreleased version",
+          "title_stripped": "Summary of changes made in unreleased version",
+          "slug": null,
+          "h2_line": 7347,
+          "outfile": null
+        },
+        {
+          "number": "A.2",
+          "sec": "02",
+          "title": "Summary of changes made in version 1.2.5, released October 11, 2024",
+          "title_stripped": "Summary of changes made in version 1.2.5, released October 11, 2024",
+          "slug": null,
+          "h2_line": 7349,
+          "outfile": null
+        },
+        {
+          "number": "A.3",
+          "sec": "03",
+          "title": "Summary of changes made in version 1.2.4,released May 15, 2023",
+          "title_stripped": "Summary of changes made in version 1.2.4,released May 15, 2023",
+          "slug": null,
+          "h2_line": 7357,
+          "outfile": null
+        },
+        {
+          "number": "A.4",
+          "sec": "04",
+          "title": "Summary of changes made in version 1.2.3, released July 11, 2022.",
+          "title_stripped": "Summary of changes made in version 1.2.3, released July 11, 2022.",
+          "slug": null,
+          "h2_line": 7423,
+          "outfile": null
+        },
+        {
+          "number": "A.5",
+          "sec": "05",
+          "title": "Summary of changes made in version 1.2.2, released May 17, 2021",
+          "title_stripped": "Summary of changes made in version 1.2.2, released May 17, 2021",
+          "slug": null,
+          "h2_line": 7459,
+          "outfile": null
+        },
+        {
+          "number": "A.6",
+          "sec": "06",
+          "title": "Summary of changes made in version 1.2.1, released June 11, 2020",
+          "title_stripped": "Summary of changes made in version 1.2.1, released June 11, 2020",
+          "slug": null,
+          "h2_line": 7492,
+          "outfile": null
+        },
+        {
+          "number": "A.7",
+          "sec": "07",
+          "title": "Summary of changes made in version 1.2.0, released October 14, 2019",
+          "title_stripped": "Summary of changes made in version 1.2.0, released October 14, 2019",
+          "slug": null,
+          "h2_line": 7524,
+          "outfile": null
+        },
+        {
+          "number": "A.8",
+          "sec": "08",
+          "title": "Summary of changes made in version 1.1.0, released November 26, 2017.",
+          "title_stripped": "Summary of changes made in version 1.1.0, released November 26, 2017.",
+          "slug": null,
+          "h2_line": 7547,
+          "outfile": null
+        },
+        {
+          "number": "A.9",
+          "sec": "09",
+          "title": "Initial version 1.0.0, released May 17, 2017",
+          "title_stripped": "Initial version 1.0.0, released May 17, 2017",
+          "slug": null,
+          "h2_line": 7582,
+          "outfile": null
+        }
+      ]
+    },
+    {
+      "kind": "appendix",
+      "id": "B",
+      "title": "P4 reserved keywords",
+      "h1_line": 7584,
+      "sections": []
+    },
+    {
+      "kind": "appendix",
+      "id": "C",
+      "title": "P4 reserved annotations",
+      "h1_line": 7599,
+      "sections": []
+    },
+    {
+      "kind": "appendix",
+      "id": "D",
+      "title": "P4 core library",
+      "h1_line": 7620,
+      "sections": []
+    },
+    {
+      "kind": "appendix",
+      "id": "E",
+      "title": "Checksums",
+      "h1_line": 7673,
+      "sections": []
+    },
+    {
+      "kind": "appendix",
+      "id": "F",
+      "title": "Restrictions on compile time and run time calls",
+      "h1_line": 7714,
+      "sections": []
+    },
+    {
+      "kind": "appendix",
+      "id": "G",
+      "title": "P4 grammar",
+      "h1_line": 7854,
+      "sections": []
+    }
+  ]
+}

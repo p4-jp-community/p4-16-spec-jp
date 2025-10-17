@@ -1,0 +1,56 @@
+site_name: P4-16 Specification 非公式日本語訳
+nav:
+  - Home: index.md
+  - "Chapter 01: Scope": chapters/chapter-01/index.md
+  - "Chapter 02: Terms, definitions, and symbols": chapters/chapter-02/index.md
+  - "Chapter 03: Overview": chapters/chapter-03/index.md
+  - "Chapter 04: Architecture Model": chapters/chapter-04/index.md
+  - "Chapter 05: Example: A very simple switch": chapters/chapter-05/index.md
+  - "Chapter 06: P4 language definition": chapters/chapter-06/index.md
+  - "Chapter 07: P4 data types": chapters/chapter-07/index.md
+  - "Chapter 08: Expressions": chapters/chapter-08/index.md
+  - "Chapter 09: Compile-time size determination": chapters/chapter-09/index.md
+  - "Chapter 10: Function declarations": chapters/chapter-10/index.md
+  - "Chapter 11: Constants and variable declarations": chapters/chapter-11/index.md
+  - "Chapter 12: Statements": chapters/chapter-12/index.md
+  - "Chapter 13: Packet parsing": chapters/chapter-13/index.md
+  - "Chapter 14: Control blocks": chapters/chapter-14/index.md
+  - "Chapter 15: Parameterization": chapters/chapter-15/index.md
+  - "Chapter 16: Deparsing": chapters/chapter-16/index.md
+  - "Chapter 17: Architecture description": chapters/chapter-17/index.md
+  - "Chapter 18: P4 abstract machine: Evaluation": chapters/chapter-18/index.md
+  - "Chapter 19: Static assertions": chapters/chapter-19/index.md
+  - "Chapter 20: Annotations": chapters/chapter-20/index.md
+  - Appendices:
+      - "Appendix A: Revision History": chapters/appendix-A/index.md
+      - "Appendix B: P4 reserved keywords": chapters/appendix-B/index.md
+      - "Appendix C: P4 reserved annotations": chapters/appendix-C/index.md
+      - "Appendix D: P4 core library": chapters/appendix-D/index.md
+      - "Appendix E: Checksums": chapters/appendix-E/index.md
+      - "Appendix F: Restrictions on compile time and run time calls": chapters/appendix-F/index.md
+      - "Appendix G: P4 grammar": chapters/appendix-G/index.md
+  - Legal:
+      - NOTICE: notice.md
+      - LICENSE: license.md
+theme:
+  name: material
+  language: ja
+  custom_dir: overrides
+  features:
+    - announce.dismiss
+extra_css:
+  - stylesheets/announce.css
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - pymdownx.snippets:
+      base_path:
+        - docs
+      check_paths: true
+extra:
+  search:
+    language: "ja"
+  social:
+    - icon: material/github
+      link: https://github.com/p4-jp-community/p4-16-spec-jp

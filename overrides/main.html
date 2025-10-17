@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block announce %}
+<div class="ap2-announce">
+    <!-- JP -->
+    <p style="margin: 0.2rem 0;">
+        当サイトは、<a href="https://github.com/p4lang/p4-spec" target="_blank" rel="noopener">P4-16公式仕様</a>（v1.2.5）に基づき、
+        コミュニティ「p4-jp-community」が<strong>非公式に</strong>Madoko（.mdk）ファイルの分割・Markdown変換・体裁調整を行い、
+        Web公開している文書です。内容には誤りや未訳・古い情報、未解決の相互参照が含まれる可能性があります。
+        正確な情報については公式仕様の確認を行ってください。
+        改善の提案（翻訳・体裁・リンク修正など）は
+        <a href="https://github.com/p4-jp-community/p4-16-spec-jp" target="_blank" rel="noopener">GitHubリポジトリ</a>での
+        Issue / Pull Requestを用いて行ってください。
+        ライセンスと帰属については <a href="{{ base_url }}/notice/">NOTICE</a> と
+        <a href="{{ base_url }}/license/">LICENSE</a> を参照してください。
+    </p>
+
+    <!-- EN -->
+    <p style="margin: 0.2rem 0;">
+        This site is an <strong>unofficial</strong> publication maintained by the <em>p4-jp-community</em>,
+        based on the <a href="https://github.com/p4lang/p4-spec" target="_blank" rel="noopener">P4-16 official
+            specification</a> (v1.2.5).
+        The original Madoko (.mdk) sources have been split, converted to Markdown, and formatted for web publishing.
+        The content may contain errors, untranslated or outdated material, and unresolved cross-references.
+        For authoritative information, please consult the official specification.
+        Please submit improvement proposals (translation, formatting, link fixes, etc.) via Issues / Pull Requests
+        on our <a href="https://github.com/p4-jp-community/p4-16-spec-jp" target="_blank" rel="noopener">GitHub
+            repository</a>.
+        For licensing and attribution, see <a href="{{ base_url }}/notice/">NOTICE</a> and
+        <a href="{{ base_url }}/license/">LICENSE</a>.
+    </p>
+</div>
+{% endblock %}

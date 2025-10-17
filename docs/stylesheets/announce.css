@@ -1,0 +1,13 @@
+.ap2-announce {
+    background: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    padding: .6rem .8rem;
+    font-size: .85rem;
+    line-height: 1.35;
+}
+
+.ap2-announce a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
