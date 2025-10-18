@@ -1,4 +1,4 @@
-# 3 Overview
+# 3. Overview
 
 
 \~ Figure { \#fig-prgswitch; caption: “Traditional switches

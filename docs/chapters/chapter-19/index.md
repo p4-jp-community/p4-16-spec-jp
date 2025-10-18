@@ -1,4 +1,4 @@
-# 19 Static assertions
+# 19. Static assertions
 
 
 The P4 core library contains two overloaded declarations for a

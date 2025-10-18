@@ -1,4 +1,4 @@
-# 10 Function declarations
+# 10. Function declarations
 
 
 Functions can only be declared at the top level and all parameters must

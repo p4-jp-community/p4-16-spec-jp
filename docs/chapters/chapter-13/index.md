@@ -1,4 +1,4 @@
-# 13 Packet parsing
+# 13. Packet parsing
 
 
 This section describes the P4 constructs specific to parsing network

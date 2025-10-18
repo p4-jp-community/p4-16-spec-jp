@@ -1,4 +1,4 @@
-# 11 Constants and variable declarations
+# 11. Constants and variable declarations
 
 
 --8<-- "chapters/chapter-11/11-01-constants.md"

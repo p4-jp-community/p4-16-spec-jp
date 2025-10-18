@@ -1,4 +1,4 @@
-# 4 Architecture Model
+# 4. Architecture Model
 
 
 \~ Figure { \#fig-p4interface; caption: “P4 program interfaces.” }

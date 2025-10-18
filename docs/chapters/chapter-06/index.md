@@ -1,4 +1,4 @@
-# 6 P4 language definition
+# 6. P4 language definition
 
 
 The P4 language can be viewed as having several distinct components,

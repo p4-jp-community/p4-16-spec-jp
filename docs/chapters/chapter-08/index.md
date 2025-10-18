@@ -1,4 +1,4 @@
-# 8 Expressions
+# 8. Expressions
 
 
 This section describes all expressions that can be used in P4, grouped

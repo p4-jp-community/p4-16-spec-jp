@@ -1,4 +1,4 @@
-# 15 Parameterization
+# 15. Parameterization
 
 
 In order to support libraries of useful P4 components, both `parser`s
