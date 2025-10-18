@@ -1,4 +1,4 @@
-# 16 Deparsing
+# 16. Deparsing
 
 
 The inverse of parsing is deparsing, or packet construction. P4 does not

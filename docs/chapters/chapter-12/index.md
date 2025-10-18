@@ -1,4 +1,4 @@
-# 12 Statements
+# 12. Statements
 
 
 Every statement in P4 except block statements must end with a semicolon.

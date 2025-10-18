@@ -1,4 +1,4 @@
-# 17 Architecture description
+# 17. Architecture description
 
 
 The architecture description must be provided by the target manufacturer

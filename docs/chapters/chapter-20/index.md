@@ -1,4 +1,4 @@
-# 20 Annotations
+# 20. Annotations
 
 
 Annotations are a simple mechanism for extending the P4 language to some

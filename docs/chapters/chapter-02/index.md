@@ -1,4 +1,4 @@
-# 2 Terms, definitions, and symbols
+# 2. Terms, definitions, and symbols
 
 
 Throughout this document, the following terms will be used:

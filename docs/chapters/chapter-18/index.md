@@ -1,4 +1,4 @@
-# 18 P4 abstract machine: Evaluation
+# 18. P4 abstract machine: Evaluation
 
 
 The evaluation of a P4 program is done in two stages:

@@ -1,4 +1,4 @@
-# 7 P4 data types
+# 7. P4 data types
 
 
 P4<sub>16</sub> is a statically-typed language. Programs that do not

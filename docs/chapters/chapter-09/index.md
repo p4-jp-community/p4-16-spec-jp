@@ -1,4 +1,4 @@
-# 9 Compile-time size determination
+# 9. Compile-time size determination
 
 
 The method calls `minSizeInBits`, `minSizeInBytes`, `maxSizeInBits`, and

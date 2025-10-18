@@ -1,4 +1,4 @@
-# 14 Control blocks
+# 14. Control blocks
 
 
 P4 parsers are responsible for extracting bits from a packet into

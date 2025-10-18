@@ -1,4 +1,4 @@
-# 5 Example: A very simple switch
+# 5. Example: A very simple switch
 
 
 As an example to illustrate the features of architectures, consider
