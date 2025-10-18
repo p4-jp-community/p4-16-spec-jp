@@ -1,4 +1,5 @@
 site_name: P4-16 Specification 非公式日本語訳
+site_url: https://p4-jp-community.github.io/p4-16-spec-jp/
 nav:
   - Home: index.md
   - "Chapter 01: 適用範囲": chapters/chapter-01/index.md
@@ -42,6 +43,7 @@ extra_css:
   - stylesheets/announce.css
 plugins:
   - search
+  - sitemap
 markdown_extensions:
   - admonition
   - pymdownx.snippets:
