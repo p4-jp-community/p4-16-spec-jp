@@ -1,26 +1,17 @@
-# 1 Scope
+# 1 適用範囲
 
 
-This specification document defines the structure and interpretation of
-programs in the P4<sub>16</sub> language. It defines the syntax,
-semantic rules, and requirements for conformant implementations of the
-language.
+本仕様書は、P4<sub>16</sub>言語で記述されたプログラムの構造と解釈を定義します。
+言語の構文、意味論的規則、および本言語に適合する実装の要件の定義を行います。
 
-It does not define:
+以下の定義は行いません。
 
-  - Mechanisms by which P4 programs are compiled, loaded, and executed
-    on packet-processing systems,
-  - Mechanisms by which data are received by one packet-processing
-    system and delivered to another system,
-  - Mechanisms by which the control plane manages the match-action
-    tables and other stateful objects defined by P4 programs,
-  - The size or complexity of P4 programs,
-  - The minimal requirements of packet-processing systems that are
-    capable of providing a conformant implementation.
+  - P4プログラムをパケット処理システム上でコンパイル、ロード、実行するためのメカニズム
+  - あるパケット処理システムでデータを受信し、別のシステムへ配送するためのメカニズム
+  - コントロールプレーンが、P4プログラムで定義されたマッチアクションテーブルやその他のステートフルなオブジェクトを管理するためのメカニズム
+  - P4プログラムの規模や複雑さ
+  - 適合実装を提供可能なパケット処理システムの最小要件
 
-It is understood that some implementations may be unable to implement
-the behavior defined here in all cases, or may provide options to
-eliminate some safety guarantees in exchange for better performance or
-handling larger programs. They should document where they deviate from
-this specification.
+なお、一部の実装では、ここで定義する動作をすべてのケースで実装できない場合や、より高い性能やより大規模なプログラムの取り扱いと引き換えに、一部の安全性保証を無効化するオプションを提供する場合があります。
+これらの実装は、本仕様からの逸脱箇所を文書化すべきです。
 
