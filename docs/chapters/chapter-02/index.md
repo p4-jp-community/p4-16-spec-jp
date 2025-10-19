@@ -1,31 +1,17 @@
-# 2. Terms, definitions, and symbols
+# 2. 用語、定義、および記号
 
 
-Throughout this document, the following terms will be used:
+このドキュメント全体を通して、以下の用語を使用します。
 
-  - **Architecture**: A set of P4-programmable components and the data
-    plane interfaces between them.
-  - **Control plane**: A class of algorithms and the corresponding input
-    and output data that are concerned with the provisioning and
-    configuration of the data plane.
-  - **Data plane**: A class of algorithms that describe transformations
-    on packets by packet-processing systems.
-  - **Metadata**: Intermediate data generated during execution of a P4
-    program.
-  - **Packet**: A network packet is a formatted unit of data carried by
-    a packet-switched network.
-  - **Packet header**: Formatted data at the beginning of a packet. A
-    given packet may contain a sequence of packet headers representing
-    different network protocols.
-  - **Packet payload**: Packet data that follows the packet headers.
-  - **Packet-processing system**: A data-processing system designed for
-    processing network packets. In general, packet-processing systems
-    implement control plane and data plane algorithms.
-  - **Target**: A packet-processing system capable of executing a P4
-    program.
+- **アーキテクチャ**: P4によってプログラム可能なコンポーネント群と、それらの間のデータプレーンインターフェース。
+- **コントロールプレーン**: データプレーンのプロビジョニングおよび設定に関するアルゴリズム群と、それらに対応する入出力データ。
+- **データプレーン**: パケット処理システムによるパケットの変換を記述するアルゴリズム群。
+- **メタデータ**: P4プログラムの実行中に生成される中間データ。
+- **パケット**: ネットワークパケットはパケット交換網によって運ばれる、フォーマットされたデータの単位。
+- **パケットヘッダ**: パケットの先頭にあるフォーマットされたデータ。特定のパケットは、異なるネットワークプロトコルを表す一連のパケットヘッダを含む場合がある。
+- **パケットペイロード**: パケットヘッダに続くパケットデータ。
+- **パケット処理システム**: ネットワークパケットを処理するために設計されたデータ処理システム。一般に、パケット処理システムはコントロールプレーンとデータプレーンのアルゴリズムを実装する。
+- **ターゲット**: P4プログラムを実行できるパケット処理システム。
 
-All terms defined explicitly in this document should not be understood
-to refer implicitly to similar terms defined elsewhere. Conversely, any
-terms not defined explicitly in this document should be interpreted
-according to generally recognizable sources—e.g., IETF RFCs.
+このドキュメントで明示的に定義された用語はすべて、他の場所で定義された類似の用語を暗黙的に参照するものと解釈されるべきではありません。逆に、このドキュメントで明示的に定義されていない用語は、IETFのRFCなど、一般的に認知されている情報源に従って解釈されるべきです。
 

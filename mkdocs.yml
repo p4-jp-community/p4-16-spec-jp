@@ -4,7 +4,7 @@ repo_url: https://github.com/p4-jp-community/p4-16-spec-jp/
 nav:
   - Home: index.md
   - "Chapter 01: 適用範囲": chapters/chapter-01/index.md
-  - "Chapter 02: Terms, definitions, and symbols": chapters/chapter-02/index.md
+  - "Chapter 02: 用語、定義、および記号": chapters/chapter-02/index.md
   - "Chapter 03: Overview": chapters/chapter-03/index.md
   - "Chapter 04: Architecture Model": chapters/chapter-04/index.md
   - "Chapter 05: Example: A very simple switch": chapters/chapter-05/index.md
