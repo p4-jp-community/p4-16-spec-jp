@@ -23,7 +23,7 @@
 
 ## English (short)
 
-This site is an **unofficial**, community‑maintained publication by **p4‑jp‑community**, derived from the **P4_16 Language Specification v1.2.5**. The original Madoko has been split per chapter, converted to Markdown, and formatted for the web with MkDocs. Many chapters are still in English and cross‑references may be unresolved. Please consult the official specification alongside this site.
+This site is an **unofficial**, community‑maintained publication by **p4‑jp‑community**, derived from the **P4‑16 Language Specification v1.2.5**. The original Madoko has been split per chapter, converted to Markdown, and formatted for the web with MkDocs. Many chapters are still in English and cross‑references may be unresolved. Please consult the official specification alongside this site.
 
 - Upstream: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 - Project: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
