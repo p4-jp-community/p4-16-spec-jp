@@ -5,7 +5,7 @@ nav:
   - Home: index.md
   - "Chapter 01: 適用範囲": chapters/chapter-01/index.md
   - "Chapter 02: 用語、定義、および記号": chapters/chapter-02/index.md
-  - "Chapter 03: Overview": chapters/chapter-03/index.md
+  - "Chapter 03: 概要": chapters/chapter-03/index.md
   - "Chapter 04: Architecture Model": chapters/chapter-04/index.md
   - "Chapter 05: Example: A very simple switch": chapters/chapter-05/index.md
   - "Chapter 06: P4 language definition": chapters/chapter-06/index.md

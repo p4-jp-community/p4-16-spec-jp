@@ -1,133 +1,99 @@
-# 3. Overview
+# 3. 概要
 
 
-\~ Figure { \#fig-prgswitch; caption: “Traditional switches
-vs. programmable switches.” } \[prgswitch\] \~ \[prgswitch\]:
-figs/prgswitch.png { width: 100%; page-align: forcehere }
+<figure id="fig-prgswitch">
+  <img src="../../assets/figs/prgswitch.png" alt="従来のスイッチとプログラマブルスイッチの比較。">
+  <figcaption>
+  図1. 従来のスイッチとプログラマブルスイッチの比較。</figcaption>
+</figure>
 
-P4 is a language for expressing how packets are processed by the data
-plane of a programmable forwarding element such as a hardware or
-software switch, network interface card, router, or network appliance.
-The name P4 comes from the original paper that introduced the language,
-“Programming Protocol-independent Packet Processors,”
-<https://arxiv.org/pdf/1312.1719.pdf>. While P4 was initially designed
-for programming switches, its scope has been broadened to cover a large
-variety of devices. In the rest of this document we use the generic term
-*target* for all such devices.
+P4は、ハードウェア/ソフトウェアスイッチ、ネットワークインターフェースカード、
+ルーター、あるいはネットワーク・アプライアンスといった、
+プログラマブルな転送要素のデータプレーンによって、
+パケットがどのように処理されるかを記述するための言語です。
+P4という名称は、この言語を紹介した元の論文である"Programming Protocol-independent Packet Processors"（プロトコル非依存のパケットプロセッサのプログラミング、
+https://arxiv.org/pdf/1312.1719.pdf ）に由来しています。
+P4は当初スイッチのプログラミング用に設計されましたが、
+その範囲は多種多様なデバイスをカバーするように拡張されています。
+以降、このドキュメントでは、これらすべてのデバイスを指す一般的な用語として「*ターゲット*」を使用します。
 
-Many targets implement both a control plane and a data plane. P4 is
-designed to specify only the data plane functionality of the target. P4
-programs also partially define the interface by which the control plane
-and the data-plane communicate, but P4 cannot be used to describe the
-control-plane functionality of the target. In the rest of this document,
-when we talk about P4 as “programming a target”, we mean “programming
-the data plane of a target”.
+多くのターゲットはコントロールプレーンとデータプレーンの両方を実装しています。
+P4は、ターゲットのデータプレーン機能のみを記述するよう設計されています。
+P4プログラムは、コントロールプレーンとデータプレーンが通信するインターフェースも部分的に定義しますが、
+ターゲットのコントロールプレーン機能を記述するためにP4を使用することはできません。
+以降、このドキュメントでは、私達がP4で「ターゲットをプログラミングする」と表現する場合、
+それは「ターゲットのデータプレーンをプログラミングする」ことを意味します。
 
-As a concrete example of a target, Figure \[\#fig-prgswitch\]
-illustrates the difference between a traditional fixed-function switch
-and a P4-programmable switch. In a traditional switch the manufacturer
-defines the data-plane functionality. The control-plane controls the
-data plane by managing entries in tables (e.g. routing tables),
-configuring specialized objects (e.g. meters), and by processing
-control-packets (e.g. routing protocol packets) or asynchronous events,
-such as link state changes or learning notifications.
+ターゲットの具体的な例として、図[1](#fig-prgswitch)は従来の固定機能スイッチとP4プログラマブルスイッチの違いを示しています。
+従来のスイッチでは、製造元がデータプレーンの機能を定義します。
+コントロールプレーンはテーブル(例: ルーティングテーブル)のエントリを管理したり、
+専用のオブジェクト(例: メーター)を設定したり、
+制御パケット(例: ルーティングプロトコルパケット)やリンク状態の変化や学習通知などの非同期イベントを処理したりすることによって、
+データプレーンを制御します。
 
-A P4-programmable switch differs from a traditional switch in two
-essential ways:
+P4プログラマブルスイッチは従来のスイッチとは2つの本質的な点で異なります。
 
-  - The data plane functionality is not fixed in advance but is defined
-    by a P4 program. The data plane is configured at initialization time
-    to implement the functionality described by the P4 program (shown by
-    the long red arrow) and has no built-in knowledge of existing
-    network protocols.
-  - The control plane communicates with the data plane using the same
-    channels as in a fixed-function device, but the set of tables and
-    other objects in the data plane are no longer fixed, since they are
-    defined by a P4 program. The P4 compiler generates the API that the
-    control plane uses to communicate with the data plane.
+  - データプレーンの機能は事前に固定されておらず、P4プログラムによって定義されます。
+    データプレーンは初期化時に、P4プログラムで記述された機能を実装するように設定され(長い赤色の矢印で示されています)、
+    既存のネットワークプロトコルに関する組み込みの知識を一切持っていません。
+  - コントロールプレーンは固定機能デバイスと同じチャンネルを用いてデータプレーンと通信します。
+    しかし、データプレーン内のテーブルやその他のオブジェクトのセットは、P4プログラムによって定義されるため、もはや固定されていません。
+    コントロールプレーンがデータプレーンとの通信に使うAPIはP4コンパイラによって生成されます。
 
-Hence, P4 can be said to be protocol independent, but it enables
-programmers to express a rich set of protocols and other data plane
-behaviors.
+このように、P4はプロトコル非依存であると言えますが、
+これによってプログラマーは豊富なプロトコルのセットや、
+その他のデータプレーンの動作を表現することが可能になります。
 
-\~ Figure { \#fig-p4prg; caption: “Programming a target with P4.” }
-\[p4prg\] \~ \[p4prg\]: figs/p4prg.png { width: 100%; page-align: here;
-}
+<figure id="fig-p4prg">
+  <img src="../../assets/figs/p4prg.png" alt="P4を用いたターゲットのプログラミング。">
+  <figcaption>
+  図2. P4を用いたターゲットのプログラミング。</figcaption>
+</figure>
 
-\[\]{tex-cmd: “”} The core abstractions provided by the P4 language are:
+P4言語によって提供される中核的な抽象化は以下の通りです。
 
-  - **Header types** describe the format (the set of fields and their
-    sizes) of each header within a packet.
-  - **Parsers** describe the permitted sequences of headers within
-    received packets, how to identify those header sequences, and the
-    headers and fields to extract from packets.
-  - **Tables** associate user-defined keys with actions. P4 tables
-    generalize traditional switch tables; they can be used to implement
-    routing tables, flow lookup tables, access-control lists, and other
-    user-defined table types, including complex multi-variable
-    decisions.
-  - **Actions** are code fragments that describe how packet header
-    fields and metadata are manipulated. Actions can include data, which
-    is supplied by the control-plane at runtime.
-  - **Match-action units** perform the following sequence of operations:
-      - Construct lookup keys from packet fields or computed metadata,
-      - Perform table lookup using the constructed key, choosing an
-        action (including the associated data) to execute, and
-      - Finally, execute the selected action.
-  - **Control flow** expresses an imperative program that describes
-    packet-processing on a target, including the data-dependent sequence
-    of match-action unit invocations. Deparsing (packet reassembly) can
-    also be performed using a control flow.
-  - **Extern objects** are architecture-specific constructs that can be
-    manipulated by P4 programs through well-defined APIs, but whose
-    internal behavior is hard-wired (e.g., checksum units) and hence not
-    programmable using P4.
-  - **User-defined metadata**: user-defined data structures associated
-    with each packet.
-  - **Intrinsic metadata**: metadata provided by the architecture
-    associated with each packet—e.g., the input port where a packet has
-    been received.
+  - **ヘッダ型(Header types)** はパケット内の各ヘッダのフォーマット(フィールドのセットとそれらのサイズ)を記述します。
+  - **パーサー(Parsers)** は受信パケット内で許可されるヘッダの順序、それらのヘッダの順序を識別する方法、
+    およびパケットから抽出するヘッダとフィールドを記述します。
+  - **テーブル(Tables)** はユーザー定義のキーとアクションを関連付けます。
+    P4テーブルは従来のスイッチテーブルを一般化したもので、ルーティングテーブル、フロールックアップテーブル、
+    アクセスコントロールリスト、その他のユーザー定義のテーブルタイプ(複雑な多変数決定を含む)を実装するために使用できます。
+  - **アクション(Actions)** はパケットのヘッダフィールドとメタデータがどのように操作されるかを記述するコード断片です。
+    アクションには、実行時にコントロールプレーンから提供されるデータを含めることができます。
+  - **マッチアクションユニット(Match-action units)** は以下の連続した操作を実行します。
+      - パケットフィールドまたは計算されたメタデータからルックアップキーを構築する。
+      - 構築されたキーを使用してテーブルルックアップを実行し、実行するアクション(関連するデータを含む)を選択する。
+      - 最後に、選択されたアクションを実行する。
+  - **コントロールフロー(Control flow)** はターゲット上でのパケット処理を記述する命令型プログラムであり、
+    データに依存したマッチアクションユニットの呼び出しシーケンスを含みます。デパーシング(パケットの再構築)も、コントロールフローを使用して実行できます。
+  - **外部オブジェクト(Extern objects)** はアーキテクチャ固有の構成要素であり、明確に定義されたAPIを通じてP4プログラムから操作できますが、
+    その内部動作はハードワイヤード(固定)であり(例: チェックサムユニット)、したがってP4を用いてプログラムすることはできません。
+  - **ユーザー定義メタデータ(User-defined metadata)** は各パケットに関連付けられる、ユーザーが定義したデータ構造です。
+  - **組み込みメタデータ(Intrinsic metadata)** は各パケットに関連付けられるアーキテクチャから提供されるメタデータ(例: パケットが受信された入力ポート)です。
 
-Figure \[\#fig-p4prg\] shows a typical tool workflow when programming a
-target using P4.
+図[2](#fig-p4prg)は、P4を用いてターゲットをプログラミングする際の典型的なツールワークフローを示しています。
 
-Target manufacturers provide the hardware or software implementation
-framework, an architecture definition, and a P4 compiler for that
-target. P4 programmers write programs for a specific architecture, which
-defines a set of P4-programmable components on the target as well as
-their external data plane interfaces.
+ターゲットの製造元は、ハードウェアまたはソフトウェアの実装フレームワーク、アーキテクチャ定義、およびそのターゲット用のP4コンパイラを提供します。
+P4プログラマーは、特定のアーキテクチャ向けのプログラムを作成します。
+このアーキテクチャは、ターゲット上にあるP4でプログラム可能なコンポーネントのセットと、それらの外部データプレーンインターフェースを定義するものです。
 
-Compiling a set of P4 programs produces two artifacts:
+P4プログラムのセットをコンパイルすると、以下の2つの成果物が生成されます。
 
-  - a data plane configuration that implements the forwarding logic
-    described in the input program and
-  - an API for managing the state of the data plane objects from the
-    control plane
+  - 入力プログラムに記述された転送ロジックを実装するデータプレーン設定
+  - コントロールプレーンからデータプレーンオブジェクトの状態を管理するためのAPI
 
-P4 is a domain-specific language that is designed to be implementable on
-a large variety of targets including programmable network interface
-cards, FPGAs, software switches, and hardware ASICs. As such, the
-language is restricted to constructs that can be efficiently implemented
-on all of these platforms.
+P4はプログラマブル・ネットワークインターフェースカード、FPGA、ソフトウェアスイッチ、
+ハードウェアASICといった多種多様なターゲット上で実装できるように設計されたドメイン固有言語です。
+そのため、P4言語はこれら全てのプラットフォーム上で効率的に実装できる構成要素のみに制限されています。
 
-Assuming a fixed cost for table lookup operations and interactions with
-extern objects, all P4 programs (i.e., parsers and controls) execute a
-constant number of operations for each byte of an input packet received
-and analyzed. Although parsers may contain loops, provided some header
-is extracted on each cycle, the packet itself provides a bound on the
-total execution of the parser. In other words, under these assumptions,
-the computational complexity of a P4 program is linear in the total size
-of all headers, and never depends on the size of the state accumulated
-while processing data (e.g., the number of flows, or the total number of
-packets processed). These guarantees are necessary (but not sufficient)
-for enabling fast packet processing across a variety of targets.
+テーブル検索操作や外部オブジェクトとのやりとりにかかるコストを一定と仮定した場合、
+全てのP4プログラム(すなわち、パーサーとコントロールブロック)は受信・解析される入力パケットの各バイトあたりに一定回数の操作を実行します。
+パーサーはループを含むことがありますが、各サイクルで何らかのヘッダが抽出される限りにおいて、パケット自体が総実行回数に上限を与えます。
+言い換えれば、これらの仮定のもとでは、P4プログラムの計算量は、全ヘッダの合計サイズに対して線形であり、データ処理中に蓄積された状態のサイズ(例: フロー数や処理された総パケット数)には決して依存しません。
+これらの保証は、多種多様なターゲットで高速なパケット処理を可能にするための必要条件です(ただし十分条件ではありません)。
 
-*P4 conformance* of a target is defined as follows: if a specific target
-T supports only a subset of the P4 programming language, say
-P4<sup>T</sup>, programs written in P4<sup>T</sup> executed on the
-target should provide the exact same behavior as is described in this
-document. Note that P4 conformant targets can provide arbitrary P4
-language extensions and `extern` elements.
+ターゲットの*P4準拠性(P4 conformance)*は、以下のように定義されます。
+もし特定のターゲットTがP4プログラミング言語のサブセット(仮にP4<sup>T</sup>とします)しかサポートしていない場合、そのターゲット上で実行されるP4<sup>T</sup>で書かれたプログラムは、このドキュメントに記述されているものと全く同じ動作を提供しなければなりません。なお、P4に準拠したターゲットは任意のP4言語拡張や`extern`要素を提供することができます。
 
 --8<-- "chapters/chapter-03/03-01-benefits-of-p4.md"
 --8<-- "chapters/chapter-03/03-02-p4-language-evolution-comparison-to-previous-versions-p4-v1.0-v1.1.md"
