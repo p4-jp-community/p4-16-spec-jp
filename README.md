@@ -1,7 +1,7 @@
 # P4‑16 Specification — 非公式日本語訳
 
 > [!NOTE]
-> 本リポジトリは、P4‑16公式仕様 **v1.2.5** を基に、Madokoの章分割・Markdown変換・MkDocs用体裁調整を行った **非公式（コミュニティ）** プロジェクトです。現時点では多くの章が英語のままで、クロスリファレンスも未解決です。正確な情報のためには公式仕様の確認を推奨します。
+> 本リポジトリは、P4‑16公式仕様 **v1.2.5** を基にした **非公式（コミュニティ）** の日本語訳プロジェクトです。現時点では多くの章が英語のままで、クロスリファレンスも未解決です。正確な情報のためには公式仕様の確認を推奨します。
 > - 上流（公式仕様）: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 > - 本プロジェクト: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
 > - 法的情報: [NOTICE](docs/notice.md) / [LICENSE](docs/license.md)
@@ -44,7 +44,7 @@
 
 ## English (brief)
 
-This repository hosts an **unofficial**, community‑maintained preparation for a Japanese translation of the **P4‑16 Language Specification v1.2.5**. The original Madoko is split per chapter, converted to Markdown, and formatted for the web with MkDocs. Many chapters remain in English and some cross‑references are unresolved.
+This repository hosts an **unofficial**, community‑maintained Japanese translation project for the **P4‑16 Language Specification v1.2.5**. The content is published as a MkDocs site, while many chapters remain in English and some cross‑references are unresolved.
 
 * Upstream: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 * Project: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
