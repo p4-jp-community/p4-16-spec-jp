@@ -18,7 +18,6 @@
 │  ├─ assets/figs/
 │  └─ stylesheets/announce.css
 ├─ overrides/main.html   # MkDocs(Material) の announce バナー（JP/EN）
-├─ upstream/             # 公式仕様のスナップショット（図版含む）
 ├─ mkdocs.yml            # サイト設定（Material テーマ）
 ├─ LICENSE.txt           # Apache License 2.0
 ├─ NOTICE.md             # 帰属・注意事項
