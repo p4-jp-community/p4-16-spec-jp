@@ -1,9 +1,11 @@
 # 4. Architecture Model
 
 
-\~ Figure { \#fig-p4interface; caption: “P4 program interfaces.” }
-\[p4interface\] \~ \[p4interface\]: figs/p4interface.png { width: 100%;
-page-align: here }
+<figure id="fig-p4interface">
+  <img src="../../assets/figs/p4interface.png" alt="P4 program interfaces." style="width: 100%;">
+  <figcaption>
+  P4 program interfaces.</figcaption>
+</figure>
 
 The *P4 architecture* identifies the P4-programmable blocks (e.g.,
 parser, ingress control flow, egress control flow, deparser, etc.) and
@@ -42,11 +44,13 @@ a “drop” bit into another dedicated control register. Note that the
 details of how intrinsic metadata are interpreted is
 architecture-specific.
 
-\~ Figure { \#fig-p4checksum; caption: “P4 program invoking the services
-of a fixed-function object.” } \[p4checksum\] \~ \[p4checksum\]:
-figs/p4checksum.png { width: 50%; page-align: here }
+<figure id="fig-p4checksum">
+  <img src="../../assets/figs/p4checksum.png" alt="P4 program invoking the services of a fixed-function object." style="width: 50%;">
+  <figcaption>
+  P4 program invoking the services of a fixed-function object.</figcaption>
+</figure>
 
-\[\]{tex-cmd: “”} P4 programs can invoke services implemented by extern
+P4 programs can invoke services implemented by extern
 objects and functions provided by the architecture. Figure
 \[\#fig-p4checksum\] depicts a P4 program invoking the services of a
 built-in checksum computation unit on a target. The implementation of

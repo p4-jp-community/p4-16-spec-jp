@@ -1,7 +1,9 @@
-\~ Figure { \#fig-p4transition; caption: “Evolution of the language
-between versions P4<sub>14</sub> (versions 1.0 and 1.1) and
-P4<sub>16</sub>.” } \[p4transition\] \~ \[p4transition\]:
-figs/p4transition.png { width: 100%; page-align: forcehere }
+<figure id="fig-p4transition">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/p4transition.png" alt="Evolution of the language between versions P4 14 and P4 16." style="width: 100%;">
+  <figcaption>
+  Evolution of the language between versions P4<sub>14</sub> (versions 1.0 and 1.1) and
+  P4<sub>16</sub>.</figcaption>
+</figure>
 
 Compared to P4<sub>14</sub>, the earlier version of the language,
 P4<sub>16</sub> makes a number of significant, backwards-incompatible

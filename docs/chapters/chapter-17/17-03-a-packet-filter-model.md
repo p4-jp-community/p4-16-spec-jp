@@ -1,7 +1,9 @@
-\~ Figure { \#fig-packetfilter; caption: “A packet filter target model.
-The parser computes a Boolean value, which is used to decide whether the
-packet is dropped.” } \[packetfilter\] \~ \[packetfilter\]:
-figs/packetfilter.png { width: 5cm; page-align: here }
+<figure id="fig-packetfilter">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/packetfilter.png" alt="A packet filter target model." style="width: 5cm;">
+  <figcaption>
+  A packet filter target model. The parser computes a Boolean value, which is used to decide whether the
+  packet is dropped.</figcaption>
+</figure>
 
 To illustrate the versatility of the P4 architecture description
 language, we give an example of another architecture: one which models a

@@ -1,11 +1,11 @@
 <a id="sec-actions"></a>
 <a id="sec-invoke-actions"></a>
-\~ Figure { \#fig-actions; caption: “Actions contain code and data. The
-code is in the P4 program, while the data is provided in the table
-entries, typically populated by the control plane. Other parameters are
-bound by the data plane.” } ![actions](../chapter-18/18-03-control-plane-names.md#sec-cp-actions) \~
-[actions](../chapter-18/18-03-control-plane-names.md#sec-cp-actions): figs/actions.png { width: 8cm; page-align:
-here }
+<figure id="fig-actions">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/actions.png" alt="Actions contain code and data." style="width: 8cm;">
+  <figcaption>
+  Actions contain code and data. The code is in the P4 program, while the data is provided in the table
+  entries, typically populated by the control plane. Other parameters are bound by the data plane.</figcaption>
+</figure>
 
 Actions are code fragments that can read and write the data being
 processed. Actions may contain data values that can be written by the
