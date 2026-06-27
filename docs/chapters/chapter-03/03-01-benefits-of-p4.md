@@ -1,26 +1,24 @@
-Compared to state-of-the-art packet-processing systems (e.g., based on
-writing microcode on top of custom hardware), P4 provides a number of
-significant advantages:
+最先端のパケット処理システム(たとえば、専用ハードウェア上にマイクロコードを
+記述するもの)と比べると、P4は次のような重要な利点を提供します。
 
-  - **Flexibility**: P4 makes many packet-forwarding policies
-    expressible as programs, in contrast to traditional switches, which
-    expose fixed-function forwarding engines to their users.
-  - **Expressiveness**: P4 can express sophisticated,
-    hardware-independent packet processing algorithms using solely
-    general-purpose operations and table look-ups. Such programs are
-    portable across hardware targets that implement the same
-    architectures (assuming sufficient resources are available).
-  - **Resource mapping and management**: P4 programs describe storage
-    resources abstractly (e.g., IPv4 source address); compilers map such
-    user-defined fields to available hardware resources and manage
-    low-level details such as allocation and scheduling.
-  - **Software engineering**: P4 programs provide important benefits
-    such as type checking, information hiding, and software reuse.
-  - **Component libraries**: Component libraries supplied by
-    manufacturers can be used to wrap hardware-specific functions into
-    portable high-level P4 constructs.
-  - **Decoupling hardware and software evolution**: Target manufacturers
-    may use abstract architectures to further decouple the evolution of
-    low-level architectural details from high-level processing.
-  - **Debugging**: Manufacturers can provide software models of an
-    architecture to aid in the development and debugging of P4 programs.
+  - **柔軟性(Flexibility)**: P4では多くのパケット転送ポリシーをプログラムとして
+    記述できます。これは、固定機能の転送エンジンだけをユーザーに公開する従来の
+    スイッチとは対照的です。
+  - **表現力(Expressiveness)**: P4は、汎用的な演算とテーブルルックアップだけを
+    用いて、高度でハードウェアに依存しないパケット処理アルゴリズムを表現できます。
+    このようなプログラムは、同じアーキテクチャを実装するハードウェアターゲット間で
+    ポータブルです(十分な資源が利用可能であると仮定します)。
+  - **資源の割り当てと管理(Resource mapping and management)**:
+    P4プログラムは、記憶資源を抽象的に記述します(例: IPv4送信元アドレス)。
+    コンパイラは、このようなユーザー定義フィールドを利用可能なハードウェア資源に
+    対応付け、割り当てやスケジューリングのような低レベルの詳細を管理します。
+  - **ソフトウェア工学(Software engineering)**: P4プログラムは、型検査、
+    情報隠蔽、ソフトウェア再利用といった重要な利点を提供します。
+  - **コンポーネントライブラリ(Component libraries)**: 製造元が提供する
+    コンポーネントライブラリを使うことで、ハードウェア固有の機能を、ポータブルな
+    高水準のP4構成要素としてラップできます。
+  - **ハードウェアとソフトウェアの発展の分離(Decoupling hardware and software
+    evolution)**: ターゲットの製造元は、抽象アーキテクチャを用いることで、
+    低レベルなアーキテクチャ詳細の発展を高レベルな処理からさらに分離できます。
+  - **デバッグ(Debugging)**: 製造元は、P4プログラムの開発およびデバッグを支援
+    するために、アーキテクチャのソフトウェアモデルを提供できます。
