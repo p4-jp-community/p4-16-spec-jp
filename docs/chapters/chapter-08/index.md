@@ -1,3 +1,4 @@
+<a id="sec-exprs"></a>
 # 8. Expressions
 
 
@@ -43,7 +44,7 @@ argument : expression ;
   - \[INCLUDE=grammar.mdk:typeArgumentList\]  
     End P4Grammar
 
-See Appendix \[\#sec-grammar\] for the complete P4 grammar.
+See Appendix [P4 grammar](../appendix-G/index.md#sec-grammar) for the complete P4 grammar.
 
 This grammar does not indicate the precedence of the various operators.
 The precedence mostly follows the C precedence rules, with one change
@@ -55,7 +56,7 @@ types. Concatenation (`++`) has the same precedence as infix addition.
 Bit-slicing `a[m:l]` has the same precedence as array indexing (`a[i]`).
 
 In addition to these expressions, P4 also supports `select` expressions
-(described in Section \[\#sec-select\]), which may be used only in
+(described in Section [Select expressions](../chapter-13/13-06-select-expressions.md#sec-select)), which may be used only in
 parsers.
 
 --8<-- "chapters/chapter-08/08-01-expression-evaluation-order.md"

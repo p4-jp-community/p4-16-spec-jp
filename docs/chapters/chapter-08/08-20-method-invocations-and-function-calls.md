@@ -1,3 +1,4 @@
+<a id="sec-invocations"></a>
 Method invocations and function calls can be invoked using the following
 syntax:
 
@@ -31,10 +32,10 @@ enough arguments //f(x = xa, x = ya); – error: argument specified twice
 must be a left-value \~ End P4Example
 
 The calling convention is copy-in/copy-out (Section
-\[\#sec-calling-convention\]). For generic functions the type arguments
+[Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention)). For generic functions the type arguments
 can be explicitly specified in the function call. The compiler only
 inserts implicit casts for direction `in` arguments to methods or
-functions as described in Section \[\#sec-casts\]. The types for all
+functions as described in Section [Casts](08-11-casts.md#sec-casts). The types for all
 other arguments must match the parameter types exactly.
 
 The result returned by a function call is discarded when the function

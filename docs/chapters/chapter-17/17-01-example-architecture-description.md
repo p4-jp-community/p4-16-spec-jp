@@ -1,3 +1,4 @@
+<a id="sec-arch-desc-example"></a>
 \~ Figure { \#fig-switcharch; caption: “Fragment of example switch
 architecture.” } \[switcharch\] \~ \[switcharch\]: figs/switcharch.png {
 width: 75%; page-align: here }

@@ -1,3 +1,4 @@
+<a id="sec-concatenation"></a>
 ### Concatenation
 
 Concatenation is applied to two bit-strings (signed or unsigned). It is

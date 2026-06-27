@@ -1,3 +1,4 @@
+<a id="sec-transition"></a>
 The last statement in a parser state is an optional `transition`
 statement, which transfers control to another state, possibly `accept`
 or `reject`. A `transition` statements is written using the following

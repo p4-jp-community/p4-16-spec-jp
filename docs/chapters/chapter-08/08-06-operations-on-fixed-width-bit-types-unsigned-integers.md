@@ -1,3 +1,4 @@
+<a id="sec-bit-ops"></a>
 This section discusses all operations that can be performed on
 expressions of type `bit<W>` for some width `W`, also known as
 bit-strings.
@@ -85,7 +86,7 @@ Bit-strings also support the following operations:
     denoted by `[H:L]`, where `H` and `L` must be expressions that
     evaluate to non-negative, local compile-time known values, and `H >=
     L`. The types of `H` and `L` (which do not need to be identical)
-    must be numeric (Section \[\#sec-numeric-values\]). The result is a
+    must be numeric (Section [Numeric types](../chapter-07/07-04-numeric-types.md#sec-numeric-values)). The result is a
     bit-string of width `H - L + 1`, including the bits numbered from
     `L` (which becomes the least significant bit of the result) to `H`
     (the most significant bit of the result) from the source operand.
@@ -107,4 +108,4 @@ Bit-strings also support the following operations:
     left operand is placed as the most significant bits.
 
 Additionally, the size of a bit-string can be determined at compile-time
-(Section \[\#sec-minsizeinbits\]).
+(Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).

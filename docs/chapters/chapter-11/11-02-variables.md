@@ -1,3 +1,4 @@
+<a id="sec-variables"></a>
 Local variables are declared with a type, a name, and an optional
 initializer (as well as an optional annotation):
 
@@ -9,14 +10,14 @@ initializer (as well as an optional annotation):
 Variable declarations without an initializer are uninitialized (except
 for headers and other header-related types, which are initialized to
 invalid in the same way as described for direction `out` parameters in
-Section \[\#sec-calling-convention\]). The language places few
+Section [Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention)). The language places few
 restrictions on the types of the variables: most P4 types that can be
 written explicitly can be used (e.g., base types, `struct`, `header`,
 header stack, `tuple`). However, it is impossible to declare variables
 with type `int`, or with types that are only synthesized by the compiler
 (e.g., `set`) In addition, variables of type `parser`, `control`,
 `package`, or `extern` types must be declared using instantiations (see
-Section \[\#sec-instantiations\]).
+Section [Instantiations](11-03-instantiations.md#sec-instantiations)).
 
 Reading the value of a variable that has not been initialized yields an
 undefined result. The compiler should attempt to detect and emit a

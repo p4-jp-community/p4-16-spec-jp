@@ -1,4 +1,5 @@
-As mentioned in Section \[\#sec-expr-hs\], any reference to an element
+<a id="sec-uninitialized-values-and-writing-invalid-headers"></a>
+As mentioned in Section [Operations on header stacks](08-18-operations-on-header-stacks.md#sec-expr-hs), any reference to an element
 of a header stack `hs[index]` where `index` is a compile-time known
 value must give an error at compile time if the value of the index is
 out of range. That section also defines the run time behavior of the

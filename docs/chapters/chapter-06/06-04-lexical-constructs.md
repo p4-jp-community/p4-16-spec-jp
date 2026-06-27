@@ -1,3 +1,6 @@
+<a id="sec-literals"></a>
+<a id="sec-string-literals"></a>
+<a id="sec-trailing-commas"></a>
 All P4 keywords use only ASCII characters. All P4 identifiers must use
 only ASCII characters. P4 compilers should handle correctly strings
 containing 8-bit characters in comments and string literals. P4 is

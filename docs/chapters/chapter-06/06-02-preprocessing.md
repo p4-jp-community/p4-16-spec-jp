@@ -1,3 +1,4 @@
+<a id="sec-preprocessor"></a>
 To aid composition of programs from multiple source files P4 compilers
 should support the following subset of the C preprocessor functionality:
 

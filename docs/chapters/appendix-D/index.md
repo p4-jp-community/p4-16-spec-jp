@@ -1,3 +1,4 @@
+<a id="sec-p4-core-lib"></a>
 # Appendix D P4 core library
 
 

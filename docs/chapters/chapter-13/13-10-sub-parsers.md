@@ -1,3 +1,4 @@
+<a id="sec-invoke-subparser"></a>
 P4 allows parsers to invoke the services of other parsers, similar to
 subroutines. To invoke the services of another parser, the sub-parser
 must be first instantiated; the services of an instance are invoked by
@@ -40,7 +41,7 @@ instances, etc. Thus, in general, invoking a parser instance twice is
 not the same as invoking two copies of the same parser instance. Note
 however that local variables do not persist across invocations of the
 parser. This semantics also applies to direct invocation (see Section
-\[\#sec-direct-invocation\]).
+[Direct type invocation](../chapter-15/15-01-direct-type-invocation.md#sec-direct-invocation)).
 
 Architectures may impose (static or dynamic) constraints on the number
 of parser states that can be traversed for processing each packet. For

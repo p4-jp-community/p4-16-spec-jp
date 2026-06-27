@@ -7,7 +7,7 @@ packet checksums. We expect that checksum operations can be expressed as
 The standard architecture library should provide such checksum units.
 
 For example, one could provide an incremental checksum unit `Checksum16`
-(also described in the VSS example in Section \[\#sec-vss-extern\]) for
+(also described in the VSS example in Section [Available extern blocks](../chapter-05/05-02-very-simple-switch-architecture-description.md#sec-vss-extern)) for
 computing 16-bit one’s complement using an `extern` object with a
 signature such as:
 

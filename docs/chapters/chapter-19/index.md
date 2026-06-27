@@ -1,3 +1,4 @@
+<a id="sec-static-assert"></a>
 # 19. Static assertions
 
 

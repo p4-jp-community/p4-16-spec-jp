@@ -1,8 +1,9 @@
+<a id="sec-vss-all"></a>
 Here we provide a complete P4 program that implements basic forwarding
 for IPv4 packets on the VSS architecture. This program does not utilize
 all of the features provided by the architecture—e.g., recirculation—but
 it does use preprocessor `#include` directives (see Section
-\[\#sec-preprocessor\]).
+[Preprocessing](../chapter-06/06-02-preprocessing.md#sec-preprocessor)).
 
 \~ Figure { \#fig-vssmau; caption: “Diagram of the match-action pipeline
 expressed by the VSS P4 program.” } \[vssmau\] \~ \[vssmau\]:

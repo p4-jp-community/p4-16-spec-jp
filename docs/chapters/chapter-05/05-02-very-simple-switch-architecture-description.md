@@ -1,3 +1,4 @@
+<a id="sec-vss-extern"></a>
 In order to fully understand VSS’s behavior and write meaningful P4
 programs for it, and for implementing a control plane, we also need a
 full behavioral description of the fixed-function blocks. This section

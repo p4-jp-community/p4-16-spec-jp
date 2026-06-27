@@ -1,3 +1,4 @@
+<a id="sec-compile-time-known"></a>
 Certain expressions in a P4 program have the property that their value
 can be determined at compile time. Moreover, for some of these
 expressions, their value can be determined only using information in the
@@ -16,7 +17,7 @@ The following are local compile-time known values:
   - The expression `{#}` representing an invalid header or header union
     value.
   - Instances constructed by instance declarations (Section
-    \[\#sec-instantiations\]) and constructor invocations.
+    [Instantiations](../chapter-11/11-03-instantiations.md#sec-instantiations)) and constructor invocations.
   - Identifiers that represent declared types, actions, functions,
     tables, parsers, controls, or packages.
   - Tuple expression where all components are local compile-time known

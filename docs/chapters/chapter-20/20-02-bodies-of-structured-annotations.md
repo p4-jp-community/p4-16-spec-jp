@@ -4,7 +4,7 @@ declare custom metadata, consisting of expression lists or key-value
 lists but not both. An `expressionList` may be empty or contain a
 comma-separated list of member `expression`s. A `kvList` consists of one
 or more `kvPair`s, each consisting of a key and a value `expression`.
-Note the syntax for `expression` is rich, see Appendix \[\#sec-grammar\]
+Note the syntax for `expression` is rich, see Appendix [P4 grammar](../appendix-G/index.md#sec-grammar)
 for details.
 
 All `expression`s within a `structuredAnnotationBody` must be

@@ -1,8 +1,10 @@
+<a id="sec-actions"></a>
+<a id="sec-invoke-actions"></a>
 \~ Figure { \#fig-actions; caption: “Actions contain code and data. The
 code is in the P4 program, while the data is provided in the table
 entries, typically populated by the control plane. Other parameters are
-bound by the data plane.” } ![actions](#sec-cp-actions) \~
-[actions](#sec-cp-actions): figs/actions.png { width: 8cm; page-align:
+bound by the data plane.” } ![actions](../chapter-18/18-03-control-plane-names.md#sec-cp-actions) \~
+[actions](../chapter-18/18-03-control-plane-names.md#sec-cp-actions): figs/actions.png { width: 8cm; page-align:
 here }
 
 Actions are code fragments that can read and write the data being
@@ -28,7 +30,7 @@ Action parameters may not have `extern` types. Action parameters that
 have no direction (e.g., `port` in the previous example) indicate
 “action data.” All such parameters must appear at the end of the
 parameter list. When used in a match-action table (see Section
-\[\#sec-table-action-list\]), these parameters will be provided by the
+[Table action list](14-02-tables.md#sec-table-action-list), these parameters will be provided by the
 table entries (e.g., as specified by the control plane, the
 `default_action` table property, or the `entries` table property).
 

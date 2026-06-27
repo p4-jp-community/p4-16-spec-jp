@@ -1,3 +1,13 @@
+<a id="sec-table-action-list"></a>
+<a id="sec-table-keys"></a>
+<a id="sec-tables"></a>
+<a id="sec-additional-table-properties"></a>
+<a id="sec-default-action"></a>
+<a id="sec-entries"></a>
+<a id="sec-invoke-mau"></a>
+<a id="sec-mau-semantics"></a>
+<a id="sec-size-table-property"></a>
+<a id="sec-table-props"></a>
 \~ Figure { \#fig-maudataflow; caption: “Match-Action Unit Dataflow.” }
 \[maudataflow\] \~ \[maudataflow\]: figs/maudataflow.png { width: 80%;
 page-align: here }
@@ -56,17 +66,17 @@ In addition, the tables may optionally define the following properties,
     program is loaded, some or all of which may be unchangeable by the
     control plane software.
   - `largest_priority_wins` - Only useful for some tables with the
-    `entries` property. See section \[\#sec-entries\] for details.
+    `entries` property. See section [Entries](#sec-entries) for details.
   - `priority_delta` - Only useful for some tables with the `entries`
-    property. See section \[\#sec-entries\] for details.
+    property. See section [Entries](#sec-entries) for details.
 
 The compiler must set the `default_action` to `NoAction` (and also
 insert it into the list of `actions`) for tables that do not define the
 `default_action` property. Hence, all tables can be thought of as having
 a `default_action` property, either implicitly or explicitly.
 
-In addition, tables may contain architecture-specific properties (see
-Section \[\#sec-additional-table-properties\]).
+In addition, tables may contain architecture-specific properties; see
+Section [Additional properties](#sec-additional-table-properties).
 
 A property marked as `const` cannot be changed dynamically by the
 control plane. The `key`, `actions`, and `size` properties cannot be
@@ -80,8 +90,8 @@ The `key` is a table property which specifies the data-plane values that
 should be used to look up an entry. A key is a list of pairs of the form
 `(e : m)`, where `e` is an expression that describes the data to be
 matched in the table, and `m` is a `match_kind` that describes the
-algorithm used to perform the lookup (see Section
-\[\#sec-match-kind-type\]).
+algorithm used to perform the lookup; see Section
+[The match kind type](../chapter-07/07-01-base-types.md#sec-match-kind-type).
 
 \~ Begin P4Grammar \[INCLUDE=grammar.mdk:keyElementList\]
 
@@ -120,7 +130,7 @@ influences only the control-plane API and the implementation of the
 look-up table. From the point of view of the P4 program, a look-up table
 is an abstract finite map that is given a key and produces as a result
 either an action or a “miss” indication, as described in Section
-\[\#sec-mau-semantics\].
+[Match-action unit execution semantics](#sec-mau-semantics).
 
 The expected meaning of these values is as follows:
 
@@ -132,7 +142,7 @@ The expected meaning of these values is as follows:
   - a `ternary` match kind on a key field means that the field in the
     table specifies a set of values for the key field using a value and
     a mask. The meaning of the `(value, mask)` pair is similar to the P4
-    mask expressions, as described in Section \[\#sec-cubes\]: a key
+    mask expressions, as described in Section [Masks](../chapter-08/08-15-operations-on-sets.md#sec-cubes): a key
     field `k` matches the table entry when `k & mask == value & mask`.
 
   - a `lpm` (longest prefix match) match kind on a key field is a
@@ -152,7 +162,7 @@ mandate whether “higher” priorities are represented by higher or lower
 numeric values; this choice is left to the target implementation.
 
 An example specifying entries for a table is given in Section
-\[\#sec-entries\].
+[Entries](#sec-entries).
 
 If a table has no `key` property, or if the value of its `key` property
 is the empty tuple, i.e. `key = {}`, then it contains no look-up table,
@@ -179,7 +189,7 @@ associated lookup table or in the default action. This is done with the
     End P4Grammar
 
 To illustrate, recall the example Very Simple Switch program in Section
-\[\#sec-vss-all\]:
+[A complete Very Simple Switch program](../chapter-05/05-03-a-complete-very-simple-switch-program.md#sec-vss-all):
 
 \~ Begin P4Example action Drop\_action() { outCtrl.outputPort =
 DROP\_PORT; }
@@ -277,7 +287,7 @@ later change or remove.
 
 Entries declared in the P4 source are installed in the table when the
 program is loaded onto the target. Entries cannot be specified for a
-table with no key (see Sec. \[\#sec-table-keys\]).
+table with no key (see Sec. [Keys](#sec-table-keys)).
 
   - Table entries are defined using the following syntax:  
     Begin P4Grammar tableProperty
@@ -310,12 +320,12 @@ tables declared with `const entries`.
 
 Whether the control plane is allowed to modify a table’s default action
 at run time is determined by the table’s `default_action` table property
-(see Section \[\#sec-default-action\]), independently of whether the
+(see Section [Default action](#sec-default-action)), independently of whether the
 control plane is allowed to modify the entries of the table.
 
 The `keysetExpression` component of an entry is a tuple that must
-provide a field for each key in the table keys (see Sec.
-\[\#sec-table-props\]). The table key type must match the type of the
+provide a field for each key in the table keys; see Sec.
+[Table properties](#sec-table-props). The table key type must match the type of the
 element of the set. The `actionRef` component must be an action which
 appears in the table actions list (and must not have the `@defaultonly`
 annotation), with all its arguments bound.
@@ -526,7 +536,7 @@ developers who explicitly choose to specify entries in an order that
 does not match their relative priority order.
 
 The following example is the same as the first example in section
-\[\#sec-entries\], except for the definition of table `t_exact_ternary`
+[Entries](#sec-entries), except for the definition of table `t_exact_ternary`
 shown below.
 
 \~ Begin P4Example table t\_exact\_ternary { key = { h.h.e : exact;

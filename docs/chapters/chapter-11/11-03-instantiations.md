@@ -1,3 +1,5 @@
+<a id="sec-instantiating-abstract-methods"></a>
+<a id="sec-instantiations"></a>
 Instantiations are similar to variable declarations, but are reserved
 for the types with constructors (`extern` objects, `control` blocks,
 `parser`s, and `package`s):
@@ -7,7 +9,7 @@ for the types with constructors (`extern` objects, `control` blocks,
 
 An instantiation is written as a constructor invocation followed by a
 name. Instantiations are always executed at compilation time (Section
-\[\#sec-compile-time-known\]). The effect is to allocate an object with
+[Compile-time known and local compile-time known values](../chapter-18/18-01-compile-time-known-and-local-compile-time-known-values.md#sec-compile-time-known)). The effect is to allocate an object with
 the specified name, and to bind it to the result of the constructor
 invocation. Note that instantiation arguments can be specified by name.
 

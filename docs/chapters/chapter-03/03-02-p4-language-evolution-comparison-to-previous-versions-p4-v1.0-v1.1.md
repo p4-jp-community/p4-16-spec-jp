@@ -14,7 +14,7 @@ units, meters, etc.
 
 Hence, the language has been transformed from a complex language (more
 than 70 keywords) into a relatively small core language (less than 40
-keywords, shown in Section \[\#sec-p4-keywords\]) accompanied by a
+keywords, shown in Section [P4 reserved keywords](../appendix-B/index.md#sec-p4-keywords)) accompanied by a
 library of fundamental constructs that are needed for writing most P4.
 
 The v1.1 version of P4 introduced a language construct called `extern`

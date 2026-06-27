@@ -1,6 +1,13 @@
+<a id="sec-control-plane-api-annotations"></a>
+<a id="sec-deprecated-anno"></a>
+<a id="sec-extern-annotations"></a>
+<a id="sec-nowarn-anno"></a>
+<a id="sec-optional-parameter-annotations"></a>
+<a id="sec-table-action-anno"></a>
+<a id="sec-value-set-annotations"></a>
 Annotation names that start with lowercase letters are reserved for the
 standard library and architecture. This document pre-defines a set of
-“standard” annotations in Appendix \[\#sec-p4-reserved-annotations\].
+“standard” annotations in Appendix [P4 reserved annotations](../appendix-C/index.md#sec-p4-reserved-annotations).
 We expect that this list will grow. We encourage custom architectures to
 define annotations starting with a manufacturer prefix: e.g., an
 organization named X would use annotations named like `@X_annotation`
@@ -43,7 +50,7 @@ body. In the following example, the fully-qualified name of the table is
 
 The `@hidden` annotation hides a controllable entity, e.g. a table, key,
 action, or extern, from the control plane. This effectively removes its
-fully-qualified name (Section \[\#sec-cp-names\]). This annotation does
+fully-qualified name (Section [Control plane names](../chapter-18/18-03-control-plane-names.md#sec-cp-names)). This annotation does
 not have a body.
 
 #### Restrictions
@@ -69,12 +76,12 @@ two controllable entities, which is illegal.
 
 ### Concurrency control annotations
 
-The `@atomic` annotation, described in Section \[\#sec-concurrency\] can
+The `@atomic` annotation, described in Section [Concurrency model](../chapter-18/18-04-dynamic-evaluation.md#sec-concurrency) can
 be used to enforce the atomic execution of a code block.
 
 ### Value set annotations
 
-The `@match` annotation, described in Section \[\#sec-select\], is used
+The `@match` annotation, described in Section [Select expressions](../chapter-13/13-06-select-expressions.md#sec-select), is used
 to specify a `match_kind` value other than the default `match_kind` of
 `exact` for a field of a `value_set`.
 
@@ -85,7 +92,7 @@ declarations to describe limitations on the behavior and interactions of
 those functions. By default extern functions might have any effect on
 the environment of the P4 program and might interact in non-trivial ways
 (subject to a few limitations – see section
-\[\#sec-calling-convention-justification\]). Since externs are
+[Justification](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention-justification)). Since externs are
 architecture-specific and their behavior is known to the architecture
 definition, these annotations are not strictly necessary (an
 implementation can have knowledge of how externs interact based on their

@@ -1,3 +1,5 @@
+<a id="sec-expr-hs"></a>
+<a id="sec-hs-init"></a>
 A header stack is a fixed-size array of headers with the same type. The
 valid elements of a header stack need not be contiguous. P4 provides a
 set of computations for manipulating header stacks. A header stack `hs`
@@ -26,11 +28,11 @@ are legal:
     
     Accessing a header stack `hs` with an index less than `0` or greater
     than or equal to `hs.size` results in an undefined value. See
-    Section \[\#sec-uninitialized-values-and-writing-invalid-headers\]
+    Section [Reading uninitialized values and writing fields of invalid headers](08-25-reading-uninitialized-values-and-writing-fields-of-invalid-headers.md#sec-uninitialized-values-and-writing-invalid-headers)
     for more details.
     
     The `index` is an expression that must be of numeric types (Section
-    \[\#sec-numeric-values\]).
+    [Numeric types](../chapter-07/07-04-numeric-types.md#sec-numeric-values)).
 
   - `hs.size`: produces a 32-bit unsigned integer that returns the size
     of the header stack (a local compile-time known value).
@@ -98,7 +100,7 @@ this.nextIndex = this.nextIndex - count; } else { this.nextIndex = 0; }
 this.nextIndex } \~ End P4Pseudo
 
 Similar to structs and headers, the size of a header stack is a
-compile-time known value (Section \[\#sec-minsizeinbits\]).
+compile-time known value (Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).
 
 Two header stacks can be compared for equality (`==`) or inequality
 (`!=`) only if they have the same element type and the same length. Two

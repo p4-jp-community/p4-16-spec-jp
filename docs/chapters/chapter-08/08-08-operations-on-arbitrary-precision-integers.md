@@ -1,3 +1,4 @@
+<a id="sec-varint-ops"></a>
 The type `int` denotes arbitrary-precision integers. In P4, all
 expressions of type `int` must be compile-time known values. The type
 `int` supports the following operations:
@@ -35,13 +36,13 @@ expressions of type `int` must be compile-time known values. The type
     do not need to be identical) must be one of the following:
     
       - `int` - an arbitrary-precision integer (section
-        \[\#sec-arbitrary-precision-integers\])
+        [Arbitrary-precision integers](../chapter-07/07-01-base-types.md#sec-arbitrary-precision-integers))
       - `bit<W>` - a `W`-bit unsigned integer where `W >= 0` (section
-        \[\#sec-unsigned-integers\])
+        [Unsigned integers (bit-strings)](../chapter-07/07-01-base-types.md#sec-unsigned-integers))
       - `int<W>` - a `W`-bit signed integer where `W >= 1` (section
-        \[\#sec-signed-integers\])
+        [Signed Integers](../chapter-07/07-01-base-types.md#sec-signed-integers))
       - a serializable `enum` with an underlying type that is `bit<W>`
-        or `int<W>` (section \[\#sec-enum-types\]).
+        or `int<W>` (section [Enumeration types](../chapter-07/07-02-derived-types.md#sec-enum-types)).
     
     The result is an unsigned bit-string of width `H - L + 1`, including
     the bits numbered from `L` (which becomes the least significant bit
@@ -58,7 +59,7 @@ Each operand that participates in any of these operation must have type
 `int` (except shifts). Binary operations cannot be used to combine
 values of type `int` with values of a fixed-width type (except shifts).
 However, the compiler automatically inserts casts from `int` to
-fixed-width types in certain situations—see Section \[\#sec-casts\].
+fixed-width types in certain situations—see Section [Casts](08-11-casts.md#sec-casts).
 
 All computations on `int` values are carried out without loss of
 information. For example, multiplying two 1024-bit values may produce a

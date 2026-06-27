@@ -1,3 +1,4 @@
+<a id="sec-type-variable-operations"></a>
 Because functions, methods, control, and parsers can be generic, they
 offer the possibility of declaring values with types that are type
 variables:

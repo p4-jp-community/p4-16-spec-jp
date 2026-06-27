@@ -1,3 +1,4 @@
+<a id="sec-exit-stmt"></a>
 The `exit` statement immediately terminates the execution of all the
 blocks currently executing: the current `action` (if invoked within an
 `action`), the current `control`, and all its callers. `exit` statements
@@ -6,7 +7,7 @@ are not allowed within parsers or functions.
 Any copy-out behavior due to direction `out` or `inout` parameters of
 the enclosing `action` or `control`, and all of its callers, are still
 performed after the execution of the `exit` statement. See Section
-\[\#sec-calling-convention\] for details on copy-out behavior.
+[Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention) for details on copy-out behavior.
 
 \~ Begin P4Grammar \[INCLUDE=grammar.mdk:exitStatement\] \~ End
 P4Grammar
@@ -15,10 +16,10 @@ There are some expressions whose evaluation might cause an `exit`
 statement to be executed. Examples include:
 
   - `table.apply().action_run`, which can only appear as the expression
-    of a `switch` statement (see Section \[\#sec-switch-stmt\]), and
+    of a `switch` statement (see Section [Switch statement](12-07-switch-statement.md#sec-switch-stmt)), and
     when it appears there, it must be the entire expression.
   - Any expression containing `table.apply().hit` or
-    `table.apply().miss` (see Section \[\#sec-invoke-mau\]), which can
+    `table.apply().miss` (see Section [Match-action unit invocation](../chapter-14/14-02-tables.md#sec-invoke-mau)), which can
     be part of arbitrarily complex expressions in many places of a P4
     program, such as:
       - the expression in an `if` statement.
@@ -26,7 +27,7 @@ statement to be executed. Examples include:
       - in an assignment statement, in the left and/or right hand sides.
       - an argument passed to a function or method call.
       - an expression to calculate a table key (see Section
-        \[\#sec-mau-semantics\]).
+        [Match-action unit execution semantics](../chapter-14/14-02-tables.md#sec-mau-semantics)).
 
 This list is not intended to be exhaustive.
 
@@ -34,7 +35,7 @@ If applying the table causes an action to be executed, which in turn
 causes an `exit` statement to be executed, then evaluation of the
 expression ends immediately, and the rest of the current expression or
 statement does not complete its execution. See Section
-\[\#sec-expr-eval-order\] for the order of evaluation of the parts of an
+[Expression evaluation order](../chapter-08/08-01-expression-evaluation-order.md#sec-expr-eval-order) for the order of evaluation of the parts of an
 expression. For the examples listed above, it also means the following
 behavior after the expression evaluation is interrupted.
 

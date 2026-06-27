@@ -1,3 +1,4 @@
+<a id="sec-arch-desc"></a>
 # 17. Architecture description
 
 
@@ -5,7 +6,7 @@ The architecture description must be provided by the target manufacturer
 in the form of a library P4 source file that contains at least one
 declaration for a `package`; this `package` must be instantiated by the
 user to construct a program for a target. For an example see the Very
-Simple Switch declaration from Section \[\#sec-vss-arch\].
+Simple Switch declaration from Section [Very Simple Switch Architecture](../chapter-05/05-01-very-simple-switch-architecture.md#sec-vss-arch).
 
 The architecture description file may pre-define data types, constants,
 helper package implementations, and errors. It must also declare the

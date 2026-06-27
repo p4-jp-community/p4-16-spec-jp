@@ -1,3 +1,4 @@
+<a id="sec-direct-invocation"></a>
 Controls and parsers are often instantiated exactly once. As a light
 syntactic sugar, control and parser declarations with no constructor
 parameters may be applied directly, as if they were an instance. This
@@ -49,7 +50,7 @@ than once is defined as follows.
     multiple controllable entities with the same fully-qualified control
     name.
 
-See Section \[\#sec-name-annotations\] for details of `@name`
+See Section [Annotations controlling naming](../chapter-18/18-03-control-plane-names.md#sec-name-annotations) for details of `@name`
 annotations.
 
 No direct invocation is possible for controls or parsers that require

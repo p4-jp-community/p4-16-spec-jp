@@ -1,3 +1,4 @@
+<a id="sec-grammar"></a>
 # Appendix G P4 grammar
 
 
@@ -26,7 +27,7 @@ This grammar has been heavily influenced by limitations of the Bison
 parser generator tool.
 
 The `STRING_LITERAL` token corresponds to a string literal enclosed
-within double quotes, as described in Section \[\#sec-string-literals\].
+within double quotes, as described in Section [String literals](../chapter-06/06-04-lexical-constructs.md#sec-string-literals).
 
 All other terminals are uppercase spellings of the corresponding
 keywords. For example, `RETURN` is the terminal returned by the lexer

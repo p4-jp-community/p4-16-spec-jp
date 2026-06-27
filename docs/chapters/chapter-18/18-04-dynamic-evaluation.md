@@ -1,8 +1,9 @@
+<a id="sec-concurrency"></a>
 The dynamic evaluation of a P4 program is orchestrated by the
 architecture model. Each architecture model needs to specify the order
 and the conditions under which the various P4 component programs are
 dynamically executed. For example, in the Simple Switch example from
-Section \[\#sec-vss-arch\] the execution flow goes
+Section [Very Simple Switch Architecture](../chapter-05/05-01-very-simple-switch-architecture.md#sec-vss-arch) the execution flow goes
 `Parser->Pipe->Deparser`.
 
 Once a P4 execution block is invoked its execution proceeds until

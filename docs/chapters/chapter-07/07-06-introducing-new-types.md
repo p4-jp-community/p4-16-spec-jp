@@ -1,3 +1,4 @@
+<a id="sec-newtype"></a>
 Similarly to `typedef`, the keyword `type` can be used to introduce a
 new type.
 

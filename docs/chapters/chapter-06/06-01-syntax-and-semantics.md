@@ -1,7 +1,7 @@
 ### Grammar
 
 The complete grammar of P4<sub>16</sub> is given in Appendix
-\[\#sec-grammar\], using Yacc/Bison grammar description language. This
+[P4 grammar](../appendix-G/index.md#sec-grammar), using Yacc/Bison grammar description language. This
 text is based on the same grammar. We adopt several standard conventions
 when we provide excerpts from the grammar:
 

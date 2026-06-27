@@ -21,7 +21,7 @@ returnStatement | switchStatement ;
     End P4Grammar
 
 In addition, parsers support a `transition` statement (Section
-\[\#sec-transition\]).
+[Transition statements](../chapter-13/13-05-transition-statements.md#sec-transition)).
 
 --8<-- "chapters/chapter-12/12-01-assignment-statement.md"
 --8<-- "chapters/chapter-12/12-02-empty-statement.md"

@@ -1,3 +1,4 @@
+<a id="sec-select"></a>
 A `select` expression evaluates to a state. The syntax for a `select`
 expression is as follows:
 
@@ -66,7 +67,7 @@ The expression `16w0 &&& 16w0xFC00` describes the set of 16-bit values
 whose most significant six bits are zero.
 
 Some targets may support parser value sets; see Section
-\[\#sec-value-set\]. Given a type `T` for the type parameter of the
+[Parser Value Sets](13-11-parser-value-sets.md#sec-value-set). Given a type `T` for the type parameter of the
 value set, the type of the value set is `set<T>`. The type of the value
 set must match to the type of all other `keysetExpression`s in the same
 `select` expression. If there is a mismatch, the compiler must raise an

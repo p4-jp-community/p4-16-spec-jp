@@ -1,3 +1,6 @@
+<a id="sec-calling-convention"></a>
+<a id="sec-calling-convention-justification"></a>
+<a id="sec-optional-parameters"></a>
 P4 provides multiple constructs for writing modular programs: extern
 methods, parsers, controls, actions. All these constructs behave
 similarly to procedures in standard general-purpose programming
@@ -19,7 +22,7 @@ Each parameter may be labeled with a direction:
     is executed.
   - `out` parameters are, with a few exceptions listed below,
     uninitialized and are treated as l-values (See Section
-    \[\#sec-lvalues\]) within the body of the method or function. An
+    [L-values](06-07-l-values.md#sec-lvalues)) within the body of the method or function. An
     argument passed as an `out` parameter must be an l-value; after the
     execution of the call, the value of the parameter is copied to the
     corresponding storage location for that l-value.
@@ -33,9 +36,9 @@ Each parameter may be labeled with a direction:
       - For anything other than an action, e.g. a control, parser, or
         function, a directionless parameter means that the value
         supplied as an argument in a call must be a compile-time known
-        value (see Section \[\#sec-compile-time-known\]).
+        value (see Section [Compile-time known and local compile-time known values](../chapter-18/18-01-compile-time-known-and-local-compile-time-known-values.md#sec-compile-time-known)).
       - For an action, a directionless parameter indicates that it is
-        “action data”. See Section \[\#sec-actions\] for the meaning
+        “action data”. See Section [Actions](../chapter-14/14-01-actions.md#sec-actions) for the meaning
         of action data, but its meaning includes the following
         possibilities:
           - The parameter’s value is provided in the P4 program. In this
@@ -44,7 +47,7 @@ Each parameter may be labeled with a direction:
             value.
           - The parameter’s value is provided by the control plane
             software when an entry is added to a table that uses that
-            action. See Section \[\#sec-actions\].
+            action. See Section [Actions](../chapter-14/14-01-actions.md#sec-actions).
 
 A directionless parameter of extern object type is passed by reference.
 
@@ -57,7 +60,7 @@ is not performed for parameters with any direction that is not `out`.
     `header_union`, it is set to “invalid”.
   - If a direction `out` parameter is of type header stack, all elements
     of the header stack are set to “invalid”, and its `nextIndex` field
-    is initialized to 0 (see Section \[\#sec-expr-hs\]).
+    is initialized to 0 (see Section [Operations on header stacks](../chapter-08/08-18-operations-on-header-stacks.md#sec-expr-hs)).
   - If a direction `out` parameter is a compound type, e.g. a struct or
     tuple, other than one of the types listed above, then apply these
     rules recursively to its members.
@@ -193,18 +196,18 @@ directions:
     `out`, or `inout`); this applies to `package`, `control`, `parser`,
     and `extern` objects. Expressions for these parameters must be
     supplied at compile-time, and they must evaluate to compile-time
-    known values. See Section \[\#sec-parameterization\] for further
+    known values. See Section [Parameterization](../chapter-15/index.md#sec-parameterization) for further
     details.
   - For actions all directionless parameters must be at the end of the
     parameter list. When an action appears in a `table`’s `actions`
     list, only the parameters with a direction must be bound. See
-    Section \[\#sec-actions\] for further details.
+    Section [Actions](../chapter-14/14-01-actions.md#sec-actions) for further details.
   - Actions can also be explicitly invoked using function call syntax,
     either from a control block or from another action. In this case,
     values for all action parameters must be supplied explicitly,
     including values for the directionless parameters. The directionless
     parameters in this case behave like `in` parameters. See Section
-    \[\#sec-invoke-actions\] for further details.
+    [Invoking actions](../chapter-14/14-01-actions.md#sec-invoke-actions) for further details.
   - Default expressions are only allowed for ‘in’ or direction-less
     parameters, and the expressions supplied as defaults must be
     compile-time known values.

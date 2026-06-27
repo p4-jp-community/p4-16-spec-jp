@@ -1,3 +1,4 @@
+<a id="sec-expr-hu"></a>
 A variable declared with a union type is initially invalid. For example:
 
 \~Begin P4Example header H1 { bit\<8\> f; } header H2 { bit\<16\> g; }
@@ -114,7 +115,7 @@ b.extract(vec.next.sack, (bit\<32\>) (8 \* n - 16)); transition start; }
 } \~End P4Example
 
 Similar to headers, the size of a header union is a local compile-time
-known value (Section \[\#sec-minsizeinbits\]).
+known value (Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).
 
 The expression `{#}` represents an invalid header union of some type,
 but it can be any header or header union type. A P4 compiler may require

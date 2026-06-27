@@ -1,3 +1,4 @@
+<a id="sec-expr-eval-order"></a>
 Given a compound expression, the order in which sub-expressions are
 evaluated is important when the sub-expressions have side-effects. P4
 expressions are evaluated as follows:
@@ -9,4 +10,4 @@ expressions are evaluated as follows:
   - All other expressions are evaluated left-to-right as they appear in
     the source program.
   - Method and function calls are evaluated as described in Section
-    \[\#sec-calling-convention\].
+    [Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention).

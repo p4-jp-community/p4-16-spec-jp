@@ -18,7 +18,7 @@ control instances, etc. Thus, in general, invoking a control instance
 twice is not the same as invoking two copies of the same control
 instance. Note however, that local variables do not persist across
 invocations of the control. This semantics also applies to direct
-invocation (see Section \[\#sec-direct-invocation\]).
+invocation (see Section [Direct type invocation](../chapter-15/15-01-direct-type-invocation.md#sec-direct-invocation)).
 
 When a control is instantiated, all its local declarations of stateful
 instantiations are evaluated recursively. Each instantiation of a
@@ -37,4 +37,4 @@ outside the `apply` block, they are evaluated at the beginning of
 execution.
 
 All the behavior above also applies to direct invocation (see Section
-\[\#sec-direct-invocation\]).
+[Direct type invocation](../chapter-15/15-01-direct-type-invocation.md#sec-direct-invocation)).

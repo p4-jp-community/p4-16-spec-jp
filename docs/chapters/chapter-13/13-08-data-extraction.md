@@ -1,3 +1,7 @@
+<a id="sec-packet-extract-two"></a>
+<a id="sec-packet-lookahead"></a>
+<a id="sec-skip-bits"></a>
+<a id="sec-packet-data-extraction"></a>
 The P4 core library contains the following declaration of a built-in
 `extern` type called `packet_in` that represents incoming network
 packets. The `packet_in` extern is special: it cannot be instantiated by
@@ -46,7 +50,7 @@ declared in P4 as follows:
 P4Example
 
 The expression `headerLeftValue` must evaluate to an l-value (see
-Section \[\#sec-lvalues\]) of type `header` with a fixed width. If this
+Section [L-values](../chapter-06/06-07-l-values.md#sec-lvalues)) of type `header` with a fixed width. If this
 method executes successfully, on completion the `headerLvalue` is filled
 with data from the packet and its validity bit is set to `true`. This
 method may fail in various ways—e.g., if there are not enough bits left
@@ -168,7 +172,7 @@ ParserModel.verify(this.lengthInBits \>= lastBitNeeded,
 error.PacketTooShort); T tmp = this.data.extractBits(this.nextBitIndex,
 bitsToExtract); return tmp; } \~ End P4Pseudo
 
-  - The TCP options example from Section \[\#sec-expr-hu\] also
+  - The TCP options example from Section [Operations on header unions](../chapter-08/08-19-operations-on-header-unions.md#sec-expr-hu) also
     illustrates how `lookahead` can be used:  
     Begin P4Example state start { transition
     select(b.lookahead\<bit\<8\>\>()) { 0: parse\_tcp\_option\_end; 1:

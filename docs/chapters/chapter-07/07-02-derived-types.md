@@ -1,3 +1,14 @@
+<a id="sec-abstract-methods"></a>
+<a id="sec-enum-types"></a>
+<a id="sec-extern-objects"></a>
+<a id="sec-function-type"></a>
+<a id="sec-header-types"></a>
+<a id="sec-list-types"></a>
+<a id="sec-set-types"></a>
+<a id="sec-synth-types"></a>
+<a id="sec-tuple-types"></a>
+<a id="sec-type-nesting"></a>
+<a id="sec-type-spec"></a>
 P4 provides a number of type constructors that can be used to derive
 additional types including:
 
@@ -20,7 +31,7 @@ subsequently be referred to using this identifier.
 
 Other types cannot be declared, but are synthesized by the compiler
 internally to represent the type of certain language constructs. These
-types are described in Section \[\#sec-synth-types\]: set types and
+types are described in Section [Synthesized data types](#sec-synth-types): set types and
 function types. For example, the programmer cannot declare a variable
 with type “set”, but she can write an expression whose value evaluates
 to a `set` type. These types are used during type-checking.
@@ -110,10 +121,10 @@ value.
 The `initializer` expression must be a compile-time known value.
 
 Annotations, represented by the non-terminal `optAnnotations`, are
-described in Section \[\#sec-annotations\].
+described in Section [Annotations](../chapter-20/index.md#sec-annotations).
 
 Operations on `enum` values are described in Section
-\[\#sec-enum-exprs\].
+[Operations on `enum` types](../chapter-08/08-03-operations-on-enum-types.md#sec-enum-exprs).
 
 ### Header types
 
@@ -143,7 +154,7 @@ the “validity” bit is `true` we say that the “header is valid”. When a
 local variable with a header type is declared, its “validity” bit is
 automatically set to `false`. The “validity” bit can be manipulated by
 using the header methods `isValid()`, `setValid()`, and `setInvalid()`,
-as described in Section \[\#sec-ops-on-hdrs\].
+as described in Section [Operations on headers](../chapter-08/08-17-operations-on-headers.md#sec-ops-on-hdrs).
 
 Note, nesting of headers is not supported. One reason is that it leads
 to complications in defining the behavior of arbitrary sequences of
@@ -195,7 +206,7 @@ srcAddr; bit\<16\> etherType; } \~ End P4Example
 
 P4’s parser language provides an `extract` method that can be used to
 “fill in” the fields of a header from a network packet, as described
-in Section \[\#sec-packet-data-extraction\]. The successful execution of
+in Section [Data extraction](../chapter-13/13-08-data-extraction.md#sec-packet-data-extraction). The successful execution of
 an `extract` operation also sets the validity bit of the extracted
 header to `true`.
 
@@ -209,7 +220,7 @@ header to `true`.
     End P4Example
 
 As demonstrated by a code example in Section
-\[\#sec-packet-extract-two\], another way to support headers that
+[Variable-width extraction](../chapter-13/13-08-data-extraction.md#sec-packet-extract-two), another way to support headers that
 contain variable-length fields is to define two headers – one fixed
 length, one containing a `varbit` field – and extract each part in
 separate parsing steps.
@@ -230,7 +241,7 @@ header stack `hs[n]`, the term `n` is the maximum defined size, and must
 be a local compile-time known value that is a positive integer. Nested
 header stacks are not supported. At runtime a stack contains `n` values
 with type `typeName`, only some of which may be valid. Expressions on
-header stacks are discussed in Section \[\#sec-expr-hs\].
+header stacks are discussed in Section [Operations on header stacks](../chapter-08/08-18-operations-on-header-stacks.md#sec-expr-hs).
 
   - For example, the following declarations,  
     Begin P4Example header Mpls\_h { bit\<20\> label; bit\<3\> tc; bit
@@ -241,7 +252,7 @@ header stacks are discussed in Section \[\#sec-expr-hs\].
 introduce a header stack called `mpls` containing ten entries, each of
 type `Mpls_h`.
 
-Operations on header stacks are described in Section \[\#sec-expr-hs\].
+Operations on header stacks are described in Section [Operations on header stacks](../chapter-08/08-18-operations-on-header-stacks.md#sec-expr-hs).
 
 ### Header unions
 
@@ -269,7 +280,7 @@ End P4Example
 
 A header union is not considered a type with fixed length.
 
-Operation on header unions are described in Section \[\#sec-expr-hu\].
+Operation on header unions are described in Section [Operations on header unions](../chapter-08/08-19-operations-on-header-unions.md#sec-expr-hu).
 
 ### Struct types
 
@@ -298,7 +309,7 @@ P4Example
 \~ Begin P4Grammar \[INCLUDE=grammar.mdk:tupleType\] \~ End P4Grammar
 
 Operations that manipulate tuple types are described in Section
-\[\#sec-tuple-exprs\].
+[Operations on tuple expressions](../chapter-08/08-12-operations-on-tuple-expressions.md#sec-tuple-exprs).
 
 The type `tuple<>` is a tuple type with no components.
 
@@ -312,7 +323,7 @@ type. The type of a list where all elements have type `T` is written as
 \~ Begin P4Grammar \[INCLUDE=grammar.mdk:p4listType\] \~ End P4Grammar
 
 Operations that manipulate list types are described in Section
-\[\#sec-list-exprs\].
+[Operations on lists](../chapter-08/08-14-operations-on-lists.md#sec-list-exprs).
 
 ### Type nesting rules
 
@@ -349,7 +360,7 @@ defined formats as sequences of bits in order for them to be parsed or
 deparsed.
 
 Note the two-argument `extract` method (see Section
-\[\#sec-packet-extract-two\]) on packets only supports a single `varbit`
+[Variable-width extraction](../chapter-13/13-08-data-extraction.md#sec-packet-extract-two)) on packets only supports a single `varbit`
 field in a header.
 
 The table below lists all types that may appear as base types in a
@@ -384,10 +395,10 @@ can only appear in restricted contexts in P4 programs. For example, the
 range expression `8w5 .. 8w8` describes a set containing the 8-bit
 numbers 5, 6, 7, and 8, so its type is `set<bit<8>>;`. This expression
 can be used as a label in a `select` expression (see Section
-\[\#sec-select\]), matching any value in this range. Set types cannot be
+[Select expressions](../chapter-13/13-06-select-expressions.md#sec-select)), matching any value in this range. Set types cannot be
 named or declared by P4 programmers, they are only synthesized by the
 compiler internally and used for type-checking. Expressions with set
-types are described in Section \[\#sec-set-exprs\].
+types are described in Section [Operations on sets](../chapter-08/08-15-operations-on-sets.md#sec-set-exprs).
 
 #### Function types
 
@@ -437,7 +448,7 @@ type signature of the function, but not its implementation.
 P4Grammar
 
 For an example of an `extern` function declaration, see Section
-\[\#sec-function-type\].
+[Function types](#sec-function-type).
 
 #### Extern objects
 
@@ -466,7 +477,7 @@ optAnnotations ABSTRACT functionPrototype “;” ;
 
 For example, the P4 core library introduces two extern objects
 `packet_in` and `packet_out` used for manipulating packets (see Sections
-\[\#sec-packet-data-extraction\] and \[\#sec-deparse\]). Here is an
+[Data extraction](../chapter-13/13-08-data-extraction.md#sec-packet-data-extraction) and [Deparsing](../chapter-16/index.md#sec-deparse)). Here is an
 example showing how the methods of these objects can be invoked on a
 packet:
 
@@ -507,7 +518,7 @@ bit\<4\> on\_new\_flow(in bit\<32\> address); } \~ End P4Example
 
 When such an object is instantiated the user has to supply an
 implementation of all the `abstract` methods (see
-\[\#sec-instantiating-abstract-methods\]).
+[Instantiating objects with abstract methods](../chapter-11/11-03-instantiations.md#sec-instantiating-abstract-methods)).
 
 ### Type specialization
 
@@ -572,7 +583,7 @@ in architectures may be generic (i.e., have type parameters).
 The types `parser`, `control`, and `package` cannot be used as types of
 arguments for methods, parsers, controls, tables, or actions. They *can*
 be used as types for the arguments passed to constructors (see Section
-\[\#sec-parameterization\]).
+[Parameterization](../chapter-15/index.md#sec-parameterization)).
 
 #### Parser type declarations
 
@@ -624,4 +635,4 @@ type. It should be only used in a position where one could write a bound
 type variable. The underscore can be used to reduce code complexity—when
 it is not important what the type variable binds to (during type
 unification the don’t care type can unify with any other type). An
-example is given Section \[\#sec-arch-desc-example\].
+example is given Section [Example architecture description](../chapter-17/17-01-example-architecture-description.md#sec-arch-desc-example).
