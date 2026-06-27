@@ -164,9 +164,11 @@ names `s.c1.t` and `s.c2.t`, where `s` is the name of the argument to
 the package instantiation, which is derived from the name of its
 corresponding formal parameter.
 
-\~ Figure { \#fig-evalmultiple; caption: “Evaluating a program that has
-several instantiations of the same component.” } \[evalmultiple\] \~
-\[evalmultiple\]: figs/evalmultiple.png { width: 5cm; page-align: here }
+<figure id="fig-evalmultiple">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/evalmultiple.png" alt="Evaluating a program that has several instantiations of the same component." style="width: 5cm;">
+  <figcaption>
+  Evaluating a program that has several instantiations of the same component.</figcaption>
+</figure>
 
 ### Annotations controlling naming
 

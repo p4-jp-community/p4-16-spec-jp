@@ -71,6 +71,8 @@ one instance of `Checksum16`, called `ck16`, shared between the
 architecture-dependent. Specific target compilers may require distinct
 checksum units to be used in distinct blocks.
 
-\~ Figure { \#fig-compileeval; caption: “Evaluation result.” }
-\[compileeval\] \~ \[compileeval\]: figs/compileeval.png { width: 5cm;
-page-align: here }
+<figure id="fig-compileeval">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/compileeval.png" alt="Evaluation result." style="width: 5cm;">
+  <figcaption>
+  Evaluation result.</figcaption>
+</figure>

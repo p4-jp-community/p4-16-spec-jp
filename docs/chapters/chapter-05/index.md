@@ -7,11 +7,13 @@ architecture of the switch and then write a complete P4 program that
 specifies the data plane behavior of the switch. This example
 demonstrates many important features of the P4 programming language.
 
-\~ Figure { \#fig-vssarch; caption: “The Very Simple Switch (VSS)
-architecture.” } \[vssarch\] \~ \[vssarch\]: figs/vssarch.png { width:
-100%; page-align: here }
+<figure id="fig-vssarch">
+  <img src="../../assets/figs/vssarch.png" alt="The Very Simple Switch architecture." style="width: 100%;">
+  <figcaption>
+  The Very Simple Switch (VSS) architecture.</figcaption>
+</figure>
 
-\[\]{tex-cmd: “”} We call our architecture the “Very Simple Switch”
+We call our architecture the “Very Simple Switch”
 (VSS). Figure \[\#fig-vssarch\] is a diagram of this architecture. There
 is nothing inherently special about VSS—it is just a pedagogical example
 that illustrates how programmable switches can be described and

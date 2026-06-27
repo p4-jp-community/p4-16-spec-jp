@@ -5,11 +5,13 @@ all of the features provided by the architecture—e.g., recirculation—but
 it does use preprocessor `#include` directives (see Section
 [Preprocessing](../chapter-06/06-02-preprocessing.md#sec-preprocessor)).
 
-\~ Figure { \#fig-vssmau; caption: “Diagram of the match-action pipeline
-expressed by the VSS P4 program.” } \[vssmau\] \~ \[vssmau\]:
-figs/vssmau.png { width: 100%; page-align: here }
+<figure id="fig-vssmau">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/vssmau.png" alt="Diagram of the match-action pipeline expressed by the VSS P4 program." style="width: 100%;">
+  <figcaption>
+  Diagram of the match-action pipeline expressed by the VSS P4 program.</figcaption>
+</figure>
 
-\[\]{tex-cmd: “”} The parser attempts to recognize an Ethernet header
+The parser attempts to recognize an Ethernet header
 followed by an IPv4 header. If either of these headers are missing,
 parsing terminates with an error. Otherwise it extracts the information
 from these headers into a `Parsed_packet` structure. The match-action

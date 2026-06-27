@@ -23,12 +23,13 @@ The semantics of a sub-parser invocation can be described as follows:
   - The sub-parser’s `reject` state is identified with the reject state
     of the current parser.
 
-\~ Figure { \#fig-subparser; caption: “Semantics of invoking a
-sub-parser: top: original program, bottom: equivalent program.” }
-\[subparser\] \~ \[subparser\]: figs/subparser.png { width: 60%;
-page-align: here }
+<figure id="fig-subparser">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/subparser.png" alt="Semantics of invoking a sub-parser." style="width: 60%;">
+  <figcaption>
+  Semantics of invoking a sub-parser: top: original program, bottom: equivalent program.</figcaption>
+</figure>
 
-\[\]{tex-cmd: “”} Figure \[\#fig-subparser\] shows a diagram of this
+Figure \[\#fig-subparser\] shows a diagram of this
 process.
 
 Note that since P4 requires definitions to precede uses, it is

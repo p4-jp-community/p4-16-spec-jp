@@ -1,7 +1,9 @@
 <a id="sec-arch-desc-example"></a>
-\~ Figure { \#fig-switcharch; caption: “Fragment of example switch
-architecture.” } \[switcharch\] \~ \[switcharch\]: figs/switcharch.png {
-width: 75%; page-align: here }
+<figure id="fig-switcharch">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/switcharch.png" alt="Fragment of example switch architecture." style="width: 75%;">
+  <figcaption>
+  Fragment of example switch architecture.</figcaption>
+</figure>
 
 The following example describes a switch by using two packages, each
 containing a parser, a match-action pipeline, and a deparser:

@@ -8,9 +8,11 @@
 <a id="sec-mau-semantics"></a>
 <a id="sec-size-table-property"></a>
 <a id="sec-table-props"></a>
-\~ Figure { \#fig-maudataflow; caption: “Match-Action Unit Dataflow.” }
-\[maudataflow\] \~ \[maudataflow\]: figs/maudataflow.png { width: 80%;
-page-align: here }
+<figure id="fig-maudataflow">
+  <img src="https://p4-jp-community.github.io/p4-16-spec-jp/assets/figs/maudataflow.png" alt="Match-Action Unit Dataflow." style="width: 80%;">
+  <figcaption>
+  Match-Action Unit Dataflow.</figcaption>
+</figure>
 
 A `table` describes a match-action unit. The structure of a match-action
 unit is shown in Figure \[\#fig-maudataflow\]. Processing a packet using
