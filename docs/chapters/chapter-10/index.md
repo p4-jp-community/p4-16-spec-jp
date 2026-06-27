@@ -1,3 +1,4 @@
+<a id="sec-functions"></a>
 # 10. Function declarations
 
 

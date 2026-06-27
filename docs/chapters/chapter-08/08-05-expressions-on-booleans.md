@@ -10,7 +10,7 @@ The precedence of these operators is similar to C and uses
 short-circuited evaluation where relevant.
 
 Additionally, the size of a boolean can be determined at compile-time
-(Section \[\#sec-minsizeinbits\]).
+(Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).
 
 P4 does not implicitly cast from bit-strings to Booleans or vice versa.
 As a consequence, a program that is valid in a language like C such as,
@@ -23,7 +23,7 @@ As a consequence, a program that is valid in a language like C such as,
     End P4Example
 
 See the discussion on arbitrary-precision types and implicit casts in
-Section \[\#sec-implicit-casts\] for details on how the `0` in this
+Section [Implicit casts](08-11-casts.md#sec-implicit-casts) for details on how the `0` in this
 expression is evaluated.
 
 ### Conditional operator

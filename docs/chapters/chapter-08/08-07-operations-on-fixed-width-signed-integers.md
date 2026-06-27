@@ -1,3 +1,4 @@
+<a id="sec-int-ops"></a>
 This section discusses all operations that can be performed on
 expressions of type `int<W>` for some `W`. Recall that the `int<W>`
 denotes signed `W`-bit integers, represented using two’s complement.
@@ -68,7 +69,7 @@ The `int<W>` datatype also support the following operations:
     denoted by `[H:L]`, where `H` and `L` must be expressions that
     evaluate to non-negative, local compile-time known values, and `H >=
     L` must be true. The types of `H` and `L` (which do not need to be
-    identical) must be numeric (Section \[\#sec-numeric-values\]). The
+    identical) must be numeric (Section [Numeric types](../chapter-07/07-04-numeric-types.md#sec-numeric-values)). The
     result is an unsigned bit-string of width `H - L + 1`, including the
     bits numbered from `L` (which becomes the least significant bit of
     the result) to `H` (the most significant bit of the result) from the
@@ -90,4 +91,4 @@ The `int<W>` datatype also support the following operations:
     left operand is placed as the most significant bits.
 
 Additionally, the size of a fixed-width signed integer can be determined
-at compile-time (Section \[\#sec-minsizeinbits\]).
+at compile-time (Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).

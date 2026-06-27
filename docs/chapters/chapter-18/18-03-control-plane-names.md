@@ -1,3 +1,7 @@
+<a id="sec-name-annotations"></a>
+<a id="sec-cp-actions"></a>
+<a id="sec-cp-keys"></a>
+<a id="sec-cp-names"></a>
 Every controllable entity exposed in a P4 program must be assigned a
 unique, fully-qualified name, which the control plane may use to
 interact with that entity. The following entities are controllable.
@@ -76,7 +80,7 @@ exact; } actions = { /\* body omitted \*/ } } \~ End P4Example
 
 If a compiler cannot generate a name for a key it **requires** the key
 expression to be annotated with a `@name` annotation (Section
-\[\#sec-control-plane-api-annotations\]), as in the following example:
+[Control-plane API annotations](../chapter-20/20-03-predefined-annotations.md#sec-control-plane-api-annotations)), as in the following example:
 
 \~ Begin P4Example table t { keys = { data.f1 + 1 : exact
 @name(“f1\_mask”); } actions = { /\* body omitted \*/ } } \~ End
@@ -167,7 +171,7 @@ several instantiations of the same component.” } \[evalmultiple\] \~
 ### Annotations controlling naming
 
 Control plane-related annotations (Section
-\[\#sec-control-plane-api-annotations\]) can alter the names exposed to
+[Control-plane API annotations](../chapter-20/20-03-predefined-annotations.md#sec-control-plane-api-annotations)) can alter the names exposed to
 the control plane in the following ways.
 
   - The `@hidden` annotation hides a controllable entity from the
@@ -195,7 +199,7 @@ inserting rules into table `c_inst.t`, because it is clear from the
 definition of the table which action `a` refers to.
 
 Not all unambiguous postfix shortcuts are recommended. For instance,
-consider the first example in Section \[\#sec-cp-names\]. One might be
+consider the first example in Section [Control plane names](#sec-cp-names). One might be
 tempted to refer to `s.c1` simply as `c1`, as no other instance named
 `c1` appears in the program. However, this leads to a brittle program
 since future modifications can never introduce an instance named `c1`,

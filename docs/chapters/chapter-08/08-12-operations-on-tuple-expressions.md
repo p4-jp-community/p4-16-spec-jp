@@ -1,3 +1,4 @@
+<a id="sec-tuple-exprs"></a>
 Tuples can be assigned to other tuples with the same type, passed as
 arguments and returned from functions, and can be initialized with tuple
 expressions.
@@ -26,7 +27,7 @@ separated by a comma:
     End P4Grammar
 
 The type of a tuple expression is a tuple type (Section
-\[\#sec-tuple-types\]). Tuple expressions can be assigned to expressions
+[Tuple types](../chapter-07/07-02-derived-types.md#sec-tuple-types)). Tuple expressions can be assigned to expressions
 of type `tuple`, `struct` or `header`, and can also be passed as
 arguments to methods. Tuples may be nested. However, tuple expressions
 are not l-values.
@@ -52,7 +53,7 @@ n<sup>th</sup> field in the structure:
 
 A tuple expression can have an explicit structure or header type
 specified, and then it is converted automatically to a structure-valued
-expression (see \[\#sec-structure-expressions\]):
+expression (see [Operations on structure-valued expressions](08-13-operations-on-structure-valued-expressions.md#sec-structure-expressions)):
 
 \~ Begin P4Example struct S { bit\<32\> a; bit\<32\> b; }
 

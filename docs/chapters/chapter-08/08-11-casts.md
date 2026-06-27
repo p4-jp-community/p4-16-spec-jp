@@ -1,3 +1,5 @@
+<a id="sec-casts"></a>
+<a id="sec-implicit-casts"></a>
 P4 provides a limited set of casts between types. A cast is written `(t)
 e`, where `t` is a type and `e` is an expression. Casts are only
 permitted on base types and derived types introduced by `typedef`,
@@ -47,7 +49,7 @@ The following casts are legal in P4:
   - casts between an `enum` with an explicit type and its underlying
     type
   - casts of a key-value list to a struct type or a header type (see
-    Section \[\#sec-structure-expressions\])
+    Section [Operations on structure-valued expressions](08-13-operations-on-structure-valued-expressions.md#sec-structure-expressions))
   - casts of a tuple expression to a header stack type
   - casts of an invalid expression `{#}` to a header or a header union
     type
@@ -88,7 +90,7 @@ the compiler will add implicit casts as follows:
 
 The compiler also adds implicit casts when types of different
 expressions need to `match`; for example, as described in Section
-\[\#sec-select\], since select labels are compared against the selected
+[Select expressions](../chapter-13/13-06-select-expressions.md#sec-select), since select labels are compared against the selected
 expression, the compiler will insert implicit casts for the select
 labels when they have `int` types. Similarly, when assigning a
 structure-valued expression to a structure or header, the compiler will

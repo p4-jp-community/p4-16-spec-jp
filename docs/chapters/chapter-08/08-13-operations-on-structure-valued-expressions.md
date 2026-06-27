@@ -1,3 +1,4 @@
+<a id="sec-structure-expressions"></a>
 One can write expressions that evaluate to a structure or header. The
 syntax of these expressions is given by:
 
@@ -38,7 +39,7 @@ Structure-valued expressions that have `...` as their last element are
 allowed to give values to only a subset of the fields of the struct or
 header type to which it evaluates. Any field names not given a value
 explicitly will be given their default value (see Section
-\[\#sec-initializing-with-default-values\]).
+[Initializing with default values](08-26-initializing-with-default-values.md#sec-initializing-with-default-values)).
 
 The order of the fields of the `struct` or `header` type does not need
 to match the order of the values of the structure-valued expression.

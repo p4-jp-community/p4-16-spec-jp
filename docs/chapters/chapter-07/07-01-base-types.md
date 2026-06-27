@@ -1,3 +1,10 @@
+<a id="sec-arbitrary-precision-integers"></a>
+<a id="sec-dynamically-sized-integers"></a>
+<a id="sec-match-kind-type"></a>
+<a id="sec-signed-integers"></a>
+<a id="sec-string-type"></a>
+<a id="sec-unsigned-integers"></a>
+<a id="sec-base-types"></a>
 P4 supports the following built-in base types:
 
   - The `void` type, which has no values and can be used only in a few
@@ -39,7 +46,7 @@ is similar to an enumeration (`enum`) type in other languages. A program
 can contain multiple `error` declarations, which the compiler will merge
 together. It is an error to declare the same identifier multiple times.
 Expressions of type `error` are described in Section
-\[\#sec-error-exprs\].
+[Operations on `error` types](../chapter-08/08-02-operations-on-error-types.md#sec-error-exprs).
 
 For example, the following declaration creates two elements of the
 `error` type (these errors are declared in the P4 core library):
@@ -52,7 +59,7 @@ The underlying representation of errors is target-dependent.
 
 The `match_kind` type is very similar to the `error` type and is used to
 declare a set of distinct names that may be used in a table’s key
-property (described in Section \[\#sec-table-props\]). All identifiers
+property (described in Section [Table properties](../chapter-14/14-02-tables.md#sec-table-props)). All identifiers
 are inserted into the top-level namespace. It is an error to declare the
 same `match_kind` identifier multiple times.
 
@@ -70,7 +77,7 @@ new `match_kind`s can only occur within model description files; P4
 programmers cannot declare new match kinds.
 
 Operations on values of type `match_kind` are described in Section
-\[\#sec-match-kind-exprs\].
+[Operations on `match_kind` types](../chapter-08/08-04-operations-on-match-kind-types.md#sec-match-kind-exprs).
 
 ### The Boolean type
 
@@ -82,10 +89,10 @@ Boolean values are not integers or bit-strings.
 The type `string` represents strings. There are no operations on string
 values; one cannot declare variables with a `string` type. Parameters
 with type `string` can be only directionless (see Section
-\[\#sec-calling-convention\]). P4 does not support string manipulation
+[Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention)). P4 does not support string manipulation
 in the dataplane; the `string` type is only allowed for describing
 compile-time known values (i.e., string literals, as discussed in
-Section \[\#sec-string-literals\]). Even so, the string type is useful,
+Section [String literals](../chapter-06/06-04-lexical-constructs.md#sec-string-literals)). Even so, the string type is useful,
 for example, in giving the type signature for extern functions such as
 the following:
 
@@ -151,11 +158,11 @@ program behavior should match this specification.
 An unsigned integer (which we also call a “bit-string”) has an arbitrary
 width, expressed in bits. A bit-string of width `W` is declared as:
 `bit<W>`. `W` must be an expression that evaluates to a local
-compile-time known value (see Section \[\#sec-compile-time-known\]) that
+compile-time known value (see Section [Compile-time known and local compile-time known values](../chapter-18/18-01-compile-time-known-and-local-compile-time-known-values.md#sec-compile-time-known)) that
 is a non-negative integer. When using an expression for the size, the
 expression must be parenthesized. Bitstrings with width 0 are allowed;
 they have no actual bits, and can only have the value 0. See
-\[\#sec-uninitialized-values-and-writing-invalid-headers\] for
+[Reading uninitialized values and writing fields of invalid headers](../chapter-08/08-25-reading-uninitialized-values-and-writing-fields-of-invalid-headers.md#sec-uninitialized-values-and-writing-invalid-headers) for
 additional details. Note that `bit<W>` type refers to both cases of
 `bit<W>` and `bit<(expression)>` where the width is a compile-time known
 value.
@@ -179,14 +186,14 @@ arithmetic operations on certain sizes (e.g., 16-, 32-, and 64- bit
 values).
 
 All operations that can be performed on unsigned integers are described
-in Section \[\#sec-bit-ops\].
+in Section [Operations on fixed-width bit types (unsigned integers)](../chapter-08/08-06-operations-on-fixed-width-bit-types-unsigned-integers.md#sec-bit-ops).
 
 #### Signed Integers
 
 Signed integers are represented using two’s complement. An integer with
 `W` bits is declared as: `int<W>`. `W` must be an expression that
 evaluates to a local compile-time known (see Section
-\[\#sec-compile-time-known\]) value that is a non-negative integer. Note
+[Compile-time known and local compile-time known values](../chapter-18/18-01-compile-time-known-and-local-compile-time-known-values.md#sec-compile-time-known)) value that is a non-negative integer. Note
 that `int<W>` type refers to both cases of `int<W>` and
 `int<(expression)>` where the width is a local compile-time known value.
 
@@ -203,7 +210,7 @@ arithmetic operations on certain sizes (e.g., 16-, 32-, and 64- bit
 values).
 
 All operations that can be performed on signed integers are described in
-Section \[\#sec-int-ops\].
+Section [Operations on fixed-width signed integers](../chapter-08/08-07-operations-on-fixed-width-signed-integers.md#sec-int-ops).
 
 A signed integer with width 1 can only have two legal values: 0 and -1.
 
@@ -216,7 +223,7 @@ runtime, called a `varbit`.
 
 The type `varbit<W>` denotes a bit-string with a width of at most `W`
 bits, where `W` is a local compile-time known value (see Section
-\[\#sec-compile-time-known\]) that is a non-negative integer. For
+[Compile-time known and local compile-time known values](../chapter-18/18-01-compile-time-known-and-local-compile-time-known-values.md#sec-compile-time-known)) that is a non-negative integer. For
 example, the type `varbit<120>` denotes the type of bit-string values
 that may have between 0 and 120 bits. Most operations that are
 applicable to fixed-size bit-strings (unsigned numbers) *cannot* be
@@ -229,7 +236,7 @@ example, they may limit the maximum size, or they may require `varbit`
 values to always contain an integer number of bytes at runtime.
 
 All operations that can be performed on varbits are described in Section
-\[\#sec-varbit-string\].
+[Operations on variable-size bit types](../chapter-08/08-10-operations-on-variable-size-bit-types.md#sec-varbit-string).
 
 #### Arbitrary-precision integers
 
@@ -242,7 +249,7 @@ time the compiler will convert all int values that have a runtime
 component to fixed-width types, according to the rules described below.
 
 All operations that can be performed on arbitrary-precision integers are
-described in Section \[\#sec-varint-ops\]. The following example shows
+described in Section [Operations on arbitrary-precision integers](../chapter-08/08-08-operations-on-arbitrary-precision-integers.md#sec-varint-ops). The following example shows
 three constant definitions whose values are arbitrary-precision
 integers.
 
@@ -253,7 +260,7 @@ Parameters with type `int` are not supported for actions. Parameters
 with type `int` for other callable entities of a program, e.g. controls,
 parsers, or functions, must be directionless, indicating that all calls
 must provide a compile-time known value as an argument for such a
-parameter. See Section \[\#sec-calling-convention\] for more details on
+parameter. See Section [Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention) for more details on
 directionless parameters.
 
 #### Integer literal types
@@ -268,7 +275,7 @@ The types of integer literals are as follows:
 
 The table below shows several examples of integer literals and their
 types. For additional examples of literals see Section
-\[\#sec-literals\].
+[Literal constants](../chapter-06/06-04-lexical-constructs.md#sec-literals).
 
 <table style="width:38%;">
 <colgroup>

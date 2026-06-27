@@ -1,3 +1,4 @@
+<a id="sec-parser-state-stmt"></a>
   - A parser state is declared with the following syntax:  
     Begin P4Grammar \[INCLUDE=grammar.mdk:parserState\]
     End P4Grammar
@@ -13,10 +14,10 @@ transitions to that state, including:
         of data already parsed), and
       - Invoking methods (e.g., extracting data out of packets or
         computing checksums) and other parsers (see Section
-        \[\#sec-invoke-subparser\]), and
+        [Sub-parsers](13-10-sub-parsers.md#sec-invoke-subparser)), and
   - Conditional statements,
   - Transitions to other states (discussed in Section
-    \[\#sec-transition\]).
+    [Transition statements](13-05-transition-statements.md#sec-transition)).
 
 <!-- end list -->
 

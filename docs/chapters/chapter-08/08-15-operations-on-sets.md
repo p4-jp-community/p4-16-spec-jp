@@ -1,7 +1,10 @@
+<a id="sec-set-exprs"></a>
+<a id="sec-cubes"></a>
+<a id="sec-ranges"></a>
 Some P4 expressions denote sets of values (`set<T>`, for some type `T`;
-see Section \[\#sec-set-types\]). These expressions can appear only in a
+see Section [Set types](../chapter-07/07-02-derived-types.md#sec-set-types)). These expressions can appear only in a
 few contexts—parsers and table entries. For example, the `select`
-expression (Section \[\#sec-select\]) has the following structure:
+expression (Section [Select expressions](../chapter-13/13-06-select-expressions.md#sec-select)) has the following structure:
 
 \~ Begin P4Example select (expression) { set1: state1; set2: state2; //
 More labels omitted } \~ End P4Example
@@ -45,7 +48,7 @@ set, which contains all possible values of a given type:
 ### Masks
 
 The infix operator `&&&` takes two arguments of the same numeric type
-(Section \[\#sec-numeric-values\]), and creates a value of the same
+(Section [Numeric types](../chapter-07/07-04-numeric-types.md#sec-numeric-values)), and creates a value of the same
 type. The right value is used as a “mask”, where each bit set to `0` in
 the mask indicates a “don’t care” bit. More formally, the set denoted by
 `a &&& b` is defined as follows:
@@ -65,7 +68,7 @@ example above.
 
 Similar to other binary operations, the mask operator allows the
 compiler to automatically insert casts to unify the argument types in
-certain situations (section \[\#sec-implicit-casts\]).
+certain situations (section [Implicit casts](08-11-casts.md#sec-implicit-casts)).
 
 P4 architectures may impose additional restrictions on the expressions
 on the left and right-hand side of a mask operator: for example, they
@@ -75,7 +78,7 @@ values.
 ### Ranges
 
 The infix operator `..` takes two arguments of the same numeric type `T`
-(Section \[\#sec-numeric-values\]), and creates a value of the type
+(Section [Numeric types](../chapter-07/07-04-numeric-types.md#sec-numeric-values)), and creates a value of the type
 `set<T>`. The set contains all values numerically between the first and
 the second, inclusively. For example:
 
@@ -86,7 +89,7 @@ denotes a set of 4 consecutive `int<4>` values `4s5, 4s6, 4s7`, and
 
 Similar to other binary operations, the range operator allows the
 compiler to automatically insert casts to unify the argument types in
-certain situations (section \[\#sec-implicit-casts\]).
+certain situations (section [Implicit casts](08-11-casts.md#sec-implicit-casts)).
 
 A range where the second value is smaller than the first one represents
 an empty set.

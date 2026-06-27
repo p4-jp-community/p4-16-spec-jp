@@ -62,7 +62,7 @@ support the common case, since most tables are used just once. To have
 finer-grained control over when a `table` is instantiated, a programmer
 can declare it within a `control`.
 
-Recall the example in Section \[\#sec-vss-all\]: `TopParser`, `TopPipe`,
+Recall the example in Section [A complete Very Simple Switch program](../chapter-05/05-03-a-complete-very-simple-switch-program.md#sec-vss-all): `TopParser`, `TopPipe`,
 `TopDeparser`, `Checksum16`, and `Switch` are types. There are two
 instances of `Checksum16`, one in `TopParser` and one in `TopDeparser`,
 both called `ck`. The `TopParser`, `TopDeparser`, `TopPipe`, and

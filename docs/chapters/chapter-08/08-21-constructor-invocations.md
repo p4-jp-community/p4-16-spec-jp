@@ -1,3 +1,4 @@
+<a id="sec-constructor"></a>
 Several P4 constructs denote resources that are allocated at compilation
 time:
 
@@ -10,12 +11,12 @@ Allocation of such objects can be performed in two ways:
 
   - Using constructor invocations, which are expressions that return an
     object of the corresponding type.
-  - Using instantiations, described in Section \[\#sec-instantiations\].
+  - Using instantiations, described in Section [Instantiations](../chapter-11/11-03-instantiations.md#sec-instantiations).
 
 The syntax for a constructor invocation is similar to a function call;
 constructors can also be called using named arguments. Constructors are
 evaluated entirely at compilation time (see Section
-\[\#sec-p4-abstract-mach\]). In consequence, all constructor arguments
+[P4 abstract machine: Evaluation](../chapter-18/index.md#sec-p4-abstract-mach)). In consequence, all constructor arguments
 must also be expressions that can be evaluated at compilation time. When
 performing type inference and overload resolution, constructor
 invocations are treated similar to methods or functions.

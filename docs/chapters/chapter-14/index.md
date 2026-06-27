@@ -1,3 +1,4 @@
+<a id="sec-control"></a>
 # 14. Control blocks
 
 
@@ -25,7 +26,7 @@ variables, `action`s, `table`s, and other instantiations:
 It is illegal to instantiate a `parser` within a `control` block. For a
 description of the `optConstructorParameters`, which can be used to
 build parameterized control blocks, see Section
-\[\#sec-parameterization\].
+[Parameterization](../chapter-15/index.md#sec-parameterization).
 
 Unlike control type declarations, control declarations may not be
 generic—e.g., the following declaration is illegal:

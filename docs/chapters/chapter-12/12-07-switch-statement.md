@@ -1,3 +1,4 @@
+<a id="sec-switch-stmt"></a>
   - The `switch` statement can only be used within `control` blocks.  
     Begin P4Grammar \[INCLUDE=grammar.mdk:switchStatement\]
 
@@ -11,7 +12,7 @@
     End P4Grammar
 
 The `nonBraceExpression` is the same as `expression` as defined in
-Section \[\#sec-exprs\], except it does not include any cases that can
+Section [Expressions](../chapter-08/index.md#sec-exprs), except it does not include any cases that can
 begin with a left brace `{` character, to avoid syntactic ambiguity with
 a block statement.
 
@@ -22,7 +23,7 @@ separately in the following two subsections.
 
 For this variant of `switch` statement, the expression must be of the
 form `t.apply().action_run`, where `t` is the name of a table (see
-Section \[\#sec-invoke-mau\]). All switch labels must be names of
+Section [Match-action unit invocation](../chapter-14/14-02-tables.md#sec-invoke-mau)). All switch labels must be names of
 actions of the table `t`, or `default`.
 
 \~ Begin P4Example switch (t.apply().action\_run) { action1: //
@@ -48,7 +49,7 @@ a result with one of these types:
 
 All switch labels must be expressions with compile-time known values,
 and must have a type that can be implicitly cast to the type of the
-`switch` expression (see Section \[\#sec-implicit-casts\]). Switch
+`switch` expression (see Section [Implicit casts](../chapter-08/08-11-casts.md#sec-implicit-casts)). Switch
 labels must not begin with a left brace character `{`, to avoid
 ambiguity with a block statement.
 

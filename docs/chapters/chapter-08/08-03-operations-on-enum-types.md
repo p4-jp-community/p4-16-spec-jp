@@ -1,3 +1,4 @@
+<a id="sec-enum-exprs"></a>
   - Symbolic names declared by an enum belong to the namespace
     introduced by the enum declaration rather than the top-level
     namespace.  
@@ -39,7 +40,7 @@ which corresponds to the fixed-width unsigned integer value `1`.
 Because it is always safe to cast from an `enum` to its underlying
 fixed-width integer type, implicit casting from an `enum` to its
 fixed-width (signed or unsigned) integer type is also supported (see
-Section \[\#sec-implicit-casts\]):
+Section [Implicit casts](08-11-casts.md#sec-implicit-casts)):
 
 \~ Begin P4Example bit\<8\> x = E.e2; // sets x to 1 (E.e2 is
 automatically casted to bit\<8\>)
@@ -149,4 +150,4 @@ type as the serialization data type and representation.
 
 Additionally, the size of a serializable enum can be determined at
 compile-time. However, the size of an enum without an underlying type
-cannot be determined at compile-time (Section \[\#sec-minsizeinbits\]).
+cannot be determined at compile-time (Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).

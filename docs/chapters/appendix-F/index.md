@@ -1,3 +1,4 @@
+<a id="sec-calling-restrictions"></a>
 # Appendix F Restrictions on compile time and run time calls
 
 
@@ -50,7 +51,7 @@ table | no | no | no | no | | value-set | no | no | no | no | | value
 types | yes | yes | yes | yes | |————-|———|——–|———|——–|
 
 The next table lists restrictions on where one may perform
-instantiations (see Section \[\#sec-instantiations\]) of different
+instantiations (see Section [Instantiations](../chapter-11/11-03-instantiations.md#sec-instantiations)) of different
 types. The answer for `package` is always “no” because there is no
 “inside a package” where instantiations can be written in
 P4<sub>16</sub>. One can definitely make constructor calls and use
@@ -62,7 +63,7 @@ not their implementation. Thus there is no place to instantiate objects
 within an extern.
 
 You may declare variables and constants of any of the value types within
-a parser, control, or function (see Section \[\#sec-variables\] for more
+a parser, control, or function (see Section [Variables](../chapter-11/11-02-variables.md#sec-variables) for more
 details). Declaring a variable or constant is not the same as
 instantiation, hence the answer “N/A” (for not applicable) in those
 table entries. Variables may not be declared at the top level of your
@@ -124,7 +125,7 @@ There may not be any recursion in calls, neither by a thing calling
 itself directly, nor mutual recursion.
 
 An extern can never cause any other type of P4 program object to be
-called. See Section \[\#sec-calling-convention-justification\].
+called. See Section [Justification](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention-justification).
 
 Actions may be called directly from a control `apply` block.
 

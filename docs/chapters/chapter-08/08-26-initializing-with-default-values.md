@@ -1,6 +1,7 @@
+<a id="sec-initializing-with-default-values"></a>
 A left-value can be initialized automatically with a default value of
 the suitable type using the syntax `...` (see Section
-\[\#sec-default-values\]). A value of type `struct`, `header`, or
+[Default values](../chapter-07/07-03-default-values.md#sec-default-values)). A value of type `struct`, `header`, or
 `tuple` can also be initialized using a mix of explicit values and
 default values by using the notation `...` in a tuple expression
 initializer; in this case all fields not explicitly initialized are

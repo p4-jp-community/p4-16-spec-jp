@@ -1,3 +1,4 @@
+<a id="sec-vss-arch"></a>
 The following P4 program provides a declaration of VSS in P4, as it
 would be provided by the VSS manufacturer. The declaration contains
 several type declarations, constants, and finally declarations for the
@@ -44,7 +45,7 @@ checksum bit\<16\> get(); // get the checksum for the data added since
 last clear } \~ End P4Example Let us describe some of these elements:
 
   - The included file `core.p4` is described in more detail in Appendix
-    \[\#sec-p4-core-lib\]. It defines some standard data-types and error
+    [P4 core library](../appendix-D/index.md#sec-p4-core-lib). It defines some standard data-types and error
     codes.
 
   - `bit<4>` is the type of bit-strings with 4 bits.

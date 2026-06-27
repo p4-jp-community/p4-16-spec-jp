@@ -1,3 +1,4 @@
+<a id="sec-error-exprs"></a>
 Symbolic names declared by an `error` declaration belong to the `error`
 namespace. The `error` type only supports equality (`==`) and inequality
 (`!=`) comparisons. The result of such a comparison is a Boolean value.

@@ -1,3 +1,4 @@
+<a id="sec-default-values"></a>
 Some P4 types define a “default value,” which can be used to
 automatically initialize values of that type. The default values are as
 follows:

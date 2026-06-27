@@ -8,12 +8,12 @@ which we describe separately:
     declarations, statements, expressions, etc. We start by describing
     this part of the language.
   - A sub-language for expressing parsers, based on state machines
-    (Section \[\#sec-packet-parsing\]).
+    (Section [Packet parsing](../chapter-13/index.md#sec-packet-parsing)).
   - A sub-language for expressing computations using match-action units,
     based on traditional imperative control-flow (Section
-    \[\#sec-control\]).
+    [Control blocks](../chapter-14/index.md#sec-control)).
   - A sub-language for describing architectures (Section
-    \[\#sec-arch-desc\]).
+    [Architecture description](../chapter-17/index.md#sec-arch-desc)).
 
 --8<-- "chapters/chapter-06/06-01-syntax-and-semantics.md"
 --8<-- "chapters/chapter-06/06-02-preprocessing.md"

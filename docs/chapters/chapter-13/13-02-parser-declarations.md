@@ -1,3 +1,4 @@
+<a id="sec-parser-decl"></a>
 A parser declaration comprises a name, a list of parameters, an optional
 list of constructor parameters, local elements, and parser states (as
 well as optional annotations).
@@ -12,7 +13,7 @@ well as optional annotations).
     End P4Grammar
 
 For a description of `optConstructorParameters`, which are useful for
-building parameterized parsers, see Section \[\#sec-parameterization\].
+building parameterized parsers, see Section [Parameterization](../chapter-15/index.md#sec-parameterization).
 
 Unlike parser type declarations, parser declarations may not be
 generic—e.g., the following declaration is illegal:
@@ -47,4 +48,4 @@ start { t = 1; transition t; } state t { // error: name t is duplicated
 transition accept; } } \~ End P4Example
 
 For an example containing a complete declaration of a parser see Section
-\[\#sec-vss-all\].
+[A complete Very Simple Switch program](../chapter-05/05-03-a-complete-very-simple-switch-program.md#sec-vss-all).

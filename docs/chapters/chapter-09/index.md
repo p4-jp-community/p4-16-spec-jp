@@ -1,3 +1,4 @@
+<a id="sec-minsizeinbits"></a>
 # 9. Compile-time size determination
 
 

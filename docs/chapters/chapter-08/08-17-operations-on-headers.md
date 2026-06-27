@@ -1,3 +1,4 @@
+<a id="sec-ops-on-hdrs"></a>
 Headers provide the same operations as `struct`s. Assignment between
 headers also copies the “validity” header bit.
 
@@ -11,9 +12,9 @@ In addition, headers support the following methods:
     It can only be applied to an l-value.
 
 Similar to a `struct`, a header object can be initialized with a tuple
-expression (see Section \[\#sec-tuple-exprs\]) — the tuple fields are
+expression (see Section [Operations on tuple expressions](08-12-operations-on-tuple-expressions.md#sec-tuple-exprs)) — the tuple fields are
 assigned to the header fields in the order they appear — or with a
-structure-valued expression (see Section \[\#sec-ops-on-structs\]). When
+structure-valued expression (see Section [Operations on struct types](08-16-operations-on-struct-types.md#sec-ops-on-structs)). When
 initialized the header automatically becomes valid:
 
 \~ Begin P4Example header H { bit\<32\> x; bit\<32\> y; } H h; h = { 10,
@@ -24,7 +25,7 @@ Two headers can be compared for equality (`==`) or inequality (`!=`)
 only if they have the same type. Two headers are equal if and only if
 they are both invalid, or they are both valid and all their
 corresponding fields are equal. Furthermore, the size of a header can be
-determined at compile-time (Section \[\#sec-minsizeinbits\]).
+determined at compile-time (Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).
 
 The expression `{#}` represents an invalid header of some type, but it
 can be any header or header union type. A P4 compiler may require an
@@ -45,7 +46,7 @@ directive, since it cannot be the first character on a line when it
 occurs in the single lexical token `{#}`, which may not have whitespace
 or any other characters between those shown.
 
-See Section \[\#sec-uninitialized-values-and-writing-invalid-headers\]
+See Section [Reading uninitialized values and writing fields of invalid headers](08-25-reading-uninitialized-values-and-writing-fields-of-invalid-headers.md#sec-uninitialized-values-and-writing-invalid-headers)
 for a description of the behavior if header fields are read without
 being initialized, or header fields are written to a currently invalid
 header.
