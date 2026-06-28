@@ -90,7 +90,11 @@ conditions they are initialized, and if so, what their values will be.
 Since P4 allows empty tuples and structs, one can construct types whose
 values carry no “useful” information, e.g.:
 
-\~Begin P4Example struct Empty { tuple\<\> t; } \~End P4Example
+```p4
+struct Empty {
+   tuple<> t;
+}
+```
 
 We call the following “empty” types:
 

@@ -18,20 +18,40 @@ limited to 64-bit values.
 It is illegal to duplicate a `key` within the `kvList` of a structured
 annotation.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:structuredAnnotationBody\] …
-\[INCLUDE=grammar.mdk:expressionList\] … \[INCLUDE=grammar.mdk:kvList\]
+```bison
+structuredAnnotationBody
+    : expressionList optTrailingComma
+    | kvList optTrailingComma
+    ;
+...
+expressionList
+    : /* empty */
+    | expression
+    | expressionList "," expression
+    ;
+...
+kvList
+    : kvPair
+    | kvList "," kvPair
+    ;
 
-  - \[INCLUDE=grammar.mdk:kvPair\]  
-    End P4Grammar
+kvPair
+    : name "=" expression
+    ;
+```
 
 ### Structured Annotation Examples
 
 **Empty Expression List**
 
-  - The following example produces an empty annotation:  
-    Begin P4Example @Empty \[\] table t { /\* body omitted \*/ }
-    
-    End P4Example
+The following example produces an empty annotation:
+
+```p4
+@Empty[]
+table t {
+/* body omitted */
+}
+```
 
 **Mixed Expression List**
 
@@ -40,16 +60,23 @@ follows:
 
     [1,"hello",true, false, 11]
 
-\~ Begin P4Example \#define TEXT\_CONST “hello” \#define NUM\_CONST 6
-@MixedExprList \[1,TEXT\_CONST,true,1==2,5+NUM\_CONST\] table t { /\*
-body omitted \*/ } \~ End P4Example
+```p4
+#define TEXT_CONST "hello"
+#define NUM_CONST 6
+@MixedExprList[1,TEXT_CONST,true,1==2,5+NUM_CONST]
+table t {
+    /* body omitted */
+}
+```
 
-  - **kvList of Strings**  
-    Begin P4Example @Labels \[short="Short Label", hover="My Longer
-    Table Label to appear in hover-help"\] table t { /\* body omitted
-    \*/ }
-    
-    End P4Example
+**kvList of Strings**
+
+```p4
+@Labels[short="Short Label", hover="My Longer Table Label to appear in hover-help"]
+table t {
+/* body omitted */
+}
+```
 
 **kvList of Mixed Expressions**
 
@@ -57,33 +84,48 @@ The following example will produce an effective kvList as follows.
 
     [label="text", my_bool=true, int_val=6]
 
-\~ Begin P4Example @MixedKV\[label=“text”, my\_bool=true,
-int\_val=2\*3\] table t { /\* body omitted \*/ } \~ End P4Example
+```p4
+@MixedKV[label="text", my_bool=true, int_val=2*3]
+table t {
+    /* body omitted */
+}
+```
 
 **Illegal Mixing of `kvPair` and `expressionList`**
 
 The following example is invalid because the body contains both a
 `kvPair` and an `expression`:
 
-\~ Begin P4Example @IllegalMixing \[key=4, 5\] // illegal mixing table t
-{ /\* body omitted \*/ } \~ End P4Example
+```p4
+@IllegalMixing[key=4, 5] // illegal mixing
+table t {
+    /* body omitted */
+}
+```
 
 **Illegal Duplicate Key**
 
-  - The following example is invalid because the same key occurs more
-    than once:  
-    Begin P4Example @DupKey \[k1=4,k1=5\] // illegal duplicate key table
-    t { /\* body omitted \*/ }
-    
-    End P4Example
+The following example is invalid because the same key occurs more than once:
+
+```p4
+@DupKey[k1=4,k1=5] // illegal duplicate key
+table t {
+/* body omitted */
+}
+```
 
 **Illegal Duplicate Structured Annotation**
 
 The following example is invalid because the annotation `name` occurs
 more than once on the same element, e.g. `table t`:
 
-\~ Begin P4Example @DupAnno \[k1=4\] @DupAnno \[k2=5\] // illegal
-duplicate name table t { /\* body omitted \*/ } \~ End P4Example
+```p4
+@DupAnno[k1=4]
+@DupAnno[k2=5] // illegal duplicate name
+table t {
+    /* body omitted */
+}
+```
 
 **Illegal Simultaneous Use of Both Structured and Unstructured
 Annotation**
@@ -92,6 +134,10 @@ The following example is invalid because the annotation `name` is used
 by both an unstructured and structured annotation on the same element
 `table t`:
 
-\~ Begin P4Example @MixAnno(“Anything”) @MixAnno \[k2=5\] // illegal use
-in both annotation types table t { /\* body omitted \*/ } \~ End
-P4Example
+```p4
+@MixAnno("Anything")
+@MixAnno[k2=5] // illegal use in both annotation types
+table t {
+    /* body omitted */
+}
+```

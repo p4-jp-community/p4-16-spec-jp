@@ -15,12 +15,15 @@ Additionally, the size of a boolean can be determined at compile-time
 P4 does not implicitly cast from bit-strings to Booleans or vice versa.
 As a consequence, a program that is valid in a language like C such as,
 
-\~ Begin P4Example if (x) /\* body omitted \*/ \~ End P4Example
+```p4
+if (x) /* body omitted */
+```
 
-  - (where x has an integer type) must instead be written in P4 as:  
-    Begin P4Example if (x \!= 0) /\* body omitted \*/
-    
-    End P4Example
+(where x has an integer type) must instead be written in P4 as:
+
+```p4
+if (x != 0) /* body omitted */
+```
 
 See the discussion on arbitrary-precision types and implicit casts in
 Section [Implicit casts](08-11-casts.md#sec-implicit-casts) for details on how the `0` in this

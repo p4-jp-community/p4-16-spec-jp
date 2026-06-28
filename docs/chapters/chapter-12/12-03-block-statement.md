@@ -3,9 +3,19 @@ statements and declarations, which are executed sequentially. The
 declarations (e.g., variables and constants) within a block statement
 are only visible within the block.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:blockStatement\]
+```bison
+blockStatement
+    : optAnnotations "{" statOrDeclList "}"
+    ;
 
-\[INCLUDE=grammar.mdk:statOrDeclList\]
+statOrDeclList
+    : /* empty */
+    | statOrDeclList statementOrDeclaration
+    ;
 
-  - \[INCLUDE=grammar.mdk:statementOrDeclaration\]  
-    End P4Grammar
+statementOrDeclaration
+    : variableDeclaration
+    | constantDeclaration
+    | statement
+    ;
+```

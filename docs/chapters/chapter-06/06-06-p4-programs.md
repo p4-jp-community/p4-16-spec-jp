@@ -1,8 +1,25 @@
-  - A P4 program is a list of declarations:  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:p4program\]
+A P4 program is a list of declarations:
 
-  - \[INCLUDE=grammar.mdk:declaration\]  
-    End P4Grammar
+```bison
+p4program
+: /* empty */
+| p4program declaration
+| p4program ";"  /* empty declaration */
+;
+
+declaration
+: constantDeclaration
+| externDeclaration
+| actionDeclaration
+| parserDeclaration
+| typeDeclaration
+| controlDeclaration
+| instantiation
+| errorDeclaration
+| matchKindDeclaration
+| functionDeclaration
+;
+```
 
 An empty declarations is indicated with a single semicolon. (Allowing
 empty declarations accommodates the habits of C/C++ and Java
@@ -19,13 +36,11 @@ including:
   - Block statements, which introduce local lexically-enclosed scopes,
   - `parser`, `table`, `action`, and `control` blocks, which introduce
     local scopes
-  - Declarations with type variables, which introduce a new scope for
-    those variables. For example, in the following `extern` declaration,
-    the scope of the type variable `H` extends to the end of the
-    declaration:
+Declarations with type variables, which introduce a new scope for those variables. For example, in the following `extern` declaration, the scope of the type variable `H` extends to the end of the declaration:
 
-\~ Begin P4Example extern E<H>(/\* parameters omitted */) { /* body
-omitted \*/ } // scope of H ends here. \~ End P4Example
+```p4
+extern E<H>(/* parameters omitted */) { /* body omitted */ } // scope of H ends here.
+```
 
 The order of declarations is important; with the exception of parser
 states, all uses of a symbol must follow the symbol’s declaration. (This

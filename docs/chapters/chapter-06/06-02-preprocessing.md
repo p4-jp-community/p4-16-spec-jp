@@ -15,8 +15,10 @@ Additional C preprocessor capabilities may be supported, but are not
 guaranteed—e.g., macros with arguments. Similar to C, `#include` can
 specify a file name either within double quotes or within `<>`.
 
-\~ Begin P4Example \# include <system_file> \# include “user\_file” \~
-End P4Example
+```p4
+# include <system_file>
+# include "user_file"
+```
 
 The difference between the two forms is the order in which the
 preprocessor searches for header files when the path is incompletely

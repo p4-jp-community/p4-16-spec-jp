@@ -3,13 +3,17 @@ subroutines. To invoke the services of another control, it must be first
 instantiated; the services of an instance are invoked by calling it
 using its `apply` method.
 
-  - The following example shows a control invocation:  
-    Begin P4Example control Callee(inout IPv4 ipv4) { /\* body omitted
-    \*/ } control Caller(inout Headers h) { Callee() instance; //
-    instance of callee apply { instance.apply(h.ipv4); // invoke control
-    } }
-    
-    End P4Example
+The following example shows a control invocation:
+
+```p4
+control Callee(inout IPv4 ipv4) { /* body omitted */ }
+control Caller(inout Headers h) {
+ Callee() instance;  // instance of callee
+ apply {
+      instance.apply(h.ipv4);  // invoke control
+ }
+}
+```
 
 As with parsers, when a control is instantiated, local instantiations of
 stateful objects are evaluated recursively. That is, each instantiation

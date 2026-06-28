@@ -7,17 +7,27 @@ when we provide excerpts from the grammar:
 
   - `UPPERCASE` symbols denote terminals in the grammar.
 
-  -   - Excerpts from the grammar are given in BNF notation as
-        follows:  
-        Begin P4Grammar \[INCLUDE=grammar.mdk:p4program\]
-        End P4Grammar
+Excerpts from the grammar are given in BNF notation as follows:
+
+```bison
+p4program
+: /* empty */
+| p4program declaration
+| p4program ";"  /* empty declaration */
+;
+```
 
 Pseudo-code (mostly used for describing the semantics of various P4
 constructs) are shown with fixed-size fonts as in the following example:
 
-\~ Begin P4Pseudo ParserModel.verify(bool condition, error err) { if
-(condition == false) { ParserModel.parserError = err; goto reject; } }
-\~ End P4Pseudo
+```text
+ParserModel.verify(bool condition, error err) {
+    if (condition == false) {
+        ParserModel.parserError = err;
+        goto reject;
+    }
+}
+```
 
 ### Semantics and the P4 abstract machines
 

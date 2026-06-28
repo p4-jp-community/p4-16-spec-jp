@@ -14,17 +14,23 @@ by which the control plane can dynamically influence the behavior of the
 data plane. Figure \[\#fig-actions\] shows the abstract model of an
 `action`.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:actionDeclaration\] \~ End
-P4Grammar
+```bison
+actionDeclaration
+    : optAnnotations ACTION name "(" parameterList ")" blockStatement
+    ;
+```
 
 Syntactically actions resemble functions with no return value. Actions
 may be declared within a control block; in this case they can only be
 used within instances of that control block.
 
-  - The following example shows an action declaration:  
-    Begin P4Example action Forward\_a(out bit\<9\> outputPort, bit\<9\>
-    port) { outputPort = port; }
-    End P4Example
+The following example shows an action declaration:
+
+```p4
+action Forward_a(out bit<9> outputPort, bit<9> port) {
+outputPort = port;
+}
+```
 
 Action parameters may not have `extern` types. Action parameters that
 have no direction (e.g., `port` in the previous example) indicate

@@ -9,8 +9,11 @@ the enclosing `action` or `control`, and all of its callers, are still
 performed after the execution of the `exit` statement. See Section
 [Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention) for details on copy-out behavior.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:exitStatement\] \~ End
-P4Grammar
+```bison
+exitStatement
+    : EXIT ";"
+    ;
+```
 
 There are some expressions whose evaluation might cause an `exit`
 statement to be executed. Examples include:

@@ -31,11 +31,14 @@ for the following reasons:
 
 <!-- end list -->
 
-  - Consider the following examples:  
-    Begin P4Example bit\<8\> x; bit\<16\> y; bit\<16\> z = y \<\< x;
-    bit\<16\> w = y \<\< 1024;
-    
-    End P4Example
+Consider the following examples:
+
+```p4
+bit<8> x;
+bit<16> y;
+bit<16> z = y << x;
+bit<16> w = y << 1024;
+```
 
 As mentioned above, P4 gives a precise meaning shifting with an amount
 larger than the size of the shifted value, unlike C.

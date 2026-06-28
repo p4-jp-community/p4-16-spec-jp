@@ -1,15 +1,72 @@
 <a id="sec-switch-stmt"></a>
-  - The `switch` statement can only be used within `control` blocks.  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:switchStatement\]
+The `switch` statement can only be used within `control` blocks.
 
-\[INCLUDE=grammar.mdk:switchCases\]
+```bison
+switchStatement
+: SWITCH "(" expression ")" "{" switchCases "}"
+;
 
-\[INCLUDE=grammar.mdk:switchCase\]
+switchCases
+: /* empty */
+| switchCases switchCase
+;
 
-\[INCLUDE=grammar.mdk:switchLabel\]
+switchCase
+: switchLabel ":" blockStatement
+| switchLabel ":"  // fall-through
+;
 
-  - \[INCLUDE=grammar.mdk:nonBraceExpression\]  
-    End P4Grammar
+switchLabel
+: DEFAULT
+| nonBraceExpression
+;
+
+nonBraceExpression
+: INTEGER
+| STRING_LITERAL
+| TRUE
+| FALSE
+| THIS
+| prefixedNonTypeName
+| nonBraceExpression "[" expression "]"
+| nonBraceExpression "[" expression ":" expression "]"
+| nonBraceExpression "[" expression "+" ":" expression "]"
+| "(" expression ")"
+| "!" expression %prec PREFIX
+| "~" expression %prec PREFIX
+| "-" expression %prec PREFIX
+| "+" expression %prec PREFIX
+| typeName "." member
+| ERROR "." member
+| nonBraceExpression "." member
+| nonBraceExpression "*" expression
+| nonBraceExpression "/" expression
+| nonBraceExpression "%" expression
+| nonBraceExpression "+" expression
+| nonBraceExpression "-" expression
+| nonBraceExpression "|+|" expression
+| nonBraceExpression "|-|" expression
+| nonBraceExpression "<<" expression
+| nonBraceExpression ">>" expression
+| nonBraceExpression "<=" expression
+| nonBraceExpression ">=" expression
+| nonBraceExpression "<" expression
+| nonBraceExpression ">" expression
+| nonBraceExpression "!=" expression
+| nonBraceExpression "==" expression
+| nonBraceExpression "&" expression
+| nonBraceExpression "^" expression
+| nonBraceExpression "|" expression
+| nonBraceExpression "++" expression
+| nonBraceExpression "&&" expression
+| nonBraceExpression "||" expression
+| nonBraceExpression "?" expression ":" expression
+| nonBraceExpression "<" realTypeArgumentList ">" "(" argumentList ")"
+| nonBraceExpression "(" argumentList ")"
+| namedType "(" argumentList ")"
+| "(" typeRef ")" expression
+;
+```
 
 The `nonBraceExpression` is the same as `expression` as defined in
 Section [Expressions](../chapter-08/index.md#sec-exprs), except it does not include any cases that can
@@ -26,10 +83,14 @@ form `t.apply().action_run`, where `t` is the name of a table (see
 Section [Match-action unit invocation](../chapter-14/14-02-tables.md#sec-invoke-mau)). All switch labels must be names of
 actions of the table `t`, or `default`.
 
-\~ Begin P4Example switch (t.apply().action\_run) { action1: //
-fall-through to action2: action2: { /\* body omitted */ } action3: { /*
-body omitted */ } // no fall-through from action2 to action3 labels
-default: { /* body omitted \*/ } } \~ End P4Example
+```p4
+switch (t.apply().action_run) {
+   action1:          // fall-through to action2:
+   action2: { /* body omitted */ }
+   action3: { /* body omitted */ }  // no fall-through from action2 to action3 labels
+   default: { /* body omitted */ }
+}
+```
 
 Note that the `default` label of the `switch` statement is used to match
 on the kind of action executed, no matter whether there was a table hit
@@ -53,11 +114,16 @@ and must have a type that can be implicitly cast to the type of the
 labels must not begin with a left brace character `{`, to avoid
 ambiguity with a block statement.
 
-\~ Begin P4Example // Assume the expression hdr.ethernet.etherType has
-type bit\<16\> switch (hdr.ethernet.etherType) { 0x86dd: { /\* body
-omitted */ } 0x0800: // fall-through to the next body 0x0802: { /* body
-omitted */ } 0xcafe: { /* body omitted */ } default: { /* body omitted
-\*/ } } \~ End P4Example
+```p4
+// Assume the expression hdr.ethernet.etherType has type bit<16>.
+switch (hdr.ethernet.etherType) {
+   0x86dd: { /* body omitted */ }
+   0x0800:          // fall-through to the next body
+   0x0802: { /* body omitted */ }
+   0xcafe: { /* body omitted */ }
+   default: { /* body omitted */ }
+}
+```
 
 ### Notes common to all switch statements
 

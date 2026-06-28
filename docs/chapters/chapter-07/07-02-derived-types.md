@@ -36,35 +36,77 @@ function types. For example, the programmer cannot declare a variable
 with type “set”, but she can write an expression whose value evaluates
 to a `set` type. These types are used during type-checking.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:typeDeclaration\]
+```bison
+typeDeclaration
+    : derivedTypeDeclaration
+    | typedefDeclaration ";"
+    | parserTypeDeclaration ";"
+    | controlTypeDeclaration ";"
+    | packageTypeDeclaration ";"
+    ;
 
-\[INCLUDE=grammar.mdk:derivedTypeDeclaration\]
+derivedTypeDeclaration
+    : headerTypeDeclaration
+    | headerUnionDeclaration
+    | structTypeDeclaration
+    | enumDeclaration
+    ;
 
-\[INCLUDE=grammar.mdk:typeRef\]
+typeRef
+    : baseType
+    | typeName
+    | specializedType
+    | arrayType
+    | p4listType
+    | tupleType
+    ;
 
-\[INCLUDE=grammar.mdk:namedType\]
+namedType
+    : typeName
+    | specializedType
+    ;
 
-\[INCLUDE=grammar.mdk:prefixedType\]
+prefixedType
+    : TYPE_IDENTIFIER
+    | dotPrefix TYPE_IDENTIFIER
+    ;
 
-  - \[INCLUDE=grammar.mdk:typeName\]  
-    End P4Grammar
+typeName
+    : prefixedType
+    ;
+```
 
 ### Enumeration types
 
-  - An enumeration type is defined using the following syntax:  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:enumDeclaration\]
+An enumeration type is defined using the following syntax:
 
-\[INCLUDE=grammar.mdk:identifierList\]
+```bison
+enumDeclaration
+: optAnnotations ENUM name "{" identifierList optTrailingComma "}"
+| optAnnotations ENUM typeRef name "{"
+  specifiedIdentifierList optTrailingComma "}"
+;
 
-\[INCLUDE=grammar.mdk:specifiedIdentifierList\]
+identifierList
+: name
+| identifierList "," name
+;
 
-  - \[INCLUDE=grammar.mdk:specifiedIdentifier\]  
-    End P4Grammar
+specifiedIdentifierList
+: specifiedIdentifier
+| specifiedIdentifierList "," specifiedIdentifier
+;
 
-  - For example, the declaration  
-    Begin P4Example enum Suits { Clubs, Diamonds, Hearths, Spades }
-    
-    End P4Example
+specifiedIdentifier
+: name "=" initializer
+;
+```
+
+For example, the declaration
+
+```p4
+enum Suits { Clubs, Diamonds, Hearths, Spades }
+```
 
 introduces a new enumeration type, which contains four elements—e.g.,
 `Suits.Clubs`. An `enum` declaration introduces a new identifier in the
@@ -85,12 +127,17 @@ the following types:
     value `W`.
   - a signed integer, i.e. `int<W>` for some local compile-time known
     value `W`.
-  - a type name declared via `typedef`, where the base type of that type
-    is either one of the types listed above, or another `typedef` name
-    that meets these conditions. For example, the declaration
+a type name declared via `typedef`, where the base type of that type is either one of the types listed above, or another `typedef` name that meets these conditions. For example, the declaration
 
-\~ Begin P4Example enum bit\<16\> EtherType { VLAN = 0x8100, QINQ =
-0x9100, MPLS = 0x8847, IPV4 = 0x0800, IPV6 = 0x86dd } \~ End P4Example
+```p4
+enum bit<16> EtherType {
+  VLAN      = 0x8100,
+  QINQ      = 0x9100,
+  MPLS      = 0x8847,
+  IPV4      = 0x0800,
+  IPV6      = 0x86dd
+}
+```
 
 introduces a new enumeration type, which contains five elements—e.g.,
 `EtherType.IPV4`. This `enum` declaration specifies the fixed-width
@@ -108,11 +155,16 @@ Compiler implementations are expected to raise an error if the
 fixed-width integer representation for an enumeration entry falls
 outside the representation range of the underlying type.
 
-  - For example, the declaration  
-    Begin P4Example enum bit\<8\> FailingExample { first = 1, second =
-    2, third = 3, unrepresentable = 300 }
-    
-    End P4Example
+For example, the declaration
+
+```p4
+enum bit<8> FailingExample {
+first           = 1,
+second          = 2,
+third           = 3,
+unrepresentable = 300
+}
+```
 
 would raise an error because `300`, the value associated with
 `FailingExample.unrepresentable` cannot be represented as a `bit<8>`
@@ -130,12 +182,20 @@ Operations on `enum` values are described in Section
 
 The declaration of a `header` type is given by the following syntax:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:headerTypeDeclaration\]
+```bison
+headerTypeDeclaration
+    : optAnnotations HEADER name optTypeParameters "{" structFieldList "}"
+    ;
 
-\[INCLUDE=grammar.mdk:structFieldList\]
+structFieldList
+    : /* empty */
+    | structFieldList structField
+    ;
 
-  - \[INCLUDE=grammar.mdk:structField\]  
-    End P4Grammar
+structField
+    : optAnnotations typeRef name ";"
+    ;
+```
 
 where each `typeRef` is restricted to a bit-string type (fixed or
 variable), a fixed-width signed integer type, a boolean type, or a
@@ -165,10 +225,11 @@ valid. A program executes `h2.setInvalid()` followed by
 `h2`? Similarly, should `h1.setInvalid()` invalidate all headers
 contained within `h1`, regardless of how deeply they are nested?
 
-  - Header types may be empty:  
-    Begin P4Example header Empty\_h { }
-    
-    End P4Example
+Header types may be empty:
+
+```p4
+header Empty_h { }
+```
 
 Note that an empty header still contains a validity bit.
 
@@ -177,12 +238,25 @@ purposes of `extract` and `emit` calls is the order of the fields as
 defined in the source code. An example of a header including a struct is
 included below.
 
-\~ Begin P4Example struct ipv6\_addr { bit\<32\> Addr0; bit\<32\> Addr1;
-bit\<32\> Addr2; bit\<32\> Addr3; }
+```p4
+struct ipv6_addr {
+    bit<32> Addr0;
+    bit<32> Addr1;
+    bit<32> Addr2;
+    bit<32> Addr3;
+}
 
-header ipv6\_t { bit\<4\> version; bit\<8\> trafficClass; bit\<20\>
-flowLabel; bit\<16\> payloadLen; bit\<8\> nextHdr; bit\<8\> hopLimit;
-ipv6\_addr src; ipv6\_addr dst; } \~ End P4Example
+header ipv6_t {
+    bit<4>    version;
+    bit<8>    trafficClass;
+    bit<20>   flowLabel;
+    bit<16>   payloadLen;
+    bit<8>    nextHdr;
+    bit<8>    hopLimit;
+    ipv6_addr src;
+    ipv6_addr dst;
+}
+```
 
 Headers that do not contain any `varbit` field are “fixed size.” Headers
 containing `varbit` fields have “variable size.” The size (in bits) of a
@@ -195,14 +269,19 @@ bytes.
 For example, the following declaration describes a typical Ethernet
 header:
 
-\~ Begin P4Example header Ethernet\_h { bit\<48\> dstAddr; bit\<48\>
-srcAddr; bit\<16\> etherType; } \~ End P4Example
+```p4
+header Ethernet_h {
+   bit<48> dstAddr;
+   bit<48> srcAddr;
+   bit<16> etherType;
+}
+```
 
-  - The following variable declaration uses the newly introduced type
-    `Ethernet_h`:  
-    Begin P4Example Ethernet\_h ethernetHeader;
-    
-    End P4Example
+The following variable declaration uses the newly introduced type `Ethernet_h`:
+
+```p4
+Ethernet_h ethernetHeader;
+```
 
 P4’s parser language provides an `extract` method that can be used to
 “fill in” the fields of a header from a network packet, as described
@@ -210,14 +289,25 @@ in Section [Data extraction](../chapter-13/13-08-data-extraction.md#sec-packet-d
 an `extract` operation also sets the validity bit of the extracted
 header to `true`.
 
-  - Here is an example of an IPv4 header with variable-sized options:  
-    Begin P4Example header IPv4\_h { bit\<4\> version; bit\<4\> ihl;
-    bit\<8\> diffserv; bit\<16\> totalLen; bit\<16\> identification;
-    bit\<3\> flags; bit\<13\> fragOffset; bit\<8\> ttl; bit\<8\>
-    protocol; bit\<16\> hdrChecksum; bit\<32\> srcAddr; bit\<32\>
-    dstAddr; varbit\<320\> options; }
-    
-    End P4Example
+Here is an example of an IPv4 header with variable-sized options:
+
+```p4
+header IPv4_h {
+bit<4>       version;
+bit<4>       ihl;
+bit<8>       diffserv;
+bit<16>      totalLen;
+bit<16>      identification;
+bit<3>       flags;
+bit<13>      fragOffset;
+bit<8>       ttl;
+bit<8>       protocol;
+bit<16>      hdrChecksum;
+bit<32>      srcAddr;
+bit<32>      dstAddr;
+varbit<320>  options;
+}
+```
 
 As demonstrated by a code example in Section
 [Variable-width extraction](../chapter-13/13-08-data-extraction.md#sec-packet-extract-two), another way to support headers that
@@ -233,8 +323,11 @@ all valid header field names.
 A header stack represents an array of headers or header unions. A header
 stack type is defined as:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:headerStackType\] \~ End
-P4Grammar
+```bison
+arrayType
+    : typeRef "[" expression "]"
+    ;
+```
 
 where `typeName` is the name of a header or header union type. For a
 header stack `hs[n]`, the term `n` is the maximum defined size, and must
@@ -243,11 +336,17 @@ header stacks are not supported. At runtime a stack contains `n` values
 with type `typeName`, only some of which may be valid. Expressions on
 header stacks are discussed in Section [Operations on header stacks](../chapter-08/08-18-operations-on-header-stacks.md#sec-expr-hs).
 
-  - For example, the following declarations,  
-    Begin P4Example header Mpls\_h { bit\<20\> label; bit\<3\> tc; bit
-    bos; bit\<8\> ttl; } Mpls\_h\[10\] mpls;
-    
-    End P4Example
+For example, the following declarations,
+
+```p4
+header Mpls_h {
+bit<20> label;
+bit<3>  tc;
+bit     bos;
+bit<8>  ttl;
+}
+Mpls_h[10] mpls;
+```
 
 introduce a header stack called `mpls` containing ten entries, each of
 type `Mpls_h`.
@@ -262,10 +361,13 @@ several different headers. Header unions can be used to represent
 compilers that only one alternative will be present, allowing them to
 conserve storage resources.
 
-  - A header union is defined as:  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:headerUnionDeclaration\]
-    
-    End P4Grammar
+A header union is defined as:
+
+```bison
+headerUnionDeclaration
+: optAnnotations HEADER_UNION name optTypeParameters "{" structFieldList "}"
+;
+```
 
 This declaration introduces a new type with the specified name in the
 current scope. Each element of the list of fields used to declare a
@@ -275,8 +377,12 @@ Field names have to be distinct.
 As an example, the type `Ip_h` below represents the union of an IPv4 and
 IPv6 headers:
 
-\~ Begin P4Example header\_union IP\_h { IPv4\_h v4; IPv6\_h v6; } \~
-End P4Example
+```p4
+header_union IP_h {
+  IPv4_h v4;
+  IPv6_h v6;
+}
+```
 
 A header union is not considered a type with fixed length.
 
@@ -284,29 +390,44 @@ Operation on header unions are described in Section [Operations on header unions
 
 ### Struct types
 
-  - P4 `struct` types are defined with the following syntax:  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:structTypeDeclaration\]
-    
-    End P4Grammar
+P4 `struct` types are defined with the following syntax:
+
+```bison
+structTypeDeclaration
+: optAnnotations STRUCT name optTypeParameters "{" structFieldList "}"
+;
+```
 
 This declaration introduces a new type with the specified name in the
 current scope. Field names have to be distinct. An empty struct (with no
 fields) is legal. For example, the structure `Parsed_headers` below
 contains the headers recognized by a simple parser:
 
-\~ Begin P4Example header Tcp\_h { /\* fields omitted */ } header Udp\_h
-{ /* fields omitted \*/ } struct Parsed\_headers { Ethernet\_h ethernet;
-Ip\_h ip; Tcp\_h tcp; Udp\_h udp; } \~ End P4Example
+```p4
+header Tcp_h { /* fields omitted */ }
+header Udp_h { /* fields omitted */ }
+struct Parsed_headers {
+    Ethernet_h ethernet;
+    Ip_h       ip;
+    Tcp_h      tcp;
+    Udp_h      udp;
+}
+```
 
 ### Tuple types
 
 A tuple is similar to a `struct`, in that it holds multiple values. The
 type of tuples with n component types `T1`,…,`Tn` is written as
 
-\~ Begin P4Example tuple\<T1,/\* more fields omitted \*/,Tn\> \~ End
-P4Example
+```p4
+tuple<T1,/* more fields omitted */,Tn>
+```
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:tupleType\] \~ End P4Grammar
+```bison
+tupleType
+    : TUPLE "<" typeArgumentList ">"
+    ;
+```
 
 Operations that manipulate tuple types are described in Section
 [Operations on tuple expressions](../chapter-08/08-12-operations-on-tuple-expressions.md#sec-tuple-exprs).
@@ -318,9 +439,15 @@ The type `tuple<>` is a tuple type with no components.
 A list holds zero or more values, where every element must have the same
 type. The type of a list where all elements have type `T` is written as
 
-\~ Begin P4Example list<T> \~ End P4Example
+```p4
+list<T>
+```
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:p4listType\] \~ End P4Grammar
+```bison
+p4listType
+    : LIST "<" typeArg ">"
+    ;
+```
 
 Operations that manipulate list types are described in Section
 [Operations on lists](../chapter-08/08-14-operations-on-lists.md#sec-list-exprs).
@@ -408,12 +535,15 @@ extern functions) and methods during type-checking. We also call the
 type of a function its signature. Libraries can contain functions and
 extern function declarations.
 
-  - For example, consider the following declarations:  
-    Begin P4Example extern void random(in bit\<5\> logRange, out
-    bit\<32\> value);
+For example, consider the following declarations:
 
-bit\<32\> add(in bit\<32\> left, in bit\<32\> right) { return left +
-right; } \~ End P4Example
+```p4
+extern void random(in bit<5> logRange, out bit<32> value);
+
+bit<32> add(in bit<32> left, in bit<32> right) {
+return left + right;
+}
+```
 
 These declarations describe two objects:
 
@@ -436,16 +566,23 @@ These declarations describe two objects:
 \[\]{tex-cmd: “”} P4 supports extern object declarations and extern
 function declarations using the following syntax.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:externDeclaration\] \~ End
-P4Grammar
+```bison
+externDeclaration
+    : optAnnotations EXTERN nonTypeName optTypeParameters "{" methodPrototypes "}"
+    | optAnnotations EXTERN functionPrototype ";"
+    ;
+```
 
 #### Extern functions
 
 \[\]{tex-cmd: “”} An extern function declaration describes the name and
 type signature of the function, but not its implementation.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:functionPrototype\] \~ End
-P4Grammar
+```bison
+functionPrototype
+    : typeOrVoid name optTypeParameters "(" parameterList ")"
+    ;
+```
 
 For an example of an `extern` function declaration, see Section
 [Function types](#sec-function-type).
@@ -460,20 +597,38 @@ enclosing `extern` type, no type parameters, and no return type. Extern
 declarations may only appear as allowed by the architecture model and
 may be specific to a target.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:methodPrototypes\]
+```bison
+methodPrototypes
+    : /* empty */
+    | methodPrototypes methodPrototype
+    ;
 
-methodPrototype : optAnnotations functionPrototype ‘;’ | optAnnotations
-TYPE\_IDENTIFIER ‘(’ parameterList ‘)’ ‘;’ //constructor |
-optAnnotations ABSTRACT functionPrototype “;” ;
+methodPrototype
+    : optAnnotations functionPrototype ";"
+    | optAnnotations ABSTRACT functionPrototype ";"
+    | optAnnotations TYPE_IDENTIFIER "(" parameterList ")" ";"
+    ;
 
-\[INCLUDE=grammar.mdk:typeOrVoid\]
+typeOrVoid
+    : typeRef
+    | VOID
+    | IDENTIFIER     // may be a type variable
+    ;
 
-\[INCLUDE=grammar.mdk:optTypeParameters\]
+optTypeParameters
+    : /* empty */
+    | typeParameters
+    ;
 
-\[INCLUDE=grammar.mdk:typeParameters\]
+typeParameters
+    : "<" typeParameterList ">"
+    ;
 
-  - \[INCLUDE=grammar.mdk:typeParameterList\]  
-    End P4Grammar
+typeParameterList
+    : name
+    | typeParameterList "," name
+    ;
+```
 
 For example, the P4 core library introduces two extern objects
 `packet_in` and `packet_out` used for manipulating packets (see Sections
@@ -481,10 +636,16 @@ For example, the P4 core library introduces two extern objects
 example showing how the methods of these objects can be invoked on a
 packet:
 
-\~ Begin P4Example extern packet\_out { void emit<T>(in T hdr); }
-control d(packet\_out b, in Hdr h) { apply { b.emit(h.ipv4); // write
-ipv4 header into output packet } // by calling emit method } \~ End
-P4Example
+```p4
+extern packet_out {
+    void emit<T>(in T hdr);
+}
+control d(packet_out b, in Hdr h) {
+    apply {
+        b.emit(h.ipv4);       // write ipv4 header into output packet
+    }                         // by calling emit method
+}
+```
 
 Functions and methods are the only P4 constructs that support
 overloading: there can exist multiple methods with the same name in the
@@ -494,13 +655,18 @@ either by the number of arguments or by the names of the arguments, when
 calls are specifying argument names. Argument type information is not
 used in disambiguating calls.
 
-  - Notice that overloading of parsers, controls, or packages is not
-    allowed:  
-    Begin P4Example parser p(packet\_in p, out bit\<32\> value) { … }
+Notice that overloading of parsers, controls, or packages is not allowed:
+
+```p4
+parser p(packet_in p, out bit<32> value) {
+...
+}
 
 // The following will cause an error about a duplicate declaration
-//parser p(packet\_in p, out Headers headers) { // … //} \~ End
-P4Example
+//parser p(packet_in p, out Headers headers) {
+//   ...
+//}
+```
 
 ##### Abstract methods
 
@@ -511,10 +677,16 @@ However, some types of extern objects may provide methods that can be
 implemented by the P4 programmers. Such methods are described with the
 `abstract` keyword prior to the method definition. Here is an example:
 
-\~ Begin P4Example extern Balancer { Balancer(); // get the number of
-active flows bit\<32\> getFlowCount(); // return port index used for
-load-balancing // @param address: IPv4 source address of flow abstract
-bit\<4\> on\_new\_flow(in bit\<32\> address); } \~ End P4Example
+```p4
+extern Balancer {
+    Balancer();
+    // get the number of active flows
+    bit<32> getFlowCount();
+    // return port index used for load-balancing
+    // @param address: IPv4 source address of flow
+    abstract bit<4> on_new_flow(in bit<32> address);
+}
+```
 
 When such an object is instantiated the user has to supply an
 implementation of all the `abstract` methods (see
@@ -527,22 +699,30 @@ variables. In cases where the compiler can infer type arguments type
 specialization is not necessary. When a type is specialized all its type
 variables must be bound.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:specializedType\] \~ End
-P4Grammar
+```bison
+specializedType
+    : typeName "<" typeArgumentList ">"
+    ;
+```
 
 For example, the following extern declaration describes a generic block
 of registers, where the type of the elements stored in each register is
 an arbitrary `T`.
 
-\~ Begin P4Example extern Register<T> { Register(bit\<32\> size); T
-read(bit\<32\> index); void write(bit\<32\> index, T value); } \~ End
-P4Example
+```p4
+extern Register<T> {
+    Register(bit<32> size);
+    T read(bit<32> index);
+    void write(bit<32> index, T value);
+}
+```
 
 The type `T` has to be specified when instantiating a set of registers,
 by specializing the Register type:
 
-\~ Begin P4Example Register\<bit\<32\>\>(128) registerBank; \~ End
-P4Example
+```p4
+Register<bit<32>>(128) registerBank;
+```
 
 The instantiation of `registerBank` is made using the `Register` type
 specialized with the `bit<32>` bound to the `T` type argument.
@@ -551,27 +731,42 @@ specialized with the `bit<32>` bound to the `T` type argument.
 as well. In order to use such a generic type it must be specialized with
 appropriate type arguments. For example
 
-\~ Begin P4Example // generic structure type struct S<T> { T field; bool
-valid; }
+```p4
+// generic structure type
+struct S<T> {
+    T field;
+    bool valid;
+}
 
-struct G<T> { S<T> s; }
+struct G<T> {
+    S<T> s;
+}
 
-// specialize S by replacing ‘T’ with ‘bit\<32\>’ const S\<bit\<32\>\> s
-= { field = 32w0, valid = false }; // Specialize G by replacing ‘T’ with
-‘bit\<32\>’ const G\<bit\<32\>\> g = { s = { field = 0, valid = false }
-};
+// specialize S by replacing 'T' with 'bit<32>'
+const S<bit<32>> s = { field = 32w0, valid = false };
+// Specialize G by replacing 'T' with 'bit<32>'
+const G<bit<32>> g = { s = { field = 0, valid = false } };
 
-// generic header type header H<T> { T field; }
+// generic header type
+header H<T> {
+    T field;
+}
 
-// Specialize H by replacing ‘T’ with ‘bit\<8\>’ const H\<bit\<8\>\> h =
-{ field = 1 }; // Header stack produced from a specialization of a
-generic header type H\<bit\<8\>\>\[10\] stack;
+// Specialize H by replacing 'T' with 'bit<8>'
+const H<bit<8>> h = { field = 1 };
+// Header stack produced from a specialization of a generic header type
+H<bit<8>>[10] stack;
 
-// Generic header union header\_union HU<T> { H\<bit\<32\>\> h32;
-H\<bit\<8\>\> h8; H<T> ht; }
+// Generic header union
+header_union HU<T> {
+    H<bit<32>> h32;
+    H<bit<8>>  h8;
+    H<T>       ht;
+}
 
-// Header union with a type obtained by specializing a generic header
-union type HU<bit> hu; \~ End P4Example
+// Header union with a type obtained by specializing a generic header union type
+HU<bit> hu;
+```
 
 ### Parser and control blocks types
 
@@ -591,36 +786,50 @@ A parser type declaration describes the signature of a parser. A parser
 should have at least one argument of type `packet_in`, representing the
 received packet that is processed.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:parserTypeDeclaration\] \~ End
-P4Grammar
+```bison
+parserTypeDeclaration
+    : optAnnotations PARSER name optTypeParameters
+      "(" parameterList ")"
+    ;
+```
 
 For example, the following is a type declaration of a parser type named
 `P` that is parameterized on a type variable `H`. That parser receives
 as input a `packet_in` value `b` and produces two values:
 
   - A value with a user-defined type `H`
-  - A value with a predefined type `Counters`
+A value with a predefined type `Counters`
 
-\~ Begin P4Example struct Counters { /\* Fields omitted \*/ } parser
-P<H>(packet\_in b, out H packetHeaders, out Counters counters); \~ End
-P4Example
+```p4
+struct Counters { /* Fields omitted */ }
+parser P<H>(packet_in b,
+             out H packetHeaders,
+             out Counters counters);
+```
 
 #### Control type declarations
 
-  - A control type declaration describes the signature of a control
-    block.  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:controlTypeDeclaration\]
-    
-    End P4Grammar
+A control type declaration describes the signature of a control block.
+
+```bison
+controlTypeDeclaration
+: optAnnotations CONTROL name optTypeParameters
+  "(" parameterList ")"
+;
+```
 
 Control type declarations are similar to parser type declarations.
 
 ### Package types
 
-  - A package type describes the signature of a package.  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:packageTypeDeclaration\]
-    
-    End P4Grammar
+A package type describes the signature of a package.
+
+```bison
+packageTypeDeclaration
+: optAnnotations PACKAGE name optTypeParameters
+  "(" parameterList ")"
+;
+```
 
 All parameters of a package are evaluated at compilation time, and in
 consequence they must all be directionless (they cannot be `in`, `out`,

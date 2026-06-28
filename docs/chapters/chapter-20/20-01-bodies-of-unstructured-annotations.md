@@ -6,8 +6,13 @@ represents any terminal produced by the lexer, including keywords,
 identifiers, string and integer literals, and symbols, but excluding
 parentheses.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:annotationBody\] \~ End
-P4Grammar
+```bison
+annotationBody
+    : /* empty */
+    | annotationBody "(" annotationBody ")"
+    | annotationBody annotationToken
+    ;
+```
 
 Unstructured annotations may impose additional structure on their
 bodies, and are not confined to the P4 language. For example, the

@@ -2,13 +2,21 @@
 One can write expressions that evaluate to a structure or header. The
 syntax of these expressions is given by:
 
-\~ Begin P4Grammar expression … | ‘{’ kvList ‘}’ | ‘(’ typeRef ‘)’
-expression ;
+```bison
+expression ...
+    | '{' kvList '}'
+    | '(' typeRef ')' expression
+    ;
 
-\[INCLUDE=grammar.mdk:kvList\]
+kvList
+    : kvPair
+    | kvList "," kvPair
+    ;
 
-  - \[INCLUDE=grammar.mdk:kvPair\]  
-    End P4Grammar
+kvPair
+    : name "=" expression
+    ;
+```
 
 For a structure-valued expression `typeRef` is the name of a `struct` or
 `header` type. The `typeRef` can be omitted if it can be inferred from
@@ -19,12 +27,17 @@ type are always valid.
 The following example shows a structure-valued expression used in an
 equality comparison expression:
 
-\~ Begin P4Example struct S { bit\<32\> a; bit\<32\> b; }
+```p4
+struct S {
+    bit<32> a;
+    bit<32> b;
+}
 
 S s;
 
-// Compare s with a structure-valued expression bool b = s == (S) { a =
-1, b = 2 }; \~ End P4Example
+// Compare s with a structure-valued expression
+bool b = s == (S) { a = 1, b = 2 };
+```
 
 Structure-valued expressions can be used in the right-hand side of
 assignments, in comparisons, in field selection expressions, and as

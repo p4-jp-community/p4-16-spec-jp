@@ -1,7 +1,12 @@
 <a id="sec-parser-state-stmt"></a>
-  - A parser state is declared with the following syntax:  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:parserState\]
-    End P4Grammar
+A parser state is declared with the following syntax:
+
+```bison
+parserState
+: optAnnotations STATE name
+  "{" parserStatements transitionStatement "}"
+;
+```
 
 Each state has a name and a body. The body consists of a sequence of
 statements that describe the processing performed when the parser
@@ -21,14 +26,28 @@ transitions to that state, including:
 
 <!-- end list -->
 
-  - The syntax for parser statements is given by the following grammar
-    rules:  
-    Begin P4Grammar \[INCLUDE=grammar.mdk:parserStatements\]
+The syntax for parser statements is given by the following grammar rules:
 
-\[INCLUDE=grammar.mdk:parserStatement\]
+```bison
+parserStatements
+: /* empty */
+| parserStatements parserStatement
+;
 
-  - \[INCLUDE=grammar.mdk:parserBlockStatement\]  
-    End P4Grammar
+parserStatement
+: assignmentOrMethodCallStatement
+| directApplication
+| emptyStatement
+| variableDeclaration
+| constantDeclaration
+| parserBlockStatement
+| conditionalStatement
+;
+
+parserBlockStatement
+: optAnnotations "{" parserStatements "}"
+;
+```
 
 Architectures may place restrictions on the expressions and statements
 that can be used in a parser—e.g., they may forbid the use of operations

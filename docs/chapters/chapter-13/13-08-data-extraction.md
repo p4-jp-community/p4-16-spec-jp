@@ -8,11 +8,15 @@ packets. The `packet_in` extern is special: it cannot be instantiated by
 the user explicitly. Instead, the architecture supplies a separate
 instance for each `packet_in` argument to a `parser` instantiation.
 
-\~ Begin P4Example extern packet\_in { void extract<T>(out T
-headerLvalue); void extract<T>(out T variableSizeHeader, in bit\<32\>
-varFieldSizeBits); T lookahead<T>(); bit\<32\> length(); // This method
-may be unavailable in some architectures void advance(bit\<32\> bits); }
-\~ End P4Example
+```p4
+extern packet_in {
+    void extract<T>(out T headerLvalue);
+    void extract<T>(out T variableSizeHeader, in bit<32> varFieldSizeBits);
+    T lookahead<T>();
+    bit<32> length();  // This method may be unavailable in some architectures
+    void advance(bit<32> bits);
+}
+```
 
 To extract data from a packet represented by an argument `b` with type
 `packet_in`, a parser invokes the `extract` methods of `b`. There are
@@ -36,18 +40,28 @@ onto a target that does not support this method).
 In terms of the `ParserModel`, the semantics of `packet_in` can be
 captured using the following abstract model of packets:
 
-\~ Begin P4Pseudo packet\_in { unsigned nextBitIndex; byte\[\] data;
-unsigned lengthInBits; void initialize(byte\[\] data) { this.data =
-data; this.nextBitIndex = 0; this.lengthInBits = data.sizeInBytes \* 8;
-} bit\<32\> length() { return this.lengthInBits / 8; } } \~ End P4Pseudo
+```text
+packet_in {
+    unsigned nextBitIndex;
+    byte[] data;
+    unsigned lengthInBits;
+    void initialize(byte[] data) {
+        this.data = data;
+        this.nextBitIndex = 0;
+        this.lengthInBits = data.sizeInBytes * 8;
+    }
+    bit<32> length() { return this.lengthInBits / 8; }
+}
+```
 
 ### Fixed-width extraction
 
 The single-argument `extract` method handles fixed-width headers, and is
 declared in P4 as follows:
 
-\~ Begin P4Example void extract<T>(out T headerLeftValue); \~ End
-P4Example
+```p4
+void extract<T>(out T headerLeftValue);
+```
 
 The expression `headerLeftValue` must evaluate to an l-value (see
 Section [L-values](../chapter-06/06-07-l-values.md#sec-lvalues)) of type `header` with a fixed width. If this
@@ -56,13 +70,16 @@ with data from the packet and its validity bit is set to `true`. This
 method may fail in various ways—e.g., if there are not enough bits left
 in the packet to fill the specified header.
 
-  - For example, the following program fragment extracts an Ethernet
-    header:  
-    Begin P4Example struct Result { Ethernet\_h ethernet; /\* more
-    fields omitted \*/ } parser P(packet\_in b, out Result r) { state
-    start { b.extract(r.ethernet); } }
-    
-    End P4Example
+For example, the following program fragment extracts an Ethernet header:
+
+```p4
+struct Result { Ethernet_h ethernet;  /* more fields omitted */ }
+parser P(packet_in b, out Result r) {
+state start {
+    b.extract(r.ethernet);
+}
+}
+```
 
 In terms of the `ParserModel`, the semantics of the single-argument
 `extract` is given in terms of the following pseudo-code method, using
@@ -71,25 +88,28 @@ identifier to indicate the hidden valid bit of a header, `isNext$` to
 indicate that the l-value was obtained using `next`, and `nextIndex$` to
 indicate the corresponding header or header union stack properties.
 
-\~ Begin P4Pseudo void packet\_in.extract<T>(out T headerLValue) {
-bitsToExtract = sizeofInBits(headerLValue); lastBitNeeded =
-this.nextBitIndex + bitsToExtract; ParserModel.verify(this.lengthInBits
-\>= lastBitNeeded, error.PacketTooShort); headerLValue =
-this.data.extractBits(this.nextBitIndex, bitsToExtract);
-headerLValue.valid$ = true; if headerLValue.isNext$ {
-verify(headerLValue.nextIndex$ \< headerLValue.size,
-error.StackOutOfBounds); headerLValue.nextIndex$ =
-headerLValue.nextIndex$ + 1; } this.nextBitIndex += bitsToExtract; } \~
-End P4Pseudo
+```text
+void packet_in.extract<T>(out T headerLValue) {
+   bitsToExtract = sizeofInBits(headerLValue);
+   lastBitNeeded = this.nextBitIndex + bitsToExtract;
+   ParserModel.verify(this.lengthInBits >= lastBitNeeded, error.PacketTooShort);
+   headerLValue = this.data.extractBits(this.nextBitIndex, bitsToExtract);
+   headerLValue.valid$ = true;
+   if headerLValue.isNext$ {
+     verify(headerLValue.nextIndex$ < headerLValue.size, error.StackOutOfBounds);
+     headerLValue.nextIndex$ = headerLValue.nextIndex$ + 1;
+   }
+   this.nextBitIndex += bitsToExtract;
+}
+```
 
 ### Variable-width extraction
 
-  - The two-argument `extract` handles variable-width headers, and is
-    declared in P4 as follows:  
-    Begin P4Example void extract<T>(out T headerLvalue, in bit\<32\>
-    variableFieldSize);
-    
-    End P4Example
+The two-argument `extract` handles variable-width headers, and is declared in P4 as follows:
+
+```p4
+void extract<T>(out T headerLvalue, in bit<32> variableFieldSize);
+```
 
 The expression `headerLvalue` must be an l-value representing a header
 that contains *exactly one* `varbit` field. The expression
@@ -101,48 +121,77 @@ header (i.e., this size is not the size of the complete header, just the
 In terms of the `ParserModel`, the semantics of the two-argument
 `extract` is captured by the following pseudo-code:
 
-\~ Begin P4Pseudo void packet\_in.extract<T>(out T headerLvalue, in
-bit\<32\> variableFieldSize) { // targets are allowed to include the
-following line, but need not // verify(variableFieldSize\[2:0\] == 0,
-error.ParserInvalidArgument); bitsToExtract =
-sizeOfFixedPart(headerLvalue) + variableFieldSize; lastBitNeeded =
-this.nextBitIndex + bitsToExtract; ParserModel.verify(this.lengthInBits
-\>= lastBitNeeded, error.PacketTooShort);
-ParserModel.verify(bitsToExtract \<= headerLvalue.maxSize,
-error.HeaderTooShort); headerLvalue =
-this.data.extractBits(this.nextBitIndex, bitsToExtract);
-headerLvalue.varbitField.size = variableFieldSize; headerLvalue.valid$ =
-true; if headerLValue.isNext$ { verify(headerLValue.nextIndex$ \<
-headerLValue.size, error.StackOutOfBounds); headerLValue.nextIndex$ =
-headerLValue.nextIndex$ + 1; } this.nextBitIndex += bitsToExtract; } \~
-End P4Pseudo
+```text
+void packet_in.extract<T>(out T headerLvalue,
+                          in bit<32> variableFieldSize) {
+   // targets are allowed to include the following line, but need not
+   // verify(variableFieldSize[2:0] == 0, error.ParserInvalidArgument);
+   bitsToExtract = sizeOfFixedPart(headerLvalue) + variableFieldSize;
+   lastBitNeeded = this.nextBitIndex + bitsToExtract;
+   ParserModel.verify(this.lengthInBits >= lastBitNeeded, error.PacketTooShort);
+   ParserModel.verify(bitsToExtract <= headerLvalue.maxSize, error.HeaderTooShort);
+   headerLvalue = this.data.extractBits(this.nextBitIndex, bitsToExtract);
+   headerLvalue.varbitField.size = variableFieldSize;
+   headerLvalue.valid$ = true;
+   if headerLValue.isNext$ {
+     verify(headerLValue.nextIndex$ < headerLValue.size, error.StackOutOfBounds);
+     headerLValue.nextIndex$ = headerLValue.nextIndex$ + 1;
+   }
+   this.nextBitIndex += bitsToExtract;
+}
+```
 
 The following example shows one way to parse IPv4 options—by splitting
 the IPv4 header into two separate headers:
 
-\~ Begin P4Example // IPv4 header without options header
-IPv4\_no\_options\_h { bit\<4\> version; bit\<4\> ihl; bit\<8\>
-diffserv; bit\<16\> totalLen; bit\<16\> identification; bit\<3\> flags;
-bit\<13\> fragOffset; bit\<8\> ttl; bit\<8\> protocol; bit\<16\>
-hdrChecksum; bit\<32\> srcAddr; bit\<32\> dstAddr; } header
-IPv4\_options\_h { varbit\<320\> options; }
+```p4
+// IPv4 header without options
+header IPv4_no_options_h {
+   bit<4>   version;
+   bit<4>   ihl;
+   bit<8>   diffserv;
+   bit<16>  totalLen;
+   bit<16>  identification;
+   bit<3>   flags;
+   bit<13>  fragOffset;
+   bit<8>   ttl;
+   bit<8>   protocol;
+   bit<16>  hdrChecksum;
+   bit<32>  srcAddr;
+   bit<32>  dstAddr;
+}
+header IPv4_options_h {
+   varbit<320> options;
+}
 
-struct Parsed\_headers { // Some fields omitted IPv4\_no\_options\_h
-ipv4; IPv4\_options\_h ipv4options; }
+struct Parsed_headers {
+    // Some fields omitted
+    IPv4_no_options_h ipv4;
+    IPv4_options_h    ipv4options;
+}
 
 error { InvalidIPv4Header }
 
-parser Top(packet\_in b, out Parsed\_headers headers) { // Some states
-omitted
+parser Top(packet_in b, out Parsed_headers headers) {
+   // Some states omitted
 
-state parse\_ipv4 { b.extract(headers.ipv4); verify(headers.ipv4.ihl \>=
-5, error.InvalidIPv4Header); transition select (headers.ipv4.ihl) { 5:
-dispatch\_on\_protocol; \_: parse\_ipv4\_options; } }
+   state parse_ipv4 {
+       b.extract(headers.ipv4);
+       verify(headers.ipv4.ihl >= 5, error.InvalidIPv4Header);
+       transition select (headers.ipv4.ihl) {
+           5: dispatch_on_protocol;
+           _: parse_ipv4_options;
+       }
+   }
 
-state parse\_ipv4\_options { // use information in the ipv4 header to
-compute the number of bits to extract b.extract(headers.ipv4options,
-(bit\<32\>)(((bit\<16\>)headers.ipv4.ihl - 5) \* 32)); transition
-dispatch\_on\_protocol; } } \~ End P4Example
+   state parse_ipv4_options {
+       // use information in the ipv4 header to compute the number of bits to extract
+       b.extract(headers.ipv4options,
+                 (bit<32>)(((bit<16>)headers.ipv4.ihl - 5) * 32));
+       transition dispatch_on_protocol;
+   }
+}
+```
 
 ### Lookahead
 
@@ -155,10 +204,11 @@ type, or a struct containing headers), the headers values in the
 returned result are always valid (otherwise `lookahead` must have
 transitioned to the `reject` state).
 
-  - The `lookahead` method can be invoked as follows:  
-    Begin P4Example b.lookahead<T>()
-    
-    End P4Example
+The `lookahead` method can be invoked as follows:
+
+```p4
+b.lookahead<T>()
+```
 
 where `T` must be a type with fixed width. In case of success the result
 of the evaluation of `lookahead` returns a value of type `T`.
@@ -166,24 +216,37 @@ of the evaluation of `lookahead` returns a value of type `T`.
 In terms of the `ParserModel`, the semantics of `lookahead` is given by
 the following pseudocode:
 
-\~ Begin P4Pseudo T packet\_in.lookahead<T>() { bitsToExtract =
-sizeof(T); lastBitNeeded = this.nextBitIndex + bitsToExtract;
-ParserModel.verify(this.lengthInBits \>= lastBitNeeded,
-error.PacketTooShort); T tmp = this.data.extractBits(this.nextBitIndex,
-bitsToExtract); return tmp; } \~ End P4Pseudo
+```text
+T packet_in.lookahead<T>() {
+   bitsToExtract = sizeof(T);
+   lastBitNeeded = this.nextBitIndex + bitsToExtract;
+   ParserModel.verify(this.lengthInBits >= lastBitNeeded, error.PacketTooShort);
+   T tmp = this.data.extractBits(this.nextBitIndex, bitsToExtract);
+   return tmp;
+}
+```
 
-  - The TCP options example from Section [Operations on header unions](../chapter-08/08-19-operations-on-header-unions.md#sec-expr-hu) also
-    illustrates how `lookahead` can be used:  
-    Begin P4Example state start { transition
-    select(b.lookahead\<bit\<8\>\>()) { 0: parse\_tcp\_option\_end; 1:
-    parse\_tcp\_option\_nop; 2: parse\_tcp\_option\_ss; 3:
-    parse\_tcp\_option\_s; 5: parse\_tcp\_option\_sack; } }
+The TCP options example from Section [Operations on header unions](../chapter-08/08-19-operations-on-header-unions.md#sec-expr-hu) also illustrates how `lookahead` can be used:
+
+```p4
+state start {
+transition select(b.lookahead<bit<8>>()) {
+    0: parse_tcp_option_end;
+    1: parse_tcp_option_nop;
+    2: parse_tcp_option_ss;
+    3: parse_tcp_option_s;
+    5: parse_tcp_option_sack;
+}
+}
 
 // Some states omitted
 
-state parse\_tcp\_option\_sack { bit\<8\> n =
-b.lookahead<Tcp_option_sack_top>().length; b.extract(vec.next.sack,
-(bit\<32\>) (8 \* n - 16)); transition start; } \~ End P4Example
+state parse_tcp_option_sack {
+bit<8> n = b.lookahead<Tcp_option_sack_top>().length;
+b.extract(vec.next.sack, (bit<32>) (8 * n - 16));
+transition start;
+}
+```
 
 ### Skipping bits
 
@@ -193,7 +256,9 @@ assigning them to a header:
 One way is to `extract` to the underscore identifier, explicitly
 specifying the type of the data:
 
-\~ Begin P4Example b.extract<T>(\_) \~ End P4Example
+```p4
+b.extract<T>(_)
+```
 
 Another way is to use the `advance` method of the packet when the number
 of bits to skip is known.
@@ -201,9 +266,12 @@ of bits to skip is known.
 In terms of the `ParserModel`, the meaning of `advance` is given in
 pseudocode as follows:
 
-\~ Begin P4Pseudo void packet\_in.advance(bit\<32\> bits) { // targets
-are allowed to include the following line, but need not //
-verify(bits\[2:0\] == 0, error.ParserInvalidArgument); lastBitNeeded =
-this.nextBitIndex + bits; ParserModel.verify(this.lengthInBits \>=
-lastBitNeeded, error.PacketTooShort); this.nextBitIndex += bits; } \~
-End P4Pseudo
+```text
+void packet_in.advance(bit<32> bits) {
+   // targets are allowed to include the following line, but need not
+   // verify(bits[2:0] == 0, error.ParserInvalidArgument);
+   lastBitNeeded = this.nextBitIndex + bits;
+   ParserModel.verify(this.lengthInBits >= lastBitNeeded, error.PacketTooShort);
+   this.nextBitIndex += bits;
+}
+```

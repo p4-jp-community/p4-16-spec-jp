@@ -2,12 +2,20 @@
 A `select` expression evaluates to a state. The syntax for a `select`
 expression is as follows:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:selectExpression\]
+```bison
+selectExpression
+    : SELECT "(" expressionList ")" "{" selectCaseList "}"
+    ;
 
-\[INCLUDE=grammar.mdk:selectCaseList\]
+selectCaseList
+    : /* empty */
+    | selectCaseList selectCase
+    ;
 
-  - \[INCLUDE=grammar.mdk:selectCase\]  
-    End P4Grammar
+selectCase
+    : keysetExpression ":" name ";"
+    ;
+```
 
 Each expression in the `expressionList` must have a type of `bit<W>`,
 `int<W>`, `bool`, `enum`, serializable `enum`, or a `tuple` type with
@@ -19,19 +27,28 @@ particular, if a set is specified as a range or mask expression, the
 endpoints of the range and mask expression are implicitly cast to type
 `T` using the standard rules for casts.
 
-  - In terms of the `ParserModel`, the meaning of a select expression:  
-    Begin P4Example select(e) { ks\[0\]: s\[0\]; ks\[1\]: s\[1\]; /\*
-    more labels omitted \*/ ks\[n-2\]: s\[n-1\]; \_ : sd; // ks\[n-1\]
-    is default }
-    
-    End P4Example
+In terms of the `ParserModel`, the meaning of a select expression:
 
-  - is defined in pseudo-code as:  
-    Begin P4Pseudo key = eval(e); for (int i=0; i \< n; i++) { keyset =
-    eval(ks\[i\]); if (keyset.contains(key)) return s\[i\]; }
-    verify(false, error.NoMatch);
-    
-    End P4Pseudo
+```p4
+select(e) {
+ks[0]: s[0];
+ks[1]: s[1];
+/* more labels omitted */
+ks[n-2]: s[n-1];
+_ : sd;  // ks[n-1] is default
+}
+```
+
+is defined in pseudo-code as:
+
+```text
+key = eval(e);
+for (int i=0; i < n; i++) {
+keyset = eval(ks[i]);
+if (keyset.contains(key)) return s[i];
+}
+verify(false, error.NoMatch);
+```
 
 Some targets may require that all keyset expressions in a select
 expression be compile-time known values. Keysets are evaluated in order,
@@ -51,17 +68,25 @@ The typical way to use a `select` expression is to compare the value of
 a recently-extracted header field against a set of values, as in the
 following example:
 
-\~ Begin P4Example header IPv4\_h { bit\<8\> protocol; /\* more fields
-omitted */ } struct P { IPv4\_h ipv4; /* more fields omitted \*/ } P
-headers; select (headers.ipv4.protocol) { 8w6 : parse\_tcp; 8w17 :
-parse\_udp; \_ : accept; } \~ End P4Example
+```p4
+header IPv4_h { bit<8> protocol; /* more fields omitted */ }
+struct P { IPv4_h ipv4; /* more fields omitted */ }
+P headers;
+select (headers.ipv4.protocol) {
+    8w6  : parse_tcp;
+    8w17 : parse_udp;
+    _    : accept;
+}
+```
 
-  - For example, to detect TCP reserved ports (\< 1024) one could
-    write:  
-    Begin P4Example select (p.tcp.port) { 16w0 &&& 16w0xFC00:
-    well\_known\_port; \_: other\_port; }
-    
-    End P4Example
+For example, to detect TCP reserved ports (\< 1024) one could write:
+
+```p4
+select (p.tcp.port) {
+16w0 &&& 16w0xFC00: well_known_port;
+_: other_port;
+}
+```
 
 The expression `16w0 &&& 16w0xFC00` describes the set of 16-bit values
 whose most significant six bits are zero.
@@ -77,9 +102,17 @@ int\<\>, tuple, struct, or serializable `enum`.
 For example, to allow the control plane API to specify TCP reserved
 ports at runtime, one could write:
 
-\~ Begin P4Example struct vsk\_t { @match(ternary) bit\<16\> port; }
-value\_set<vsk_t>(4) pvs; select (p.tcp.port) { pvs:
-runtime\_defined\_port; \_: other\_port; } \~ End P4Example
+```p4
+struct vsk_t {
+    @match(ternary)
+    bit<16> port;
+}
+value_set<vsk_t>(4) pvs;
+select (p.tcp.port) {
+    pvs: runtime_defined_port;
+    _: other_port;
+}
+```
 
 The above example allows the runtime API to populate up to 4 different
 `keysetExpression`s in the `value_set`. If the `value_set` takes a

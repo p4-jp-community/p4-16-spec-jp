@@ -18,24 +18,29 @@ the top-level namespace:
 
 Note that all stateful values are instantiated at compilation time.
 
-  - As an example, consider the following program fragment:  
-    Begin P4Example // architecture declaration parser P(/\* parameters
-    omitted */); control C(/* parameters omitted */); control D(/*
-    parameters omitted \*/);
+As an example, consider the following program fragment:
+
+```p4
+// architecture declaration
+parser P(/* parameters omitted */);
+control C(/* parameters omitted */);
+control D(/* parameters omitted */);
 
 package Switch(P prs, C ctrl, D dep);
 
-extern Checksum16 { /\* body omitted \*/}
+extern Checksum16 { /* body omitted */}
 
-// user code Checksum16() ck16; // checksum unit instance
+// user code
+Checksum16() ck16; // checksum unit instance
 
-parser TopParser(/\* parameters omitted */)(Checksum16 unit) { /* body
-omitted */} control Pipe(/* parameters omitted */) { /* body omitted */}
-control TopDeparser(/* parameters omitted */)(Checksum16 unit) { /* body
-omitted \*/}
+parser TopParser(/* parameters omitted */)(Checksum16 unit) { /* body omitted */}
+control Pipe(/* parameters omitted */) { /* body omitted */}
+control TopDeparser(/* parameters omitted */)(Checksum16 unit) { /* body omitted */}
 
-Switch(TopParser(ck16), Pipe(), TopDeparser(ck16)) main; \~ End
-P4Example
+Switch(TopParser(ck16),
+   Pipe(),
+   TopDeparser(ck16)) main;
+```
 
 The evaluation of this program proceeds as follows:
 

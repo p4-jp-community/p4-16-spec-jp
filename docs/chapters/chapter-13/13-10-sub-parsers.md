@@ -4,14 +4,18 @@ subroutines. To invoke the services of another parser, the sub-parser
 must be first instantiated; the services of an instance are invoked by
 calling it using its `apply` method.
 
-  - The following example shows a sub-parser invocation:  
-    Begin P4Example parser callee(packet\_in packet, out IPv4 ipv4) {
-    /\* body omitted \*/ } parser caller(packet\_in packet, out Headers
-    h) { callee() subparser; // instance of callee state subroutine {
-    subparser.apply(packet, h.ipv4); // invoke sub-parser transition
-    accept; // accept if sub-parser ends in accept state } }
-    
-    End P4Example
+The following example shows a sub-parser invocation:
+
+```p4
+parser callee(packet_in packet, out IPv4 ipv4) { /* body omitted */ }
+parser caller(packet_in packet, out Headers h) {
+ callee() subparser;  // instance of callee
+ state subroutine {
+      subparser.apply(packet, h.ipv4);  // invoke sub-parser
+      transition accept;  // accept if sub-parser ends in accept state
+ }
+}
+```
 
 The semantics of a sub-parser invocation can be described as follows:
 

@@ -21,8 +21,11 @@ the Linux kernel, and executed by the eBPF kernel JIT compiler/runtime.
 In this case the target is the Linux kernel, and the architecture model
 is a packet filter.
 
-  - The declaration for this architecture is as follows:  
-    Begin P4Example parser Parser<H>(packet\_in packet, out H headers);
-    control Filter<H>(inout H headers, out bool accept);
-  - package Program<H>(Parser<H> p, Filter<H> f);  
-    End P4Example
+The declaration for this architecture is as follows:
+
+```p4
+parser Parser<H>(packet_in packet, out H headers);
+control Filter<H>(inout H headers, out bool accept);
+
+package Program<H>(Parser<H> p, Filter<H> f);
+```

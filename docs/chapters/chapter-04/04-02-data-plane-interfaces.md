@@ -4,8 +4,11 @@ between the block and the other components in the architecture. For
 example, the architecture might contain a declaration such as the
 following:
 
-\~ Begin P4Example control MatchActionPipe<H>(in bit\<4\> inputPort,
-inout H parsedHeaders, out bit\<4\> outputPort); \~ End P4Example
+```p4
+control MatchActionPipe<H>(in bit<4> inputPort,
+                           inout H parsedHeaders,
+                           out bit<4> outputPort);
+```
 
 This type declaration describes a block named `MatchActionPipe` that can
 be programmed using a data-dependent sequence of match-action unit

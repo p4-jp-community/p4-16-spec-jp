@@ -3,8 +3,11 @@ Because functions, methods, control, and parsers can be generic, they
 offer the possibility of declaring values with types that are type
 variables:
 
-\~ Begin P4Example control C<T>() { apply { T x; // the type of x is T,
-a type variable } } \~ End P4Example
+```p4
+void f<T>() {
+   T x; // the type of x is T, a type variable
+}
+```
 
 The type of such objects is not known until the control is instantiated
 with specific type arguments.

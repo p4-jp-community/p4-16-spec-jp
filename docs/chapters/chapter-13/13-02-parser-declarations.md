@@ -3,14 +3,27 @@ A parser declaration comprises a name, a list of parameters, an optional
 list of constructor parameters, local elements, and parser states (as
 well as optional annotations).
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:parserTypeDeclaration\]
+```bison
+parserTypeDeclaration
+    : optAnnotations PARSER name optTypeParameters
+      "(" parameterList ")"
+    ;
 
-\[INCLUDE=grammar.mdk:parserDeclaration\]
+parserDeclaration
+    : parserTypeDeclaration optConstructorParameters
+      "{" parserLocalElements parserStates "}"
+    ;
 
-\[INCLUDE=grammar.mdk:parserLocalElements\]
+parserLocalElements
+    : /* empty */
+    | parserLocalElements parserLocalElement
+    ;
 
-  - \[INCLUDE=grammar.mdk:parserStates\]  
-    End P4Grammar
+parserStates
+    : parserState
+    | parserStates parserState
+    ;
+```
 
 For a description of `optConstructorParameters`, which are useful for
 building parameterized parsers, see Section [Parameterization](../chapter-15/index.md#sec-parameterization).
@@ -18,8 +31,9 @@ building parameterized parsers, see Section [Parameterization](../chapter-15/ind
 Unlike parser type declarations, parser declarations may not be
 generic—e.g., the following declaration is illegal:
 
-\~ Begin P4Example parser P<H>(inout H data) { /\* body omitted \*/ } \~
-End P4Example
+```p4
+parser P<H>(inout H data) { /* body omitted */ }
+```
 
 Hence, used in the context of a `parserDeclaration` the production rule
 `parserTypeDeclaration` should not yield type parameters.
@@ -37,15 +51,31 @@ within the parser. Such objects may be instantiations of `extern`
 objects, or other `parser`s that may be invoked as subroutines. However,
 it is illegal to instantiate a `control` block within a `parser`.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:parserLocalElement\] \~ End
-P4Grammar
+```bison
+parserLocalElement
+    : constantDeclaration
+    | instantiation
+    | variableDeclaration
+    | valueSetDeclaration
+    ;
+```
 
 The states and local elements are all in the same namespace, thus the
 following example will produce an error:
 
-\~ Begin P4Example // erroneous example parser p() { bit\<4\> t; state
-start { t = 1; transition t; } state t { // error: name t is duplicated
-transition accept; } } \~ End P4Example
+```p4
+// erroneous example
+parser p() {
+    bit<4> t;
+    state start {
+       t = 1;
+       transition t;
+    }
+    state t {  // error: name t is duplicated
+       transition accept;
+    }
+}
+```
 
 For an example containing a complete declaration of a parser see Section
 [A complete Very Simple Switch program](../chapter-05/05-03-a-complete-very-simple-switch-program.md#sec-vss-all).

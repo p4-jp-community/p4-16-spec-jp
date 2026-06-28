@@ -14,14 +14,30 @@ Syntactically, a `control` block is declared with a name, parameters,
 optional type parameters, and a sequence of declarations of constants,
 variables, `action`s, `table`s, and other instantiations:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:controlDeclaration\]
+```bison
+controlDeclaration
+    : controlTypeDeclaration optConstructorParameters
+      /* controlTypeDeclaration cannot contain type parameters */
+      "{" controlLocalDeclarations APPLY controlBody "}"
+    ;
 
-\[INCLUDE=grammar.mdk:controlLocalDeclarations\]
+controlLocalDeclarations
+    : /* empty */
+    | controlLocalDeclarations controlLocalDeclaration
+    ;
 
-\[INCLUDE=grammar.mdk:controlLocalDeclaration\]
+controlLocalDeclaration
+    : constantDeclaration
+    | actionDeclaration
+    | tableDeclaration
+    | instantiation
+    | variableDeclaration
+    ;
 
-  - \[INCLUDE=grammar.mdk:controlBody\]  
-    End P4Grammar
+controlBody
+    : blockStatement
+    ;
+```
 
 It is illegal to instantiate a `parser` within a `control` block. For a
 description of the `optConstructorParameters`, which can be used to
@@ -31,8 +47,9 @@ build parameterized control blocks, see Section
 Unlike control type declarations, control declarations may not be
 generic—e.g., the following declaration is illegal:
 
-\~ Begin P4Example control C<H>(inout H data) { /\* Body omitted \*/ }
-\~ End P4Example
+```p4
+control C<H>(inout H data) { /* Body omitted */ }
+```
 
 P4 does not support exceptional control-flow within a `control` block.
 The only statement which has a non-local effect on control flow is

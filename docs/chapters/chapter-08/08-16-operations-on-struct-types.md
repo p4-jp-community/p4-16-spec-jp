@@ -18,10 +18,15 @@ corresponding fields are equal.
 The following example shows a structure initialized in several different
 ways:
 
-\~ Begin P4Example struct S { bit\<32\> a; bit\<32\> b; } const S x = {
-10, 20 }; // tuple expression const S x = { a = 10, b = 20 }; //
-structure-valued expression const S x = (S) { a = 10, b = 20 }; //
-structure-valued expression \~ End P4Example
+```p4
+struct S {
+    bit<32> a;
+    bit<32> b;
+}
+const S x = { 10, 20 };             // tuple expression
+const S x = { a = 10, b = 20 };     // structure-valued expression
+const S x = (S) { a = 10, b = 20 }; // structure-valued expression
+```
 
 See Section [Reading uninitialized values and writing fields of invalid headers](08-25-reading-uninitialized-values-and-writing-fields-of-invalid-headers.md#sec-uninitialized-values-and-writing-invalid-headers)
 for a description of the behavior if `struct` fields are read without
