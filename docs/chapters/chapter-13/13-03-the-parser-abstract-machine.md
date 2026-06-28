@@ -5,9 +5,15 @@ describes this abstract machine in pseudo-code.
 A parser starts execution in the `start` state and ends execution when
 one of the `reject` or `accept` states has been reached.
 
-\~ Begin P4Pseudo ParserModel { error parseError; onPacketArrival(packet
-p) { ParserModel.parseError = error.NoError; goto start; } } \~ End
-P4Pseudo
+```text
+ParserModel {
+    error       parseError;
+    onPacketArrival(packet p) {
+        ParserModel.parseError = error.NoError;
+        goto start;
+    }
+}
+```
 
 An architecture must specify the behavior when the `accept` and `reject`
 states are reached. For example, an architecture may specify that all

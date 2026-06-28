@@ -31,10 +31,16 @@ annotations have no bodies.
   - `@defaultonly`: actions with this annotation can only appear in the
     default action, and never in the table.
 
-\~ Begin P4Example table t { actions = { a, // can appear anywhere
-@tableonly b, // can only appear in the table @defaultonly c, // can
-only appear in the default action } /\* body omitted \*/ } \~ End
-P4Example
+```p4
+table t {
+    actions = {
+       a,              // can appear anywhere
+       @tableonly b,   // can only appear in the table
+       @defaultonly c, // can only appear in the default action
+    }
+    /* body omitted */
+}
+```
 
 ### Control-plane API annotations
 
@@ -44,9 +50,13 @@ element from the control plane. This annotation takes a string literal
 body. In the following example, the fully-qualified name of the table is
 `c_inst.t1`.
 
-\~ Begin P4Example control c( /\* parameters omitted */ )() {
-@name(“t1”) table t { /* body omitted */ } apply { /* body omitted
-\*/ } } c() c\_inst; \~ End P4Example
+```p4
+control c( /* parameters omitted */ )() {
+    @name("t1") table t { /* body omitted */ }
+    apply { /* body omitted */ }
+}
+c() c_inst;
+```
 
 The `@hidden` annotation hides a controllable entity, e.g. a table, key,
 action, or extern, from the control plane. This effectively removes its
@@ -63,10 +73,16 @@ absolute pathname (i.e., one starting with a dot) is instantiated more
 than once, it will result in the same name referring to two controllable
 entities.
 
-\~ Begin P4Example control noargs(); package top(noargs c1, noargs c2);
+```p4
+control noargs();
+package top(noargs c1, noargs c2);
 
-control c() { @name(“.foo.bar”) table t { /\* body omitted */ } apply {
-/* body omitted \*/ } } top(c(), c()) main; \~ End P4Example
+control c() {
+    @name(".foo.bar") table t { /* body omitted */ }
+    apply { /* body omitted */ }
+}
+top(c(), c()) main;
+```
 
 Without the `@name` annotation, this program would produce two
 controllable entities with fully-qualified names `main.c1.t` and
@@ -134,8 +150,13 @@ message that will be printed by a compiler when a program is using the
 deprecated construct. This is mostly useful for annotating library
 constructs, such as externs.
 
-\~ Begin P4Example @deprecated(“Please use the ‘check’ function
-instead”) extern Checker { /\* body omitted \*/ } \~ End P4Example
+```p4
+#define DEPR_V1_2_2 "Deprecated in v1.2.2"
+@deprecated("Please use the 'check' function instead." ++ DEPR_V1_2_2)
+extern Checker {
+   /* body omitted */
+}
+```
 
 ### No warnings annotation
 

@@ -38,8 +38,13 @@ syntax of a P4 program as follows.
 For each `value_set` construct, its syntactic name becomes the local
 name of the value set. For example:
 
-\~ Begin P4Example struct vsk\_t { @match(ternary) bit\<16\> port; }
-value\_set<vsk_t>(4) pvs; \~ End P4Example
+```p4
+struct vsk_t {
+    @match(ternary)
+    bit<16> port;
+}
+value_set<vsk_t>(4) pvs;
+```
 
 This value\_set’s local name is `pvs`.
 
@@ -48,8 +53,11 @@ This value\_set’s local name is `pvs`.
 For each `table` construct, its syntactic name becomes the local name of
 the table. For example:
 
-\~ Begin P4Example control c(/\* parameters omitted */)() { table t { /*
-body omitted \*/ } } \~ End P4Example
+```p4
+control c(/* parameters omitted */)() {
+    table t { /* body omitted */ }
+}
+```
 
 This table’s local name is `t`.
 
@@ -75,16 +83,28 @@ generating names for some kinds of key expressions:
 In the following example, the previous algorithm would derive for table
 `t` two keys with names `data.f1` and `hdrs[3].f2`.
 
-\~ Begin P4Example table t { keys = { data.f1 : exact; hdrs\[3\].f2 :
-exact; } actions = { /\* body omitted \*/ } } \~ End P4Example
+```p4
+table t {
+    keys = {
+        data.f1 : exact;
+        hdrs[3].f2 : exact;
+    }
+    actions = { /* body omitted */ }
+}
+```
 
 If a compiler cannot generate a name for a key it **requires** the key
 expression to be annotated with a `@name` annotation (Section
 [Control-plane API annotations](../chapter-20/20-03-predefined-annotations.md#sec-control-plane-api-annotations)), as in the following example:
 
-\~ Begin P4Example table t { keys = { data.f1 + 1 : exact
-@name(“f1\_mask”); } actions = { /\* body omitted \*/ } } \~ End
-P4Example
+```p4
+table t {
+    keys = {
+        data.f1 + 1 : exact @name("f1_mask");
+    }
+    actions = { /* body omitted */ }
+}
+```
 
 Here, the `@name("f1_mask")` annotation assigns the local name
 `"f1_mask"` to this key.
@@ -94,8 +114,11 @@ Here, the `@name("f1_mask")` annotation assigns the local name
 For each `action` construct, its syntactic name is the local name of the
 action. For example:
 
-\~ Begin P4Example control c(/\* parameters omitted */)() { action a(…)
-{ /* body omitted \*/ } } \~ End P4Example
+```p4
+control c(/* parameters omitted */)() {
+    action a(...) { /* body omitted */ }
+}
+```
 
 This action’s local name is `a`.
 
@@ -106,13 +129,14 @@ derived based on how the instance is used. If the instance is bound to a
 name, that name becomes its local control plane name. For example, if
 `control` `C` is declared as,
 
-\~ Begin P4Example control C(/\* parameters omitted */)() { /* body
-omitted \*/ } \~ End P4Example
+```p4
+control C(/* parameters omitted */)() { /* body omitted */ }
+```
 
   - and instantiated as,  
-    Begin P4Example C() c\_inst;
-    
-    End P4Example
+    ```p4
+C(E()) c_inst;
+```
 
 then the local name of the instance is `c_inst`.
 
@@ -120,14 +144,15 @@ Alternatively, if the instance is created as an actual argument, then
 its local name is the name of the formal parameter to which it will be
 bound. For example, if `extern` `E` and `control` `C` are declared as,
 
-\~ Begin P4Example extern E { /\* body omitted */ } control C( /*
-parameters omitted */ )(E e\_in) { /* body omitted \*/ } \~ End
-P4Example
+```p4
+extern E { /* body omitted */ }
+control C( /* parameters omitted */ )(E e_in) { /* body omitted */ }
+```
 
   - and instantiated as,  
-    Begin P4Example C(E()) c\_inst;
-    
-    End P4Example
+    ```p4
+C() c_inst;
+```
 
 then the local name of the extern instance is `e_in`.
 
@@ -137,11 +162,14 @@ definition when possible. In the following example, the local name of
 the instance of `MyC` is `c`, and the local name of the `extern` is
 `e2`, not `e1`.
 
-\~ Begin P4Example extern E { /\* body omitted \*/ } control ArchC(E
-e1); package Arch(ArchC c);
+```p4
+extern E { /* body omitted */ }
+control ArchC(E e1);
+package Arch(ArchC c);
 
-control MyC(E e2)() { /\* body omitted \*/ } Arch(MyC()) main; \~ End
-P4Example
+control MyC(E e2)() { /* body omitted */ }
+Arch(MyC()) main;
+```
 
 Note that in this example, the architecture will supply an instance of
 the extern when it applies the instance of `MyC` passed to the `Arch`
@@ -150,10 +178,23 @@ package. The fully-qualified name of that instance is `main.c.e2`.
 Next, consider a larger example that demonstrates name generation when
 there are multiple instances.
 
-\~ Begin P4Example control Callee() { table t { /\* body omitted \*/ }
-apply { t.apply(); } } control Caller() { Callee() c1; Callee() c2;
-apply { c1.apply(); c2.apply(); } } control Simple(); package Top(Simple
-s); Top(Caller()) main; \~ End P4Example
+```p4
+control Callee() {
+    table t { /* body omitted */ }
+    apply { t.apply(); }
+}
+control Caller() {
+    Callee() c1;
+    Callee() c2;
+    apply {
+       c1.apply();
+       c2.apply();
+    }
+}
+control Simple();
+package Top(Simple s);
+Top(Caller()) main;
+```
 
 The compile-time evaluation of this program produces the structure in
 Figure \[\#fig-evalmultiple\]. Notice that there are two instances of
@@ -192,9 +233,15 @@ The control plane may refer to a controllable entity by a postfix of its
 fully qualified name when it is unambiguous in the context in which it
 is used. Consider the following example.
 
-\~ Begin P4Example control c( /\* parameters omitted */ )() { action a (
-/* parameters omitted */ ) { /* body omitted */ } table t { keys = { /*
-body omitted \*/ } actions = { a; } } } c() c\_inst; \~ End P4Example
+```p4
+control c( /* parameters omitted */ )() {
+    action a ( /* parameters omitted */ ) { /* body omitted */ }
+    table t {
+        keys = { /* body omitted */ }
+        actions = { a; } }
+}
+c() c_inst;
+```
 
 Control plane software may refer to action `c_inst.a` as `a` when
 inserting rules into table `c_inst.t`, because it is clear from the

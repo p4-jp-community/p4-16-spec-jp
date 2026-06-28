@@ -3,8 +3,9 @@ Tuples can be assigned to other tuples with the same type, passed as
 arguments and returned from functions, and can be initialized with tuple
 expressions.
 
-\~ Begin P4Example tuple\<bit\<32\>, bool\> x = { 10, false }; \~ End
-P4Example
+```p4
+tuple<bit<32>, bool> x = { 10, false };
+```
 
 The fields of a tuple can be accessed using array index syntax `x[0]`,
 `x[1]`. The indexes *must* be local compile-time known values, to enable
@@ -21,10 +22,16 @@ future version of the language.
 A tuple expression is written using curly braces, with each element
 separated by a comma:
 
-\~ Begin P4Grammar expression … | ‘{’ expressionList ‘}’
+```bison
+expression ...
+    | '{' expressionList '}'
 
-  - \[INCLUDE=grammar.mdk:expressionList\]  
-    End P4Grammar
+expressionList
+    : /* empty */
+    | expression
+    | expressionList "," expression
+    ;
+```
 
 The type of a tuple expression is a tuple type (Section
 [Tuple types](../chapter-07/07-02-derived-types.md#sec-tuple-types)). Tuple expressions can be assigned to expressions
@@ -35,39 +42,51 @@ are not l-values.
 For example, the following program fragment uses a tuple expression to
 pass several header fields simultaneously to a learning provider:
 
-\~ Begin P4Example extern LearningProvider<T> { LearningProvider(); void
-learn(in T data); }
+```p4
+extern LearningProvider<T> {
+    LearningProvider();
+    void learn(in T data);
+}
 
-LearningProvider\<tuple\<bit\<48\>, bit\<32\>\>\>() lp;
+LearningProvider<tuple<bit<48>, bit<32>>>() lp;
 
-  - lp.learn( { hdr.ethernet.srcAddr, hdr.ipv4.src } );  
-    End P4Example
+lp.learn( { hdr.ethernet.srcAddr, hdr.ipv4.src } );
+```
 
 A tuple may be used to initialize a structure if the tuple has the same
 number of elements as fields in the structure. The effect of such an
 initializer is to assign the n<sup>th</sup> element of the tuple to the
 n<sup>th</sup> field in the structure:
 
-\~ Begin P4Example struct S { bit\<32\> a; bit\<32\> b; } const S x = {
-10, 20 }; //a = 10, b = 20 \~ End P4Example
+```p4
+struct S {
+    bit<32> a;
+    bit<32> b;
+}
+const S x = { 10, 20 }; //a = 10, b = 20
+```
 
 A tuple expression can have an explicit structure or header type
 specified, and then it is converted automatically to a structure-valued
 expression (see [Operations on structure-valued expressions](08-13-operations-on-structure-valued-expressions.md#sec-structure-expressions)):
 
-\~ Begin P4Example struct S { bit\<32\> a; bit\<32\> b; }
+```p4
+struct S {
+    bit<32> a;
+    bit<32> b;
+}
 
 extern void f<T>(in T data);
 
-  - f((S){ 10, 20 }); // automatically converted to f((S){a = 10, b =
-    20});  
-    End P4Example
+f((S){ 10, 20 }); // automatically converted to f((S){a = 10, b = 20});
+```
 
 Tuple expressions can also be used to initialize variables whose type is
 a `tuple` type.
 
-\~ Begin P4Example tuple\<bit\<32\>, bool\> x = { 10, false }; \~ End
-P4Example
+```p4
+tuple<bit<32>, bool> x = { 10, false };
+```
 
 The empty tuple expression has type `tuple<>` - a tuple with no
 components.

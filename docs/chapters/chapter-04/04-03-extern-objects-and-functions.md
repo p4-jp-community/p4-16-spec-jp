@@ -9,8 +9,12 @@ to an abstract class in an object-oriented language). For example, the
 following construct could be used to describe the operations offered by
 an incremental checksum unit:
 
-\~ Begin P4Example extern Checksum16 { Checksum16(); // constructor void
-clear(); // prepare unit for computation void update<T>(in T data); //
-add data to checksum void remove<T>(in T data); // remove data from
-existing checksum bit\<16\> get(); // get the checksum for the data
-added since last clear } \~ End P4Example
+```p4
+extern Checksum16 {
+    Checksum16();              // constructor
+    void clear();              // prepare unit for computation
+    void update<T>(in T data); // add data to checksum
+    void remove<T>(in T data); // remove data from existing checksum
+    bit<16> get(); // get the checksum for the data added since last clear
+}
+```

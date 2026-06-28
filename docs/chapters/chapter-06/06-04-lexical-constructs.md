@@ -30,9 +30,23 @@ a “don’t care” value; its type may vary depending on the context.
 Certain keywords (e.g., `apply`) can be used as identifiers if the
 context makes it unambiguous.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:nonTypeName\]
+```bison
+nonTypeName
+    : IDENTIFIER
+    | APPLY
+    | KEY
+    | ACTIONS
+    | STATE
+    | ENTRIES
+    | TYPE
+    | PRIORITY
+    ;
 
-name : nonTypeName | TYPE\_IDENTIFIER ; \~ End P4Grammar
+name
+    : nonTypeName
+    | TYPE_IDENTIFIER
+    ;
+```
 
 ### Comments
 
@@ -84,14 +98,18 @@ specification or as the first character of an integer literal. No
 comments or whitespaces are allowed within a literal. Here are some
 examples of numeric literals:
 
-\~ Begin P4Example 32w255 // a 32-bit unsigned number with value 255
-32w0d255 // same value as above 32w0xFF // same value as above 32s0xFF
-// a 32-bit signed number with value 255 8w0b10101010 // an 8-bit
-unsigned number with value 0xAA 8w0b\_1010\_1010 // same value as above
-8w170 // same value as above 8s0b1010\_1010 // an 8-bit signed number
-with value -86 16w0377 // 16-bit unsigned number with value 377 (not
-255\!) 16w0o377 // 16-bit unsigned number with value 255 (base 8) \~ End
-P4Example
+```p4
+32w255         // a 32-bit unsigned number with value 255
+32w0d255       // same value as above
+32w0xFF        // same value as above
+32s0xFF        // a 32-bit signed number with value 255
+8w0b10101010   // an 8-bit unsigned number with value 0xAA
+8w0b_1010_1010 // same value as above
+8w170          // same value as above
+8s0b1010_1010  // an 8-bit signed number with value -86
+16w0377        // 16-bit unsigned number with value 377 (not 255!)
+16w0o377       // 16-bit unsigned number with value 255 (base 8)
+```
 
 #### String literals
 
@@ -110,26 +128,45 @@ tools can define their own handling of escape sequences (e.g., how to
 specify Unicode characters, or handle unprintable ASCII characters).
 
   - Here are 3 examples of string literals:  
-    Begin P4Example “simple string” “string " with " embedded " quotes”
-    “string with embedded line terminator”
-    End P4Example
+    ```p4
+"simple string"
+"string \" with \" embedded \" quotes"
+"string with embedded
+line terminator"
+```
 
 ### Optional trailing commas
 
 The P4 grammar allows several kinds of comma-separated lists to end in
 an optional comma.
 
-\~Begin P4Grammar \[INCLUDE=grammar.mdk:optTrailingComma\] \~End
-P4Grammar
+```p4
+"one string \" with a quote inside;" ++ (" " ++ "another string")
+// can be constant folded to
+"one string \" with a quote inside; another string"
+```
 
 For example, the following declarations are both legal, and have the
 same meaning:
 
-\~Begin P4Example enum E { a, b, c }
+```p4
+enum E {
+     a, b, c
+}
 
-enum E { a, b, c, } \~End P4Example
+enum E {
+     a, b, c,
+}
+```
 
 This is particularly useful in combination with preprocessor directives:
 
-\~Begin P4Example enum E { \#if SUPPORT\_A a, \#endif b, c, } \~End
-P4Example
+```p4
+enum E {
+#if SUPPORT_A
+    a,
+#endif
+    b,
+    c,
+}
+```

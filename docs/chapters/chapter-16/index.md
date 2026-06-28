@@ -9,9 +9,14 @@ provide a separate language for packet deparsing; deparsing is done in a
 For example, the following code sequence writes first an Ethernet header
 and then an IPv4 header into a `packet_out`:
 
-\~ Begin P4Example control TopDeparser(inout Parsed\_packet p,
-packet\_out b) { apply { b.emit(p.ethernet); b.emit(p.ip); } } \~ End
-P4Example
+```p4
+control TopDeparser(inout Parsed_packet p, packet_out b) {
+    apply {
+        b.emit(p.ethernet);
+        b.emit(p.ip);
+    }
+}
+```
 
 Emitting a header appends the header to the `packet_out` only if the
 header is valid. Emitting a header stack will emit all elements of the

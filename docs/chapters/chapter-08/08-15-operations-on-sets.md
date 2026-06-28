@@ -6,23 +6,49 @@ see Section [Set types](../chapter-07/07-02-derived-types.md#sec-set-types)). Th
 few contexts—parsers and table entries. For example, the `select`
 expression (Section [Select expressions](../chapter-13/13-06-select-expressions.md#sec-select)) has the following structure:
 
-\~ Begin P4Example select (expression) { set1: state1; set2: state2; //
-More labels omitted } \~ End P4Example
+```p4
+select (expression) {
+   set1: state1;
+   set2: state2;
+   // More labels omitted
+}
+```
 
 Here the expressions `set1, set2`, etc. evaluate to sets of values and
 the `select` expression tests whether `expression` belongs to the sets
 used as labels.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:keysetExpression\]
+```bison
+keysetExpression
+    : tupleKeysetExpression
+    | simpleKeysetExpression
+    ;
 
-\[INCLUDE=grammar.mdk:tupleKeysetExpression\]
+tupleKeysetExpression
+    : "(" simpleKeysetExpression "," simpleExpressionList ")"
+    | "(" reducedSimpleKeysetExpression ")"
+    ;
 
-\[INCLUDE=grammar.mdk:simpleExpressionList\]
+simpleExpressionList
+    : simpleKeysetExpression
+    | simpleExpressionList "," simpleKeysetExpression
+    ;
 
-\[INCLUDE=grammar.mdk:reducedSimpleKeysetExpression\]
+reducedSimpleKeysetExpression
+    : expression "&&&" expression
+    | expression ".." expression
+    | DEFAULT
+    | "_"
+    ;
 
-  - \[INCLUDE=grammar.mdk:simpleKeysetExpression\]  
-    End P4Grammar
+simpleKeysetExpression
+    : expression
+    | expression "&&&" expression
+    | expression ".." expression
+    | DEFAULT
+    | "_"
+    ;
+```
 
 The mask (`&&&`) and range (`..`) operators have the same precedence;
 the just above the `?:` operator.
@@ -32,8 +58,11 @@ the just above the `?:` operator.
 In a set context, expressions denote singleton sets. For example, in the
 following program fragment,
 
-\~ Begin P4Example select (hdr.ipv4.version) { 4: continue; } \~ End
-P4Example
+```p4
+select (hdr.ipv4.version) {
+   4: continue;
+}
+```
 
 The label `4` denotes the singleton set containing the `int` value `4`.
 
@@ -42,8 +71,12 @@ The label `4` denotes the singleton set containing the `int` value `4`.
 In a set context, the expressions `default` or `_` denote the universal
 set, which contains all possible values of a given type:
 
-\~ Begin P4Example select (hdr.ipv4.version) { 4: continue; \_: reject;
-} \~ End P4Example
+```p4
+select (hdr.ipv4.version) {
+   4: continue;
+   _: reject;
+}
+```
 
 ### Masks
 
@@ -53,12 +86,14 @@ type. The right value is used as a “mask”, where each bit set to `0` in
 the mask indicates a “don’t care” bit. More formally, the set denoted by
 `a &&& b` is defined as follows:
 
-\~ Begin P4Example a &&& b = { c where a & b = c & b } \~ End P4Example
+```p4
+a &&& b = { c where a & b = c & b }
+```
 
   - For example:  
-    Begin P4Example 8w0x0A &&& 8w0x0F
-    
-    End P4Example
+    ```p4
+8w0x0A &&& 8w0x0F
+```
 
 denotes a set that contains 16 different `bit<8>` values, whose
 bit-pattern is `XXXX1010`, where the value of an `X` can be any bit.
@@ -82,7 +117,9 @@ The infix operator `..` takes two arguments of the same numeric type `T`
 `set<T>`. The set contains all values numerically between the first and
 the second, inclusively. For example:
 
-\~ Begin P4Example 4s5 .. 4s8 \~ End P4Example
+```p4
+4s5 .. 4s8
+```
 
 denotes a set of 4 consecutive `int<4>` values `4s5, 4s6, 4s7`, and
 `4s8`.
@@ -97,10 +134,12 @@ an empty set.
 ### Products
 
   - Multiple sets can be combined using Cartesian product:  
-    Begin P4Example select(hdr.ipv4.ihl, hdr.ipv4.protocol) { (4w0x5,
-    8w0x1): parse\_icmp; (4w0x5, 8w0x6): parse\_tcp; (4w0x5, 8w0x11):
-    parse\_udp; (*, *): accept; }
-    
-    End P4Example
+    ```p4
+select(hdr.ipv4.ihl, hdr.ipv4.protocol) {
+     (4w0x5, 8w0x1): parse_icmp;
+     (4w0x5, 8w0x6): parse_tcp;
+     (4w0x5, 8w0x11): parse_udp;
+     (_, _): accept; }
+```
 
 The type of a product of sets is a set of tuples.

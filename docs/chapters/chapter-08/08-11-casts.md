@@ -71,9 +71,15 @@ concatenation, bit slicing indexes, header stack indexes as well as
 other unary and binary operations.
 
   - For example, given the following declarations,  
-    Begin P4Example enum bit\<8\> E { a = 5 }
+    ```p4
+enum bit<8> E {
+   a = 5
+}
 
-bit\<8\> x; bit\<16\> y; int\<8\> z; \~ End P4Example
+bit<8>  x;
+bit<16> y;
+int<8>  z;
+```
 
 the compiler will add implicit casts as follows:
 
@@ -101,7 +107,11 @@ add implicit casts for `int` fields.
 Many arithmetic expressions that would be allowed in other languages are
 illegal in P4. To illustrate, consider the following declarations:
 
-\~ Begin P4Example bit\<8\> x; bit\<16\> y; int\<8\> z; \~ End P4Example
+```p4
+bit<8>  x;
+bit<16> y;
+int<8>  z;
+```
 
 The table below shows several expressions which are illegal because they
 do not obey the P4 typing rules. For each expression we provide several

@@ -4,10 +4,22 @@ assignment operation or as arguments corresponding to `out` and `inout`
 function parameters. An l-value represents a storage reference. The
 following expressions are legal l-values:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:prefixedNonTypeName\]
+```bison
+prefixedNonTypeName
+    : nonTypeName
+    | dotPrefix nonTypeName
+    ;
 
-  - \[INCLUDE=grammar.mdk:lvalue\]  
-    End P4Grammar
+lvalue
+    : prefixedNonTypeName
+    | THIS
+    | lvalue "." member
+    | lvalue "[" expression "]"
+    | lvalue "[" expression ":" expression "]"
+    | lvalue "[" expression "+" ":" expression "]"
+    | "(" lvalue ")"
+    ;
+```
 
 <!-- end list -->
 

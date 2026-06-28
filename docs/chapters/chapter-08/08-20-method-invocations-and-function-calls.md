@@ -2,19 +2,40 @@
 Method invocations and function calls can be invoked using the following
 syntax:
 
-\~ Begin P4Grammar expression : … | expression ‘\<’ realTypeArgumentList
-‘\>’ ‘(’ argumentList ‘)’ | expression ‘(’ argumentList ‘)’
+```bison
+expression
+    : ...
+    | expression '<' realTypeArgumentList '>' '(' argumentList ')'
+    | expression '(' argumentList ')'
 
-\[INCLUDE=grammar.mdk:argumentList\]
+argumentList
+    : /* empty */
+    | nonEmptyArgList
+    ;
 
-\[INCLUDE=grammar.mdk:nonEmptyArgList\]
+nonEmptyArgList
+    : argument
+    | nonEmptyArgList "," argument
+    ;
 
-\[INCLUDE=grammar.mdk:argument\]
+argument
+    : expression  /* positional argument */
+    | name "=" expression  /* named argument */
+    | "_"
+    | name "=" "_"
+    ;
 
-\[INCLUDE=grammar.mdk:realTypeArgumentList\]
+realTypeArgumentList
+    : realTypeArg
+    | realTypeArgumentList "," typeArg
+    ;
 
-  - \[INCLUDE=grammar.mdk:realTypeArg\]  
-    End P4Grammar
+realTypeArg
+    : typeRef
+    | VOID
+    | "_"
+    ;
+```
 
 A function call or method invocation can optionally specify for each
 argument the corresponding parameter name. It is illegal to use names
@@ -22,14 +43,19 @@ only for some arguments: either all or no arguments must specify the
 parameter name. Function arguments are evaluated in the order they
 appear, left to right, before the function invocation takes place.
 
-\~ Begin P4Example extern void f(in bit\<32\> x, out bit\<16\> y);
-bit\<32\> xa = 0; bit\<16\> ya; f(xa, ya); // match arguments by
-position f(x = xa, y = ya); // match arguments by name f(y = ya, x =
-xa); // match arguments by name in any order //f(x = xa); – error:
-enough arguments //f(x = xa, x = ya); – error: argument specified twice
-//f(x = xa, ya); – error: some arguments specified by name //f(z = xa, w
-= yz); – error: no parameter named z or w //f(x = xa, y = 0); – error: y
-must be a left-value \~ End P4Example
+```p4
+extern void f(in bit<32> x, out bit<16> y);
+bit<32> xa = 0;
+bit<16> ya;
+f(xa, ya);  // match arguments by position
+f(x = xa, y = ya);  // match arguments by name
+f(y = ya, x = xa);  // match arguments by name in any order
+//f(x = xa);  -- error: enough arguments
+//f(x = xa, x = ya);  -- error: argument specified twice
+//f(x = xa, ya);  -- error: some arguments specified by name
+//f(z = xa, w = yz);  -- error: no parameter named z or w
+//f(x = xa, y = 0);  -- error: y must be a left-value
+```
 
 The calling convention is copy-in/copy-out (Section
 [Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention)). For generic functions the type arguments

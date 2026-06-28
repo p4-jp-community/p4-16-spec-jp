@@ -71,11 +71,22 @@ is not performed for parameters with any direction that is not `out`.
 
   - For example, if a direction `out` parameter has type `s2_t` named
     `p`:  
-    Begin P4Example header h1\_t { bit\<8\> f1; bit\<8\> f2; } struct
-    s1\_t { h1\_t h1a; bit\<3\> a; bit\<7\> b; } struct s2\_t { h1\_t
-    h1b; s1\_t s1; bit\<5\> c; }
-    
-    End P4Example
+    ```p4
+header h1_t {
+    bit<8> f1;
+    bit<8> f2;
+}
+struct s1_t {
+    h1_t h1a;
+    bit<3> a;
+    bit<7> b;
+}
+struct s2_t {
+    h1_t h1b;
+    s1_t s1;
+    bit<5> c;
+}
+```
 
 then at the beginning of execution of the part of the program that has
 the `out` parameter `p`, it must be initialized so that `p.h1b` and and
@@ -87,8 +98,12 @@ the function itself. The order of evaluation is important when the
 expression supplied for an argument can have side-effects. Consider the
 following example:
 
-\~ Begin P4Example extern void f(inout bit x, in bit y); extern bit
-g(inout bit z); bit a; f(a, g(a)); \~ End P4Example
+```p4
+extern void f(inout bit x, in bit y);
+extern bit g(inout bit z);
+bit a;
+f(a, g(a));
+```
 
 Note that the evaluation of `g` may mutate its argument `a`, so the
 compiler has to ensure that the value passed to `f` for its first
@@ -100,10 +115,7 @@ same result):
 1.  Arguments are evaluated from left to right as they appear in the
     function call expression.
 
-2.  ``` 
-     If a parameter has a default value and no corresponding argument is
-    ```
-    
+2.  If a parameter has a default value and no corresponding argument is
     supplied, the default value is used as an argument.
 
 3.  For each `out` and `inout` argument the corresponding l-value is
@@ -126,25 +138,32 @@ same result):
 According to this algorithm, the previous function call is equivalent to
 the following sequence of statements:
 
-\~ Begin P4Example bit tmp1 = a; // evaluate a; save result bit tmp2 =
-g(a); // evaluate g(a); save result; modifies a f(tmp1, tmp2); //
-evaluate f; modifies tmp1 a = tmp1; // copy inout result back into a \~
-End P4Example
+```p4
+bit tmp1 = a;     // evaluate a; save result
+bit tmp2 = g(a);  // evaluate g(a); save result; modifies a
+f(tmp1, tmp2);    // evaluate f; modifies tmp1
+a = tmp1;         // copy inout result back into a
+```
 
 To see why Step 3 in the above algorithm is important, consider the
 following example:
 
-\~ Begin P4Example header H { bit z; } H\[2\] s; f(s\[a\].z, g(a)); \~
-End P4Example
+```p4
+header H { bit z; }
+H[2] s;
+f(s[a].z, g(a));
+```
 
 The evaluation of this call is equivalent to the following sequence of
 statements:
 
-\~ Begin P4Example bit tmp1 = a; // save the value of a bit tmp2 =
-s\[tmp1\].z; // evaluate first argument bit tmp3 = g(a); // evaluate
-second argument; modifies a f(tmp2, tmp3); // evaluate f; modifies tmp2
-s\[tmp1\].z = tmp2; // copy inout result back; dest is not s\[a\].z \~
-End P4Example
+```p4
+bit tmp1 = a;          // save the value of a
+bit tmp2 = s[tmp1].z;  // evaluate first argument
+bit tmp3 = g(a);       // evaluate second argument; modifies a
+f(tmp2, tmp3);         // evaluate f; modifies tmp2
+s[tmp1].z = tmp2;      // copy inout result back; dest is not s[a].z
+```
 
 When used as arguments, `extern` objects can only be passed as
 directionless parameters—e.g., see the packet argument in the very
@@ -177,14 +196,29 @@ There are additional benefits of using copy-in copy-out semantics:
   - It simplifies some compiler analyses, since function parameters can
     never alias to each other within the function body.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:parameterList\]
+```bison
+parameterList
+    : /* empty */
+    | nonEmptyParameterList
+    ;
 
-\[INCLUDE=grammar.mdk:nonEmptyParameterList\]
+nonEmptyParameterList
+    : parameter
+    | nonEmptyParameterList "," parameter
+    ;
 
-\[INCLUDE=grammar.mdk:parameter\]
+parameter
+    : optAnnotations direction typeRef name
+    | optAnnotations direction typeRef name "=" expression
+    ;
 
-  - \[INCLUDE=grammar.mdk:direction\]  
-    End P4Grammar
+direction
+    : IN
+    | OUT
+    | INOUT
+    | /* empty */
+    ;
+```
 
 Following is a summary of the constraints imposed by the parameter
 directions:
@@ -215,13 +249,17 @@ directions:
     list of parameters, invocations that use the default values must use
     named arguments, as in the following example:
 
-\~ Begin P4Example extern void f(in bit a, in bit\<3\> b = 2, in
-bit\<5\> c);
+```p4
+extern void f(in bit a, in bit<3> b = 2, in bit<5> c);
 
-void g() { f(a = 1, b = 2, c = 3); // ok f(a = 1, c = 3); // ok,
-equivalent to the previous call, b uses default value f(1, 2, 3); // ok,
-equivalent to the previous call // f(1, 3); // illegal, since the
-parameter b is not the last in the list } \~ End P4Example
+void g()
+{
+  f(a = 1, b = 2, c = 3);  // ok
+  f(a = 1, c = 3);  // ok, equivalent to the previous call, b uses default value
+  f(1, 2, 3);       // ok, equivalent to the previous call
+  // f(1, 3); // illegal, since the parameter b is not the last in the list
+}
+```
 
 ### Optional parameters
 
@@ -241,11 +279,13 @@ the target architecture. For example, we can imagine a two-stage switch
 architecture where the second stage is optional. This could be declared
 as a package with an optional parameter:
 
-\~Begin P4Example package pipeline(/\* parameters omitted \*/); package
-switch(pipeline first, @optional pipeline second);
+```p4
+package pipeline(/* parameters omitted */);
+package switch(pipeline first, @optional pipeline second);
 
-pipeline(/\* arguments omitted \*/) ingress; switch(ingress) main; // a
-switch with a single-stage pipeline \~End P4Example
+pipeline(/* arguments omitted */) ingress;
+switch(ingress) main;   // a switch with a single-stage pipeline
+```
 
 Here the target architecture could implement the elided optional
 argument using an empty pipeline.
@@ -253,21 +293,25 @@ argument using an empty pipeline.
 The following example shows optional parameters and parameters with
 default values.
 
-\~Begin P4Example extern void h(in bit\<32\> a, in bool b = true); //
-default value
+```p4
+extern void h(in bit<32> a, in bool b = true);  // default value
 
-// function calls h(10); // same as h(10, true); h(a = 10); // same as
-h(10, true); h(a = 10, b = true);
+// function calls
+h(10);  // same as h(10, true);
+h(a = 10);  // same as h(10, true);
+h(a = 10, b = true);
 
-struct Empty {} control nothing(inout Empty h, inout Empty m) { apply {}
+struct Empty {}
+control nothing(inout Empty h, inout Empty m) {
+   apply {}
 }
 
-parser parserProto\<H, M\>(packet\_in p, out H h, inout M m); control
-controlProto\<H, M\>(inout H h, inout M m);
+parser parserProto<H, M>(packet_in p, out H h, inout M m);
+control controlProto<H, M>(inout H h, inout M m);
 
-package pack\<HP, MP, HC, MC\>( @optional parserProto\<HP, MP\>
-\_parser, // optional parameter controlProto\<HC, MC\> \_control =
-nothing()); // default parameter value
+package pack<HP, MP, HC, MC>(
+    @optional parserProto<HP, MP> _parser,  // optional parameter
+                             controlProto<HC, MC> _control = nothing()); // default parameter value
 
-pack() main; // No value for \_parser, \_control is an instance of
-nothing() \~End P4Example
+pack() main;   // No value for _parser, _control is an instance of nothing()
+```

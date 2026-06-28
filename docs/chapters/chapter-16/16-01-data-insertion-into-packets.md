@@ -2,8 +2,11 @@ The `packet_out` datatype is defined in the P4 core library, and
 reproduced below. It provides a method for appending data to an output
 packet called `emit`:
 
-\~ Begin P4Example extern packet\_out { void emit<T>(in T data); } \~
-End P4Example
+```p4
+extern packet_out {
+    void emit<T>(in T data);
+}
+```
 
 The `emit` method supports appending the data contained in a header,
 header stack, `struct`, or header union to the output packet.
@@ -22,13 +25,31 @@ type, `enum`, or `error`.
 
 We can define the meaning of the `emit` method in pseudocode as follows:
 
-\~ Begin P4Pseudo packet\_out { byte\[\] data; unsigned lengthInBits;
-void initializeForWriting() { this.data.clear(); this.lengthInBits = 0;
-} /// Append data to the packet. Type T must be a header, header ///
-stack, header union, or struct formed recursively from those types void
-emit<T>(T data) { if (isHeader(T))
-if(data.valid\() {  this.data.append(data);  this.lengthInBits += data.lengthInBits;  }  else if (isHeaderStack(T))  for (e : data)  emit(e);  else if (isHeaderUnion(T) || isStruct(T))  for (f : data.fields\))
-emit(e.f) // Other cases for T are illegal } \~ End P4Pseudo
+```text
+packet_out {
+    byte[] data;
+    unsigned lengthInBits;
+    void initializeForWriting() {
+        this.data.clear();
+        this.lengthInBits = 0;
+    }
+    /// Append data to the packet. Type T must be a header, header
+    /// stack, header union, or struct formed recursively from those types
+    void emit<T>(T data) {
+        if (isHeader(T))
+            if(data.valid$) {
+                this.data.append(data);
+                this.lengthInBits += data.lengthInBits;
+            }
+        else if (isHeaderStack(T))
+            for (e : data)
+                 emit(e);
+        else if (isHeaderUnion(T) || isStruct(T))
+            for (f : data.fields$)
+                 emit(e.f)
+        // Other cases for T are illegal
+    }
+```
 
 Here we use the special `valid$` identifier to indicate the hidden valid
 bit of headers and `fields$` to indicate the list of fields for a struct

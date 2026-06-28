@@ -2,9 +2,14 @@
 Similarly to `typedef`, the keyword `type` can be used to introduce a
 new type.
 
-\~ Begin P4Grammar | optAnnotations TYPE typeRef name \~ End P4Grammar
+```bison
+    | optAnnotations TYPE typeRef name
+```
 
-\~ Begin P4Example type bit\<32\> U32; U32 x = (U32)0; \~ End P4Example
+```p4
+type bit<32> U32;
+U32 x = (U32)0;
+```
 
 While similar to `typedef`, the `type` keyword introduces a new type
 which is not a synonym with the original type: values of the original
@@ -20,7 +25,9 @@ be exchanged with the control plane through communication channels
 the control plane). For example, a P4 architecture may define a type for
 the switch ports:
 
-\~Begin P4Example type bit\<9\> PortId\_t; \~End P4Example
+```p4
+type bit<9> PortId_t;
+```
 
 This declaration will prevent `PortId_t` values from being used in
 arithmetic expressions without casts. Moreover, this declaration may

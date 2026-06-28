@@ -13,12 +13,40 @@ each of these places. For example, `return`s are not supported in
 parsers, and `switch` statements are only supported in control blocks.
 We present here the most general case, for control blocks.
 
-\~ Begin P4Grammar statement : assignmentOrMethodCallStatement |
-conditionalStatement | emptyStatement | blockStatement | exitStatement |
-returnStatement | switchStatement ;
+```bison
+statement
+    : assignmentOrMethodCallStatement
+    | conditionalStatement
+    | emptyStatement
+    | blockStatement
+    | exitStatement
+    | returnStatement
+    | switchStatement
+    | loopStatement
+    ;
 
-  - \[INCLUDE=grammar.mdk:assignmentOrMethodCallStatement\]  
-    End P4Grammar
+assignmentOrMethodCallStatement
+    : assignmentOrMethodCallStatementWithoutSemicolon ";"
+    ;
+
+assignmentOrMethodCallStatementWithoutSemicolon
+    : lvalue "(" argumentList ")"
+    | lvalue "<" typeArgumentList ">" "(" argumentList ")"
+    | lvalue "="  expression
+    | lvalue "*=" expression
+    | lvalue "/=" expression
+    | lvalue "%=" expression
+    | lvalue "+=" expression
+    | lvalue "-=" expression
+    | lvalue "|+|=" expression
+    | lvalue "|-|=" expression
+    | lvalue "<<=" expression
+    | lvalue ">>=" expression
+    | lvalue "&=" expression
+    | lvalue "|=" expression
+    | lvalue "^=" expression
+    ;
+```
 
 In addition, parsers support a `transition` statement (Section
 [Transition statements](../chapter-13/13-05-transition-statements.md#sec-transition)).

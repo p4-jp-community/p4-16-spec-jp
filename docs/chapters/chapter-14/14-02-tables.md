@@ -42,16 +42,32 @@ set of properties can be extended by target-specific compilers as
 needed. Note duplicated properties are invalid and the compiler should
 reject them.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:tableDeclaration\]
+```bison
+tableDeclaration
+    : optAnnotations TABLE name "{" tablePropertyList "}"
+    ;
 
-\[INCLUDE=grammar.mdk:tablePropertyList\]
+tablePropertyList
+    : tableProperty
+    | tablePropertyList tableProperty
+    ;
 
-tableProperty : KEY ‘=’ ‘{’ keyElementList ‘}’ | ACTIONS ‘=’ ‘{’
-actionList ‘}’ | optAnnotations optCONST ENTRIES ‘=’ ‘{’ entriesList ‘}’
-| optAnnotations optCONST nonTableKwName ‘=’ initializer ‘;’ ;
+tableProperty
+    : KEY '=' '{' keyElementList '}'
+    | ACTIONS '=' '{' actionList '}'
+    | optAnnotations optCONST ENTRIES '=' '{' entriesList '}'
+    | optAnnotations optCONST nonTableKwName '=' initializer ';'
+    ;
 
-  - \[INCLUDE=grammar.mdk:nonTableKwName\]  
-    End P4Grammar
+nonTableKwName
+   : IDENTIFIER
+   | TYPE_IDENTIFIER
+   | APPLY
+   | STATE
+   | TYPE
+   | PRIORITY
+   ;
+```
 
 The standard table properties include:
 
@@ -95,16 +111,27 @@ matched in the table, and `m` is a `match_kind` that describes the
 algorithm used to perform the lookup; see Section
 [The match kind type](../chapter-07/07-01-base-types.md#sec-match-kind-type).
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:keyElementList\]
+```bison
+keyElementList
+    : /* empty */
+    | keyElementList keyElement
+    ;
 
-  - \[INCLUDE=grammar.mdk:keyElement\]  
-    End P4Grammar
+keyElement
+    : expression ":" name optAnnotations ";"
+    ;
+```
 
   - For example, consider the following program fragment:  
-    Begin P4Example table Fwd { key = { ipv4header.dstAddress : ternary;
-    ipv4header.version : exact; } // more fields omitted }
-    
-    End P4Example
+    ```p4
+table Fwd {
+    key = {
+       ipv4header.dstAddress : ternary;
+       ipv4header.version    : exact;
+    }
+    // more fields omitted
+}
+```
 
 Here the key comprises two fields from the `ipv4header` header:
 `dstAddress` and `version`. The `match_kind` elements serve three
@@ -121,9 +148,13 @@ purposes:
 
   - The P4 core library contains three predefined `match_kind`
     identifiers:  
-    Begin P4Example match\_kind { exact, ternary, lpm }
-    
-    End P4Example
+    ```p4
+match_kind {
+   exact,
+   ternary,
+   lpm
+}
+```
 
 These identifiers correspond to the P4<sub>14</sub> match kinds with the
 same names. The semantics of these match kinds is actually not needed to
@@ -185,22 +216,38 @@ associated lookup table or in the default action. This is done with the
 `actions` property; the value of this property is always an
 `actionList`:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:actionList\]
+```bison
+actionList
+    : /* empty */
+    | actionList optAnnotations actionRef ";"
+    ;
 
-  - \[INCLUDE=grammar.mdk:actionRef\]  
-    End P4Grammar
+actionRef
+    : prefixedNonTypeName
+    | prefixedNonTypeName "(" argumentList ")"
+    ;
+```
 
 To illustrate, recall the example Very Simple Switch program in Section
 [A complete Very Simple Switch program](../chapter-05/05-03-a-complete-very-simple-switch-program.md#sec-vss-all):
 
-\~ Begin P4Example action Drop\_action() { outCtrl.outputPort =
-DROP\_PORT; }
+```p4
+action Drop_action() {
+  outCtrl.outputPort = DROP_PORT;
+}
 
-action Rewrite\_smac(EthernetAddress sourceMac) {
-headers.ethernet.srcAddr = sourceMac; }
+action Rewrite_smac(EthernetAddress sourceMac) {
+  headers.ethernet.srcAddr = sourceMac;
+}
 
-table smac { key = { outCtrl.outputPort : exact; } actions = {
-Drop\_action; Rewrite\_smac; } } \~ End P4Example
+table smac {
+    key = { outCtrl.outputPort : exact; }
+    actions = {
+        Drop_action;
+        Rewrite_smac;
+    }
+}
+```
 
   - The entries in the `smac` `table` may contain two different actions:
     `Drop_action` and `Rewrite_mac`.
@@ -210,9 +257,14 @@ Drop\_action; Rewrite\_smac; } } \~ End P4Example
 Each action in the list of actions for a table must have a distinct
 name—e.g., the following program fragment is illegal:
 
-\~ Begin P4Example action a() {} control c() { action a() {} // Illegal
-table: two actions with the same name table t { actions = { a; .a; } } }
-\~ End P4Example
+```p4
+action a() {}
+control c() {
+    action a() {}
+    // Illegal table: two actions with the same name
+    table t { actions = { a; .a; } }
+}
+```
 
 Each action parameter that has a direction (`in`, `inout`, or `out`)
 must be bound in the `actions` list specification; conversely, no
@@ -222,14 +274,21 @@ is invoked. Applying tables, whether directly via an expression like
 `table1.apply().hit`, or indirectly, are forbidden in the expressions
 supplied as action arguments.
 
-\~ Begin P4Example action a(in bit\<32\> x) { /\* body omitted */ }
-bit\<32\> z; action b(inout bit\<32\> x, bit\<8\> data) { /* body
-omitted \*/ } table t { actions = { // a; – illegal, x parameter must be
-bound a(5); // binding a’s parameter x to 5 b(z); // binding b’s
-parameter x to z // b(z, 3); – illegal, cannot bind directionless data
-parameter // b(); – illegal, x parameter must be bound //
-a(table2.apply().hit ? 5 : 3); – illegal, cannot apply a table here } }
-\~ End P4Example
+```p4
+action a(in bit<32> x) { /* body omitted */ }
+bit<32> z;
+action b(inout bit<32> x, bit<8> data) { /* body omitted */ }
+table t {
+    actions = {
+       // a; -- illegal, x parameter must be bound
+       a(5);  // binding a's parameter x to 5
+       b(z);  // binding b's parameter x to z
+       // b(z, 3); -- illegal, cannot bind directionless data parameter
+       // b(); -- illegal, x parameter must be bound
+       // a(table2.apply().hit ? 5 : 3); -- illegal, cannot apply a table here
+    }
+}
+```
 
 #### Default action
 
@@ -248,8 +307,9 @@ elements of the `actions` list.
 For example, in the above `table` we could set the default action as
 follows (marking it also as constant):
 
-\~ Begin P4Example const default\_action =
-Rewrite\_smac(48w0xAA\_BB\_CC\_DD\_EE\_FF); \~ End P4Example
+```p4
+const default_action = Rewrite_smac(48w0xAA_BB_CC_DD_EE_FF);
+```
 
 Note that the specified default action must supply arguments for the
 control-plane-bound parameters (i.e., the directionless parameters),
@@ -263,12 +323,13 @@ Continuing the example from the previous section, the following are
 several legal and illegal specifications of default actions for the
 `table t`:
 
-\~ Begin P4Example default\_action = a(5); // OK - no control-plane
-parameters // default\_action = a(z); – illegal, a’s x parameter is
-already bound to 5 default\_action = b(z,8w8); // OK - bind b’s data
-parameter to 8w8 // default\_action = b(z); – illegal, b’s data
-parameter is not bound // default\_action = b(x, 3); – illegal: x
-parameter of b bound to x instead of z \~ End P4Example
+```p4
+  default_action = a(5); // OK - no control-plane parameters
+  // default_action = a(z); -- illegal, a's x parameter is already bound to 5
+  default_action = b(z,8w8); // OK - bind b's data parameter to 8w8
+  // default_action = b(z); -- illegal, b's data parameter is not bound
+  // default_action = b(x, 3); -- illegal: x parameter of b bound to x instead of z
+```
 
 #### Entries
 
@@ -292,18 +353,31 @@ program is loaded onto the target. Entries cannot be specified for a
 table with no key (see Sec. [Keys](#sec-table-keys)).
 
   - Table entries are defined using the following syntax:  
-    Begin P4Grammar tableProperty
-    
-    optAnnotations optCONST ENTRIES ‘=’ ‘{’ entriesList ‘}’ ;
+    ```bison
+tableProperty
+ : optAnnotations optCONST ENTRIES '=' '{' entriesList '}'
+ ;
 
-\[INCLUDE=grammar.mdk:entriesList\]
+entriesList
+    : /* empty */
+    | entriesList entry
+    ;
 
-\[INCLUDE=grammar.mdk:optCONST\]
+optCONST
+    : /* empty */
+    | CONST
+    ;
 
-\[INCLUDE=grammar.mdk:entryPriority\]
+entryPriority
+ : PRIORITY '=' INTEGER ":"
+ | PRIORITY '=' '(' expression ')' ":"
+ ;
 
-  - \[INCLUDE=grammar.mdk:entry\]  
-    End P4Grammar
+entry
+    : optCONST entryPriority keysetExpression ':' actionRef optAnnotations ';'
+    | optCONST keysetExpression ':' actionRef optAnnotations ';'
+    ;
+```
 
 Table entries defined using `const entries` are immutable—i.e., they can
 only be read by the control plane. The control plane is not allowed to
@@ -348,31 +422,40 @@ implementation may choose to issue a warning or an error, depending on
 target capabilities.
 
   - To illustrate, consider the following example:  
-    Begin P4Example header hdr { bit\<8\> e; bit\<16\> t; bit\<8\> l;
-    bit\<8\> r; bit\<1\> v; }
+    ```p4
+header hdr {
+    bit<8>  e;
+    bit<16> t;
+    bit<8>  l;
+    bit<8>  r;
+    bit<1>  v;
+}
 
-struct Header\_t { hdr h; } struct Meta\_t {}
+struct Header_t {
+    hdr h;
+}
+struct Meta_t {}
 
-control ingress(inout Header\_t h, inout Meta\_t m, inout
-standard\_metadata\_t standard\_meta) {
+control ingress(inout Header_t h, inout Meta_t m,
+                inout standard_metadata_t standard_meta) {
 
     action a() { standard_meta.egress_spec = 0; }
     action a_params(bit<9> x) { standard_meta.egress_spec = x; }
-    
+
     table t_exact_ternary {
-    
-    key = {
+
+  	key = {
             h.h.e : exact;
             h.h.t : ternary;
         }
-    
-    actions = {
+
+	actions = {
             a;
             a_params;
         }
-    
-    default_action = a;
-    
+
+	default_action = a;
+
         const entries = {
             (0x01, 0x1111 &&& 0xF   ) : a_params(1);
             (0x02, 0x1181           ) : a_params(2);
@@ -384,8 +467,8 @@ standard\_metadata\_t standard\_meta) {
         }
     }
 
-  - }  
-    End P4Example
+}
+```
 
 In this example we define a set of 7 entries, all of which invoke action
 `a_params` except for the final entry which invokes action `a`. Once the
@@ -465,13 +548,24 @@ that is the value that will be used.
 If the developer does not specify priority values for any entry, then
 the compiler calculates priority values for every entry as follows:
 
-\~ Begin P4Pseudo // For this pseudocode, table entries in the `entries`
-list are // numbered 0 through n-1, 0 being the first to appear in order
-in the // source code. Their priority values are named prio\[0\] through
-// prio\[n-1\]. int p = 1; if (largest\_priority\_wins == true) { for
-(int j = n-1; j \>= 0; j -= 1) { prio\[j\] = p; p += priority\_delta; }
-} else { for (int j = 0; j \< n; j += 1) { prio\[j\] = p; p +=
-priority\_delta; } } \~ End P4Pseudo
+```text
+// For this pseudocode, table entries in the `entries` list are
+// numbered 0 through n-1, 0 being the first to appear in order in the
+// source code.  Their priority values are named prio[0] through
+// prio[n-1].
+int p = 1;
+if (largest_priority_wins == true) {
+    for (int j = n-1; j >= 0; j -= 1) {
+        prio[j] = p;
+        p += priority_delta;
+    }
+} else {
+    for (int j = 0; j < n; j += 1) {
+        prio[j] = p;
+        p += priority_delta;
+    }
+}
+```
 
 If the developer specifies priority values for at least one entry, then
 in order to simplify the rules for determining priorities of entries
@@ -479,14 +573,25 @@ without one in the source code, the first entry *must* have a priority
 value explicitly provided. The priorities of entries that do not have
 one in the source code (if any) are determined as follows:
 
-\~ Begin P4Pseudo // Same conventions here as in the previous block of
-pseudocode above. // If entry j has a priority value specified in the
-source code, // prio\_specified\[j\] is true, otherwise it is false.
-assert(prio\_specified\[0\]); // compile time error if
-prio\_specified\[0\] is false p = prio\[0\]; for (int j = 1; j \< n; j
-+= 1) { if (prio\_specified\[j\]) { p = prio\[j\]; } else { if
-(largest\_priority\_wins == true) { p -= priority\_delta; } else { p +=
-priority\_delta; } prio\[j\] = p; } } \~ End P4Pseudo
+```text
+// Same conventions here as in the previous block of pseudocode above.
+// If entry j has a priority value specified in the source code,
+// prio_specified[j] is true, otherwise it is false.
+assert(prio_specified[0]);  // compile time error if prio_specified[0] is false
+p = prio[0];
+for (int j = 1; j < n; j += 1) {
+    if (prio_specified[j]) {
+        p = prio[j];
+    } else {
+        if (largest_priority_wins == true) {
+            p -= priority_delta;
+        } else {
+            p += priority_delta;
+        }
+        prio[j] = p;
+    }
+}
+```
 
 This is the end of the first step: determining entry priorities.
 
@@ -541,16 +646,20 @@ The following example is the same as the first example in section
 [Entries](#sec-entries), except for the definition of table `t_exact_ternary`
 shown below.
 
-\~ Begin P4Example table t\_exact\_ternary { key = { h.h.e : exact;
-h.h.t : ternary; }
+```p4
+table t_exact_ternary {
+    key = {
+        h.h.e : exact;
+        h.h.t : ternary;
+    }
 
     actions = {
         a;
         a_params;
     }
-    
+
     default_action = a;
-    
+
     largest_priority_wins = false;
     priority_delta = 10;
     @noWarn("duplicate_priorities")
@@ -562,9 +671,8 @@ h.h.t : ternary; }
               priority=40: (0x04, 0x0010 &&& 0x02F0) : a_params(5);
                            (0x06, _                ) : a_params(6); // priority=50
     }
-
-  - }  
-    End P4Example
+}
+```
 
 The entries that do not have an explicit priority specified will be
 assigned the priority values shown in the comments, because
@@ -629,10 +737,16 @@ the P4<sub>14</sub> table `action_profile` constructs could be
 implemented on architectures that support this feature using a construct
 such as the following:
 
-\~ Begin P4Example extern ActionProfile { ActionProfile(bit\<32\> size);
-// number of distinct actions expected } table t { key = { /\* body
-omitted \*/ } size = 1024; implementation = ActionProfile(32); //
-constructor invocation } \~ End P4Example
+```p4
+extern ActionProfile {
+   ActionProfile(bit<32> size); // number of distinct actions expected
+}
+table t {
+    key = { /* body omitted */ }
+    size = 1024;
+    implementation = ActionProfile(32);  // constructor invocation
+}
+```
 
 Here the action profile might be used to optimize for the case where the
 table has a large number of entries, but the actions associated with
@@ -649,9 +763,16 @@ three fields. This structure is synthesized by the compiler
 automatically. For each `table T`, the compiler synthesizes an `enum`
 and a `struct`, shown in pseudo-P4:
 
-\~ Begin P4Pseudo enum action\_list(T) { // one field for each action in
-the actions list of table T } struct apply\_result(T) { bool hit; bool
-miss; action\_list(T) action\_run; } \~ End P4Pseudo
+```text
+enum action_list(T) {
+   // one field for each action in the actions list of table T
+}
+struct apply_result(T) {
+    bool hit;
+    bool miss;
+    action_list(T) action_run;
+}
+```
 
 The evaluation of the `apply` method sets the `hit` field to `true` and
 the field `miss` to `false` if a match is found in the lookup-table; if
@@ -659,30 +780,41 @@ a match is not found `hit` is set to `false` and `miss` to `true`. These
 bits can be used to drive the execution of the control-flow in the
 control block that invoked the table:
 
-\~ Begin P4Example if (ipv4\_match.apply().hit) { // there was a hit }
-else { // there was a miss }
+```p4
+if (ipv4_match.apply().hit) {
+    // there was a hit
+} else {
+    // there was a miss
+}
 
-if (ipv4\_host.apply().miss) { ipv4\_lpm.apply(); // Look up the route
-only if host table missed } \~ End P4Example
+if (ipv4_host.apply().miss) {
+    ipv4_lpm.apply(); // Look up the route only if host table missed
+}
+```
 
 The `action_run` field indicates which kind of action was executed
 (irrespective of whether it was a hit or a miss). It can be used in a
 switch statement:
 
-\~ Begin P4Example switch (dmac.apply().action\_run) { Drop\_action: {
-return; } } \~ End P4Example
+```p4
+switch (dmac.apply().action_run) {
+    Drop_action: { return; }
+}
+```
 
 ### Match-action unit execution semantics
 
   - The semantics of a table invocation statement:  
-    Begin P4Example m.apply();
-    
-    End P4Example
+    ```p4
+m.apply();
+```
 
 is given by the following pseudocode (see also Figure
 \[\#fig-maudataflow\]):
 
-\~ Begin P4Pseudo apply\_result(m) m.apply() { apply\_result(m) result;
+```text
+apply_result(m) m.apply() {
+    apply_result(m) result;
 
     var lookupKey = m.buildKey(m.key); // using key block
     action RA = m.table.lookup(lookupKey);
@@ -699,9 +831,8 @@ is given by the following pseudocode (see also Figure
     execute(RA);
     copy_out_RA_args(RA);
     return result;
-
-  - }  
-    End P4Pseudo
+}
+```
 
 The behavior of the `buildKey` call in the pseudocode above is to
 evaluate each key expression in the order they appear in the table key
@@ -710,23 +841,51 @@ each key expression is assigned to a fresh temporary variable, before
 starting the evaluation of the following key expression. For example,
 this P4 table definition and apply call:
 
-\~ Begin P4Example bit\<8\> f1 (in bit\<8\> a, inout bit\<8\> b) { b = a
-+ 5; return a \>\> 1; } bit\<8\> x; bit\<8\> y; table t1 { key = { y &
-0x7 : exact @name(“masked\_y”); f1(x, y) : exact @name(“f1”); y : exact;
-} // … rest of table properties defined here, not relevant to example }
-apply { // assign values to x and y here, not relevant to example
-t1.apply(); } \~ End P4Example
+```p4
+bit<8> f1 (in bit<8> a, inout bit<8> b) {
+    b = a + 5;
+    return a >> 1;
+}
+bit<8> x;
+bit<8> y;
+table t1 {
+    key = {
+        y & 0x7  : exact @name("masked_y");
+        f1(x, y) : exact @name("f1");
+        y        : exact;
+    }
+    // ... rest of table properties defined here, not relevant to example
+}
+apply {
+    // assign values to x and y here, not relevant to example
+    t1.apply();
+}
+```
 
 is equivalent in behavior to the following table definition and apply
 call:
 
-\~ Begin P4Example // same definition of f1, x, and y as before, so they
-are not repeated here bit\<8\> tmp\_1; bit\<8\> tmp\_2; bit\<8\> tmp\_3;
-table t1 { key = { tmp\_1 : exact @name(“masked\_y”); tmp\_2 : exact
-@name(“f1”); tmp\_3 : exact @name(“y”); } // … rest of table properties
-defined here, not relevant to example } apply { // assign values to x
-and y here, not relevant to example tmp\_1 = y & 0x7; tmp\_2 = f1(x, y);
-tmp\_3 = y; t1.apply(); } \~ End P4Example
+```p4
+// same definition of f1, x, and y as before, so they are not repeated here
+bit<8> tmp_1;
+bit<8> tmp_2;
+bit<8> tmp_3;
+table t1 {
+    key = {
+        tmp_1 : exact @name("masked_y");
+        tmp_2 : exact @name("f1");
+        tmp_3 : exact @name("y");
+    }
+    // ... rest of table properties defined here, not relevant to example
+}
+apply {
+    // assign values to x and y here, not relevant to example
+    tmp_1 = y & 0x7;
+    tmp_2 = f1(x, y);
+    tmp_3 = y;
+    t1.apply();
+}
+```
 
 Note that the second code example above is given in order to specify the
 behavior of the first one. An implementation is free to choose any

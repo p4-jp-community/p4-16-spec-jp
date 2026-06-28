@@ -4,24 +4,32 @@ syntactic sugar, control and parser declarations with no constructor
 parameters may be applied directly, as if they were an instance. This
 has the effect of creating and applying a local instance of that type.
 
-\~ Begin P4Example control Callee(/\* parameters omitted */) { /* body
-omitted \*/ }
+```p4
+control Callee(/* parameters omitted */) { /* body omitted */ }
 
-control Caller(/\* parameters omitted */)(/* parameters omitted */) {
-apply { Callee.apply(/* arguments omitted \*/); // Callee is treated as
-an instance } } \~ End P4Example
+control Caller(/* parameters omitted */)(/* parameters omitted */) {
+    apply {
+        Callee.apply(/* arguments omitted */); // Callee is treated as an instance
+    }
+}
+```
 
   - The definition of `Caller` is equivalent to the following.  
-    Begin P4Example control Caller(/\* parameters omitted */)(/*
-    parameters omitted */) { @name(“Callee”) Callee() Callee\_inst; //
-    local instance of Callee apply { Callee\_inst.apply(/* arguments
-    omitted \*/); // Callee\_inst is applied } }
+    ```p4
+control Caller(/* parameters omitted */)(/* parameters omitted */) {
+    @name("Callee") Callee() Callee_inst; // local instance of Callee
+    apply {
+        Callee_inst.apply(/* arguments omitted */);         // Callee_inst is applied
+    }
+}
+```
     
-    End P4Example
-    
-    Begin P4Grammar \[INCLUDE=grammar.mdk:directApplication\]
-    
-    End P4Grammar
+    ```bison
+directApplication
+    : typeName "." APPLY "(" argumentList ")" ";"
+    | specializedType "." APPLY "(" argumentList ")" ";"
+    ;
+```
 
 This feature is intended to streamline the common case where a type is
 instantiated exactly once.
@@ -29,13 +37,16 @@ instantiated exactly once.
 The second production in the grammar allows direct calls for generic
 controls or parsers:
 
-\~ Begin P4Example control Callee<T>(/\* parameters omitted */) { /*
-body omitted \*/ }
+```p4
+control Callee<T>(/* parameters omitted */) { /* body omitted */ }
 
-control Caller(/\* parameters omitted */)(/* parameters omitted */) {
-apply { // Callee\<bit\<32\>\> is treated as an instance
-Callee\<bit\<32\>\>.apply(/* arguments omitted \*/); } } \~ End
-P4Example
+control Caller(/* parameters omitted */)(/* parameters omitted */) {
+    apply {
+        // Callee<bit<32>> is treated as an instance
+        Callee<bit<32>>.apply(/* arguments omitted */);
+    }
+}
+```
 
 For completeness, the behavior of directly invoking the same type more
 than once is defined as follows.

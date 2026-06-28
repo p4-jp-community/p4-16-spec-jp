@@ -5,11 +5,19 @@ valid elements of a header stack need not be contiguous. P4 provides a
 set of computations for manipulating header stacks. A header stack `hs`
 of type `h[n]` can be understood in terms of the following pseudocode:
 
-\~ Begin P4Pseudo // type declaration struct hs\_t { bit\<32\>
-nextIndex; bit\<32\> size; h\[n\] data; // Ordinary array }
+```text
+// type declaration
+struct hs_t {
+  bit<32> nextIndex;
+  bit<32> size;
+  h[n] data;  // Ordinary array
+}
 
-// instance declaration and initialization hs\_t hs; hs.nextIndex = 0;
-hs.size = n; \~ End P4Pseudo
+// instance declaration and initialization
+hs_t hs;
+hs.nextIndex = 0;
+hs.size = n;
+```
 
 Intuitively, a header stack can be thought of as a struct containing an
 ordinary array of headers `hs` and a counter `nextIndex` that can be
@@ -85,19 +93,36 @@ manipulate the elements at the front and back of the stack:
 
   - The following pseudocode defines the behavior of `push_front` and
     `pop_front`:  
-    Begin P4Pseudo void push\_front(int count) { for (int i =
-    this.size-1; i \>= 0; i -= 1) { if (i \>= count) { this\[i\] =
-    this\[i-count\]; } else { this\[i\].setInvalid(); } } this.nextIndex
-    = this.nextIndex + count; if (this.nextIndex \> this.size)
-    this.nextIndex = this.size; // Note: this.last, this.next, and
-    this.lastIndex adjust with this.nextIndex }
+    ```text
+void push_front(int count) {
+    for (int i = this.size-1; i >= 0; i -= 1) {
+        if (i >= count) {
+            this[i] = this[i-count];
+        } else {
+            this[i].setInvalid();
+        }
+    }
+    this.nextIndex = this.nextIndex + count;
+    if (this.nextIndex > this.size) this.nextIndex = this.size;
+    // Note: this.last, this.next, and this.lastIndex adjust with this.nextIndex
+}
 
-void pop\_front(int count) { for (int i = 0; i \< this.size; i++) { if
-(i+count \< this.size) { this\[i\] = this\[i+count\]; } else {
-this\[i\].setInvalid(); } } if (this.nextIndex \>= count) {
-this.nextIndex = this.nextIndex - count; } else { this.nextIndex = 0; }
-// Note: this.last, this.next, and this.lastIndex adjust with
-this.nextIndex } \~ End P4Pseudo
+void pop_front(int count) {
+    for (int i = 0; i < this.size; i++) {
+        if (i+count < this.size) {
+            this[i] = this[i+count];
+        } else {
+            this[i].setInvalid();
+        }
+    }
+    if (this.nextIndex >= count) {
+        this.nextIndex = this.nextIndex - count;
+    } else {
+        this.nextIndex = 0;
+    }
+    // Note: this.last, this.next, and this.lastIndex adjust with this.nextIndex
+}
+```
 
 Similar to structs and headers, the size of a header stack is a
 compile-time known value (Section [Compile-time size determination](../chapter-09/index.md#sec-minsizeinbits)).
@@ -113,8 +138,12 @@ comparison.
 One can write expressions that evaluate to a header stack. The syntax of
 these expressions is given by:
 
-\~ Begin P4Grammar expression … | ‘{’ expressionList ‘}’ | ‘(’ typeRef
-‘)’ expression ; \~ End P4Grammar
+```bison
+expression ...
+    | '{' expressionList '}'
+    | '(' typeRef ')' expression
+    ;
+```
 
 The `typeRef` is a header stack type. The `typeRef` can be omitted if it
 can be inferred from context, e.g., when initializing a variable with a
@@ -122,11 +151,16 @@ header stack type. Each expression in the list must evaluate to a header
 of the same type as the other stack elements.
 
   - Here is an example:  
-    Begin P4Example header H<T> { bit\<32\> b; T t; }
-    H\<bit\<32\>\>\[3\] s = (H\<bit\<32\>\>\[3\]){ {0, 1}, {2, 3},
-    (H\<bit\<32\>\>){\#} }; // without an explicit cast
-    H\<bit\<32\>\>\[3\] s1 = { {0, 1}, {2, 3}, (H\<bit\<32\>\>){\#} };
-    // using the default initializer H\<bit\<32\>\>\[3\] s2 = { {0, 1},
-    {2, 3}, … }; \~End P4Example
+    ```p4
+header H<T> {
+    bit<32> b;
+    T t;
+}
+H<bit<32>>[3] s = (H<bit<32>>[3]){ {0, 1}, {2, 3}, (H<bit<32>>){#} };
+// without an explicit cast
+H<bit<32>>[3] s1 = { {0, 1}, {2, 3}, (H<bit<32>>){#} };
+// using the default initializer
+H<bit<32>>[3] s2 = { {0, 1}, {2, 3}, ... };
+```
 
 The values of `s`, `s1`, and `s2` in the above example are identical.

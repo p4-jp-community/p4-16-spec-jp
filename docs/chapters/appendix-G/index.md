@@ -17,11 +17,22 @@ The parser has to use a symbol table to indicate to the lexer how to
 parse subsequent appearances of identifiers. For example, given the
 following program fragment:
 
-\~ Begin P4Example typedef bit\<4\> t; struct s { /\* body omitted */} t
-x; parser p(bit\<8\> b) { /* body omitted \*/ } \~ End P4Example The
-lexer has to return the following terminal kinds: \~ Begin P4Example t -
-TYPE\_IDENTIFIER s - TYPE\_IDENTIFIER x - IDENTIFIER p -
-TYPE\_IDENTIFIER b - IDENTIFIER \~ End P4Example
+```p4
+typedef bit<4> t;
+struct s { /* body omitted */}
+t x;
+parser p(bit<8> b) { /* body omitted */ }
+```
+
+The lexer has to return the following terminal kinds:
+
+```p4
+t - TYPE_IDENTIFIER
+s - TYPE_IDENTIFIER
+x - IDENTIFIER
+p - TYPE_IDENTIFIER
+b - IDENTIFIER
+```
 
 This grammar has been heavily influenced by limitations of the Bison
 parser generator tool.
@@ -33,7 +44,9 @@ All other terminals are uppercase spellings of the corresponding
 keywords. For example, `RETURN` is the terminal returned by the lexer
 when parsing the keyword return.
 
-\~ Begin P4Grammar \[INCLUDE=“grammar.trimmed.mdk”\] \~ End P4Grammar
+```bison
+include::grammar.trimmed.adoc[]
+```
 
 1.  an `enum` type used as a field in a `header` must specify a
     underlying type and representation for `enum` elements.

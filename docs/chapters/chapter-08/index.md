@@ -6,43 +6,93 @@ This section describes all expressions that can be used in P4, grouped
 by the type of value they produce.
 
   - The grammar production rule for general expressions is as follows:  
-    Begin P4Grammar expression : INTEGER | DOTS // DOTS is … |
-    STRING\_LITERAL | TRUE | FALSE | prefixedNonTypeName | expression
-    ‘\[’ expression ’\]’ | expression ‘\[’ expression ’:’ expression
-    ’\]’ | ‘{’ expressionList optTrailingComma ‘}’ | “{\#}” | ‘{’
-    kvList optTrailingComma ‘}’ | “{” kvList “,” DOTS optTrailingComma
-    “}” | ‘(’ expression ‘)’ | ‘\!’ expression | ‘\~’ expression | ‘-’
-    expression | ‘+’ expression | typeName ‘.’ member | ERROR ‘.’ member
-    | expression ‘.’ member | expression ’\*’ expression | expression
-    ‘/’ expression | expression ‘%’ expression | expression ‘+’
-    expression | expression ‘-’ expression | expression ‘|+|’ expression
-    | expression ‘|-|’ expression | expression SHL expression // SHL is
-    \<\< | expression ‘\>’‘\>’ expression // check that \>\> are
-    contiguous | expression LE expression // LE is \<= | expression GE
-    expression // GE is \>= | expression ‘\<’ expression | expression
-    ‘\>’ expression | expression NE expression // NE is \!= |
-    expression EQ expression // EQ is == | expression ‘&’ expression |
-    expression ‘^’ expression | expression ‘|’ expression | expression
-    PP expression // PP is ++ | expression AND expression // AND is && |
-    expression OR expression // OR is || | expression ‘?’ expression ‘:’
-    expression | expression ‘\<’ realTypeArgumentList ‘\>’ ‘(’
-    argumentList ‘)’ | expression ‘(’ argumentList ‘)’ | namedType ‘(’
-    argumentList ‘)’ | ‘(’ typeRef ‘)’ expression ;
+    ```bison
+expression
+    : INTEGER
+    | DOTS                           // DOTS is ...
+    | STRING_LITERAL
+    | TRUE
+    | FALSE
+    | prefixedNonTypeName
+    | expression '[' expression ']'
+    | expression '[' expression ':' expression ']'
+    | '{' expressionList optTrailingComma '}'
+    | "{#}"
+    | '{' kvList optTrailingComma '}'
+    | "{" kvList "," DOTS optTrailingComma "}"
+    | '(' expression ')'
+    | '!' expression
+    | '~' expression
+    | '-' expression
+    | '+' expression
+    | typeName '.' member
+    | ERROR '.' member
+    | expression '.' member
+    | expression '*' expression
+    | expression '/' expression
+    | expression '%' expression
+    | expression '+' expression
+    | expression '-' expression
+    | expression '|+|' expression
+    | expression '|-|' expression
+    | expression SHL expression      // SHL is <<
+    | expression '>''>' expression   // check that >> are contiguous
+    | expression LE expression       // LE is <=
+    | expression GE expression       // GE is >=
+    | expression '<' expression
+    | expression '>' expression
+    | expression NE expression       // NE is !=
+    | expression EQ expression       // EQ is ==
+    | expression '&' expression
+    | expression '^' expression
+    | expression '|' expression
+    | expression PP expression       // PP is ++
+    | expression AND expression      // AND is &&
+    | expression OR expression       // OR is ||
+    | expression '?' expression ':' expression
+    | expression '<' realTypeArgumentList '>' '(' argumentList ')'
+    | expression '(' argumentList ')'
+    | namedType '(' argumentList ')'
+    | '(' typeRef ')' expression
+    ;
 
-\[INCLUDE=grammar.mdk:expressionList\]
+expressionList
+    : /* empty */
+    | expression
+    | expressionList "," expression
+    ;
 
-\[INCLUDE=grammar.mdk:member\]
+member
+    : name
+    ;
 
-\[INCLUDE=grammar.mdk:argumentList\]
+argumentList
+    : /* empty */
+    | nonEmptyArgList
+    ;
 
-\[INCLUDE=grammar.mdk:nonEmptyArgList\]
+nonEmptyArgList
+    : argument
+    | nonEmptyArgList "," argument
+    ;
 
-argument : expression ;
+argument
+    : expression
+    ;
 
-\[INCLUDE=grammar.mdk:typeArg\]
+typeArg
+    : typeRef
+    | nonTypeName
+    | VOID
+    | "_"
+    ;
 
-  - \[INCLUDE=grammar.mdk:typeArgumentList\]  
-    End P4Grammar
+typeArgumentList
+    : /* empty */
+    | typeArg
+    | typeArgumentList "," typeArg
+    ;
+```
 
 See Appendix [P4 grammar](../appendix-G/index.md#sec-grammar) for the complete P4 grammar.
 

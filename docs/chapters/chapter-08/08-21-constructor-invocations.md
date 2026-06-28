@@ -24,7 +24,12 @@ invocations are treated similar to methods or functions.
 The following example shows a constructor invocation for setting the
 target-dependent implementation property of a table:
 
-\~ Begin P4Example extern ActionProfile { ActionProfile(bit\<32\> size);
-// constructor } table tbl { actions = { /\* body omitted \*/ }
-implementation = ActionProfile(1024); // constructor invocation } \~ End
-P4Example
+```p4
+extern ActionProfile {
+    ActionProfile(bit<32> size);  // constructor
+}
+table tbl {
+    actions = { /* body omitted */ }
+    implementation = ActionProfile(1024);  // constructor invocation
+}
+```

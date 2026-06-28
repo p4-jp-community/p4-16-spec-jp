@@ -9,5 +9,9 @@ parameters of the enclosing `action`, `function`, or `control` are still
 performed after the execution of the `return` statement. See Section
 [Calling convention: call by copy in/copy out](../chapter-06/06-08-calling-convention-call-by-copy-in-copy-out.md#sec-calling-convention) for details on copy-out behavior.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:returnStatement\] \~ End
-P4Grammar
+```bison
+returnStatement
+    : RETURN ";"
+    | RETURN expression ";"
+    ;
+```

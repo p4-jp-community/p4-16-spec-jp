@@ -2,10 +2,21 @@
 Local variables are declared with a type, a name, and an optional
 initializer (as well as an optional annotation):
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:variableDeclaration\]
+```bison
+variableDeclaration
+    : variableDeclarationWithoutSemicolon ";"
+    ;
 
-  - \[INCLUDE=grammar.mdk:optInitializer\]  
-    End P4Grammar
+variableDeclarationWithoutSemicolon
+    : annotations typeRef name optInitializer
+    | typeRef name optInitializer
+    ;
+
+optInitializer
+    : /* empty */
+    | "=" initializer
+    ;
+```
 
 Variable declarations without an initializer are uninitialized (except
 for headers and other header-related types, which are initialized to

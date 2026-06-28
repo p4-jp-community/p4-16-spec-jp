@@ -48,14 +48,19 @@ provides an `@atomic` annotation, which can be applied to block
 statements, parser states, control blocks, or whole parsers.
 
   - Consider the following example:  
-    Begin P4Example extern Register { /\* body omitted */ } control
-    Ingress() { Register() r; table flowlet { /* read state of r in an
-    action */ } table new\_flowlet { /* write state of r in an action
-    \*/ } apply { @atomic { flowlet.apply(); if
-    (ingress\_metadata.flow\_ipg \> FLOWLET\_INACTIVE\_TIMEOUT)
-    new\_flowlet.apply(); }}}
-    
-    End P4Example
+    ```p4
+extern Register { /* body omitted */ }
+control Ingress() {
+  Register() r;
+  table flowlet { /* read state of r in an action */ }
+  table new_flowlet { /* write state of r in an action */ }
+  apply {
+    @atomic {
+       flowlet.apply();
+       if (ingress_metadata.flow_ipg > FLOWLET_INACTIVE_TIMEOUT)
+          new_flowlet.apply();
+}}}
+```
 
 This program accesses an extern object `r` of type `Register` in actions
 invoked from tables `flowlet` (reading) and `new_flowlet` (writing).

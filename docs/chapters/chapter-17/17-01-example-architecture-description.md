@@ -8,17 +8,29 @@
 The following example describes a switch by using two packages, each
 containing a parser, a match-action pipeline, and a deparser:
 
-\~ Begin P4Example parser Parser<IH>(packet\_in b, out IH
-parsedHeaders); // ingress match-action pipeline control IPipe\<T, IH,
-OH\>(in IH inputHeaders, in InControl inCtrl, out OH outputHeaders, out
-T toEgress, out OutControl outCtrl); // egress match-action pipeline
-control EPipe\<T, IH, OH\>(in IH inputHeaders, in InControl inCtrl, in T
-fromIngress, out OH outputHeaders, out OutControl outCtrl); control
-Deparser<OH>(in OH outputHeaders, packet\_out b); package Ingress\<T,
-IH, OH\>(Parser<IH> p, IPipe\<T, IH, OH\> map, Deparser<OH> d); package
-Egress\<T, IH, OH\>(Parser<IH> p, EPipe\<T, IH, OH\> map, Deparser<OH>
-d); package Switch<T>(Ingress\<T, *, *\> ingress, Egress\<T, *, *\>
-egress); \~ End P4Example
+```p4
+parser Parser<IH>(packet_in b, out IH parsedHeaders);
+// ingress match-action pipeline
+control IPipe<T, IH, OH>(in IH inputHeaders,
+                         in InControl inCtrl,
+                         out OH outputHeaders,
+                         out T toEgress,
+                         out OutControl outCtrl);
+// egress match-action pipeline
+control EPipe<T, IH, OH>(in IH inputHeaders,
+                         in InControl inCtrl,
+                         in T fromIngress,
+                         out OH outputHeaders,
+                         out OutControl outCtrl);
+control Deparser<OH>(in OH outputHeaders, packet_out b);
+package Ingress<T, IH, OH>(Parser<IH> p,
+                           IPipe<T, IH, OH> map,
+                           Deparser<OH> d);
+package Egress<T, IH, OH>(Parser<IH> p,
+                          EPipe<T, IH, OH> map,
+                          Deparser<OH> d);
+package Switch<T>(Ingress<T, _, _> ingress, Egress<T, _, _> egress);
+```
 
 Just from these declarations, even without reading a precise description
 of the target, the programmer can infer some useful information about

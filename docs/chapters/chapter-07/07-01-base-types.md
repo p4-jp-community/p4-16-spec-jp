@@ -23,7 +23,22 @@ P4 supports the following built-in base types:
   - Bit-strings of dynamically-computed width with a fixed maximum width
     `varbit<>`
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:baseType\] \~ End P4Grammar
+```bison
+baseType
+    : BOOL
+    | MATCH_KIND
+    | ERROR
+    | BIT
+    | STRING
+    | INT
+    | BIT "<" INTEGER ">"
+    | INT "<" INTEGER ">"
+    | VARBIT "<" INTEGER ">"
+    | BIT "<" "(" expression ")" ">"
+    | INT "<" "(" expression ")" ">"
+    | VARBIT "<" "(" expression ")" ">"
+    ;
+```
 
 ### The void type
 
@@ -37,8 +52,11 @@ The error type contains opaque distinct values that can be used to
 signal errors. It is written as `error`. New elements of the error type
 are defined with the syntax:
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:errorDeclaration\] \~ End
-P4Grammar
+```bison
+errorDeclaration
+    : ERROR "{" identifierList "}"
+    ;
+```
 
 All elements of the `error` type are inserted into the `error`
 namespace, irrespective of the place where an error is defined. `error`
@@ -51,7 +69,9 @@ Expressions of type `error` are described in Section
 For example, the following declaration creates two elements of the
 `error` type (these errors are declared in the P4 core library):
 
-\~ Begin P4Example error { ParseError, PacketTooShort } \~ End P4Example
+```p4
+error { ParseError, PacketTooShort }
+```
 
 The underlying representation of errors is target-dependent.
 
@@ -63,14 +83,21 @@ property (described in Section [Table properties](../chapter-14/14-02-tables.md#
 are inserted into the top-level namespace. It is an error to declare the
 same `match_kind` identifier multiple times.
 
-\~ Begin P4Grammar \[INCLUDE=grammar.mdk:matchKindDeclaration\] \~ End
-P4Grammar
+```bison
+matchKindDeclaration
+    : MATCH_KIND "{" identifierList optTrailingComma "}"
+    ;
+```
 
   - The P4 core library contains the following match\_kind
     declaration:  
-    Begin P4Example match\_kind { exact, ternary, lpm }
-    
-    End P4Example
+    ```p4
+match_kind {
+   exact,
+   ternary,
+   lpm
+}
+```
 
 Architectures may support additional `match_kind`s. The declaration of
 new `match_kind`s can only occur within model description files; P4
@@ -96,14 +123,17 @@ Section [String literals](../chapter-06/06-04-lexical-constructs.md#sec-string-l
 for example, in giving the type signature for extern functions such as
 the following:
 
-\~ Begin P4Example extern void log(string message); \~ End P4Example
+```p4
+extern void log(string message);
+```
 
 As another example, the following annotation indicates that the
 specified name should be used for a given table in the generated
 control-plane API:
 
-\~ Begin P4Example @name(“acl”) table t1 { /\* body omitted \*/ } \~ End
-P4Example
+```p4
+@name("acl") table t1 { /* body omitted */ }
+```
 
 ### Integers (signed and unsigned)
 
@@ -167,9 +197,11 @@ additional details. Note that `bit<W>` type refers to both cases of
 `bit<W>` and `bit<(expression)>` where the width is a compile-time known
 value.
 
-\~ Begin P4Example const bit\<32\> x = 10; // 32-bit constant with value
-10. const bit\<(x + 2)\> y = 15; // 12-bit constant with value 15. //
-expression for width must use () \~ End P4Example
+```p4
+const bit<32> x = 10;   // 32-bit constant with value 10.
+const bit<(x + 2)> y = 15;  // 12-bit constant with value 15.
+                            // expression for width must use ()
+```
 
 Bits within a bit-string are numbered from `0` to `W-1`. Bit `0` is the
 least significant, and bit `W-1` is the most significant.
@@ -253,8 +285,11 @@ described in Section [Operations on arbitrary-precision integers](../chapter-08/
 three constant definitions whose values are arbitrary-precision
 integers.
 
-\~ Begin P4Example const int a = 5; const int b = 2 \* a; const int c =
-b - a + 3; \~ End P4Example
+```p4
+const int a = 5;
+const int b = 2 * a;
+const int c = b - a + 3;
+```
 
 Parameters with type `int` are not supported for actions. Parameters
 with type `int` for other callable entities of a program, e.g. controls,

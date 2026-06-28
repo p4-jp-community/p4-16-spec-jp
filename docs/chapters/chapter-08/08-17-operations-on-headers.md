@@ -17,9 +17,12 @@ assigned to the header fields in the order they appear — or with a
 structure-valued expression (see Section [Operations on struct types](08-16-operations-on-struct-types.md#sec-ops-on-structs)). When
 initialized the header automatically becomes valid:
 
-\~ Begin P4Example header H { bit\<32\> x; bit\<32\> y; } H h; h = { 10,
-12 }; // This also makes the header h valid h = { y = 12, x = 10 }; //
-Same effect as above \~ End P4Example
+```p4
+header H { bit<32> x; bit<32> y; }
+H h;
+h = { 10, 12 };  // This also makes the header h valid
+h = { y = 12, x = 10 };  // Same effect as above
+```
 
 Two headers can be compared for equality (`==`) or inequality (`!=`)
 only if they have the same type. Two headers are equal if and only if
@@ -32,14 +35,21 @@ can be any header or header union type. A P4 compiler may require an
 explicit cast on this expression in cases where it cannot determine the
 particular header or header union type from the context.
 
-\~ Begin P4Grammar expression … | “{\#}” \~ End P4Grammar
+```bison
+expression
+    ...
+    | "{#}"
+```
 
   - For example:  
-    Begin P4Example header H { bit\<32\> x; bit\<32\> y; } H h; h =
-    {\#}; // This make the header h become invalid if (h == {\#}) { //
-    This is equivalent to the condition \!h.isValid() // … }
-    
-    End P4Example
+    ```p4
+header H { bit<32> x; bit<32> y; }
+H h;
+h = {#};   // This make the header h become invalid
+if (h == {#}) {     // This is equivalent to the condition !h.isValid()
+    // ...
+}
+```
 
 Note that the `#` character cannot be misinterpreted as a preprocessor
 directive, since it cannot be the first character on a line when it

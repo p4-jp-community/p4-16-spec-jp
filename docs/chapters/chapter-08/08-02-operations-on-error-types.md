@@ -4,7 +4,10 @@ namespace. The `error` type only supports equality (`==`) and inequality
 (`!=`) comparisons. The result of such a comparison is a Boolean value.
 
 For example, the following operation tests for the occurrence of an
-error: \~ Begin P4Example error errorFromParser;
+error:
 
-  - if (errorFromParser \!= error.NoError) { /\* code omitted \*/ }  
-    End P4Example
+```p4
+error errorFromParser;
+
+if (errorFromParser != error.NoError) { /* code omitted */ }
+```
