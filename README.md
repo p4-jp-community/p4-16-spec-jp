@@ -35,6 +35,47 @@
 
 > https://p4-jp-community.github.io/p4-16-spec-jp/
 
+## ローカルでのビルドとプレビュー / Local Build and Preview
+
+このリポジトリのサイトは MkDocs で生成します。ローカル確認には `uv` の利用を推奨します。
+
+### 前提
+
+- Python `3.13` 以上
+- `uv`
+
+### セットアップ
+
+```bash
+uv sync
+```
+
+### ビルド
+
+```bash
+uv run mkdocs build --strict
+```
+
+ビルド結果は `site/` に出力されます。
+
+### ローカルプレビュー
+
+```bash
+uv run mkdocs serve
+```
+
+標準では `http://127.0.0.1:8000/p4-16-spec-jp/` で確認できます。
+
+### `uv` を使わない場合
+
+```bash
+python -m venv .venv
+. .venv/bin/activate
+pip install mkdocs-material
+python -m mkdocs build --strict
+python -m mkdocs serve
+```
+
 ## ライセンス / License
 
 * **Apache License 2.0**（詳細は `LICENSE.txt` を参照）。
