@@ -459,24 +459,29 @@ header unions, structs, tuples, and lists. Note that `int` by itself
 (i.e. not as part of an `int<N>` type expression) means an
 arbitrary-precision integer, without a width specified.
 
-|——————–|————————————————||||| | | Container kind ||||| |
-|———–|————–|—————–|——|————–| | Element type |
-header | header\_union | struct or tuple | list | header stack |
-+:——————-+:———-+:————-+:—————-+:—–+:————-+ | `bit<W>` |
-allowed | error | allowed | allowed | error | | `int<W>` | allowed |
-error | allowed | allowed | error | | `varbit<W>` | allowed | error |
-allowed | allowed | error | | `int` | error | error | error | allowed |
-error | | `void` | error | error | error | error | error | | `string` |
-error | error | error | allowed | error | | `error` | error | error |
-allowed | allowed | error | | `match_kind` | error | error | error |
-allowed | error | | `bool` | allowed | error | allowed | allowed | error
-| | enumeration types | allowed\[1\] | error | allowed | allowed | error
-| | header types | error | allowed | allowed | allowed | allowed | |
-header stacks | error | error | allowed | allowed | error | | header
-unions | error | error | allowed | allowed | allowed | | struct types |
-allowed\[2\] | error | allowed | allowed | error | | tuple types | error
-| error | allowed | allowed | error | | list types | error | error |
-error | allowed | error | |——————–|———–|———|———-|———|——-|
+| Element type | header | header_union | struct or tuple | list | array [4] | header stack |
+| --- | --- | --- | --- | --- | --- | --- |
+| `bit<W>` | allowed | error | allowed | allowed | allowed | error |
+| `int<W>` | allowed | error | allowed | allowed | allowed | error |
+| `varbit<W>` | allowed | error | allowed | allowed | allowed | error |
+| `int` | error | error | error | allowed | error | error |
+| `void` | error | error | error | error | error | error |
+| `string` | error | error | error | allowed | error | error |
+| `error` | error | error | allowed | allowed | error | error |
+| `match_kind` | error | error | error | allowed | error | error |
+| `bool` | allowed | error | allowed | allowed | allowed | error |
+| `enumeration types` | allowed\[1\] | error | allowed | allowed | allowed | error |
+| `header types` | error | allowed | allowed | allowed | NA \[3\] | allowed |
+| `array types` \[4\] | allowed | error | allowed | error \[7\] | allowed \[5\] | error |
+| `header stacks` | error | error | allowed | allowed | error | error |
+| `header_unions` | error | error | allowed | allowed | NA \[3\] | allowed |
+| `struct types` | allowed\[2\] | error | allowed | allowed | allowed | error |
+| `tuple types` | error | error | allowed | allowed | error \[7\] | error |
+| `list types` | error | error | error | allowed | error \[7\] | error |
+| `extern types` | error | error | error | error | allowed \[6\] | error |
+| `parser types` | error | error | error | error | error | error |
+| `control types` | error | error | error | error | error | error |
+| `package types` | error | error | error | error | error | error |
 
 Rationale: `int` does not have precise storage requirements, unlike
 `bit<>` or `int<>` types. `match_kind` values are not useful to store in
@@ -493,17 +498,31 @@ field in a header.
 The table below lists all types that may appear as base types in a
 `typedef` or `type` declaration.
 
-|——————-|——————–|—————–| | Base type B | `typedef B <name>` | `type B
-<name>` | +:——————+:——————-+:—————-+ | `bit<W>` | allowed | allowed | |
-`int<W>` | allowed | allowed | | `varbit<W>` | allowed | error | | `int`
-| allowed | error | | `void` | error | error | | `string` | allowed |
-error | | `error` | allowed | error | | `match_kind` | error | error | |
-`bool` | allowed | allowed | | enumeration types | allowed | error | |
-header types | allowed | error | | header stacks | allowed | error | |
-header unions | allowed | error | | struct types | allowed | error | |
-tuple types | allowed | error | | list types | allowed | error | | a
-`typedef` name | allowed | allowed\[3\] | | a `type` name | allowed |
-allowed | |——————-|——————–|—————–|
+| Base type B | `typedef B <name>` | `type B <name>` |
+| --- | --- | --- |
+| `bit<W>` | allowed | allowed |
+| `int<W>` | allowed | allowed |
+| `varbit<W>` | allowed | error |
+| `int` | allowed | error |
+| `void` | error | error |
+| `string` | error | error |
+| `error` | allowed | error |
+| `match_kind` | error | error |
+| `bool` | allowed | allowed |
+| `enumeration types` | allowed | error |
+| `array types` | allowed | error |
+| `header types` | allowed | error |
+| `header stacks` | allowed | error |
+| `header unions` | allowed | error |
+| `struct types` | allowed | error |
+| `tuple types` | allowed | error |
+| `list types` | allowed | error |
+| `extern types` | allowed | error |
+| `parser types` | allowed | error |
+| `control types` | allowed | error |
+| `package types` | allowed | error |
+| a `typedef` name | allowed | allowed\[3\] |
+| a `type` name | allowed | allowed |
 
 Rationale: So far, no clear motivation for allowing `typedef` for `void`
 and `match_kind` was presented. Therefore, to be on the safe side this

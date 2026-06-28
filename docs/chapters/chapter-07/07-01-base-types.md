@@ -311,17 +311,11 @@ The table below shows several examples of integer literals and their
 types. For additional examples of literals see Section
 [Literal constants](../chapter-06/06-04-lexical-constructs.md#sec-literals).
 
-<table style="width:38%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 23%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;"><h2 id="literal">Literal</h2>
-<code>10</code> <code>8w10</code> <code>8s10</code> <code>2s3</code> <code>1w10</code> <code>1s1</code> ———</td>
-<td><h2 id="interpretation">Interpretation</h2>
-Type is <code>int</code>, value is 10 Type is <code>bit&lt;8&gt;</code>, value is 10 Type is <code>int&lt;8&gt;</code>, value is 10 Type is <code>int&lt;2&gt;</code>, value is -1 (last 2 bits), overflow warning Type is <code>bit&lt;1&gt;</code>, value is 0 (last bit), overflow warning Type is <code>int&lt;1&gt;</code>, value is -1, overflow warning ——————–</td>
-</tr>
-</tbody>
-</table>
+| Literal | Interpretation |
+| --- | --- |
+| `10` | Type is `int`, value is 10 |
+| `8w10` | Type is `bit<8>`, value is 10 |
+| `8s10` | Type is `int<8>`, value is 10 |
+| `2s3` | Type is `int<2>`, value is -1 (last 2 bits), overflow warning |
+| `1w10` | Type is `bit<1>`, value is 0 (last bit), overflow warning |
+| `1s1` | Type is `int<1>`, value is -1, overflow warning |

@@ -42,13 +42,16 @@ that apply while a parser or control is executing.
 The first table lists restrictions on what types can be passed as
 constructor parameters to other types.
 
-|————-|———|——–|———|——–| | | can be a constructor parameter for this type
-|||| | |———|——–|———|——–| | This type | package | parser | control |
-extern | +————-+:——-:+:——:+:——-:+:——:+ | package | yes | no | no | no |
-| parser | yes | yes | no | no | | control | yes | no | yes | no | |
-extern | yes | yes | yes | yes | | function | no | no | no | no | |
-table | no | no | no | no | | value-set | no | no | no | no | | value
-types | yes | yes | yes | yes | |————-|———|——–|———|——–|
+| This type | package | parser | control | extern |
+| --- | --- | --- | --- | --- |
+| package | yes | no | no | no |
+| parser | yes | yes | no | no |
+| control | yes | no | yes | no |
+| extern | yes | yes | yes | yes |
+| function | no | no | no | no |
+| table | no | no | no | no |
+| value-set | no | no | no | no |
+| value types | yes | yes | yes | yes |
 
 The next table lists restrictions on where one may perform
 instantiations (see Section [Instantiations](../chapter-11/11-03-instantiations.md#sec-instantiations)) of different
@@ -69,32 +72,33 @@ instantiation, hence the answer “N/A” (for not applicable) in those
 table entries. Variables may not be declared at the top level of your
 program, but constants may.
 
-|————-|———–|———|———|——–|———|———-| | | can be instantiated in this place
-|||||| | |———–|———|———|———|——–|———-| | This type | top level | package |
-parser | control | extern | function |
-+————-+:———:+:——-:+:——-:+:——-:+:——:+:——–:+
-| package | yes | no | no | no | no | no | | parser | no | no | yes | no
-| no | no | | control | no | no | no | yes | no | no | | extern | yes |
-no | yes | yes | no | no | | function | yes | no | no | no | no | no | |
-table | no | no | no | yes | no | no | | value-set | yes | no | yes | no
-| no | no | | value types | N/A | N/A | N/A | N/A | N/A | N/A |
-|————-|———–|———|———|———|——–|———-|
+| This type | top level | package | parser | control | extern | function |
+| --- | --- | --- | --- | --- | --- | --- |
+| package | yes | yes | no | no | no | no |
+| parser | no | yes | yes | no | no | no |
+| control | no | yes | no | yes | no | no |
+| extern | yes | yes | yes | yes | no | no |
+| function | yes | no | no | no | no | no |
+| table | no | no | no | yes | no | no |
+| value-set | yes | no | yes | no | no | no |
+| value types | N/A | N/A | N/A | N/A | N/A | N/A |
 
 The next table lists restrictions on what types can be passed as
 run-time parameters to other callable things that have run-time
 parameters: parsers, controls, externs (including methods and extern
 functions), actions, and functions.
 
-|————-|———–|———|———|———|———-| | | can be a run-time parameter to this
-callable thing ||||| | |———–|———|———|———|———-| | This type | parser |
-control | extern | action | function |
-+————-+:———:+:——-:+:——-:+:——-:+:——–:+ |
-package | no | no | no | no | no | | parser | no | no | no | no | no | |
-control | no | no | no | no | no | | extern | yes | yes | yes | no | no
-| | table | no | no | no | no | no | | value-set | no | no | no | no |
-no | | action | no | no | no | no | no | | function | no | no | no | no
-| no | | value types | yes | yes | yes | yes | yes |
-|————-|———–|———|———|———|———-|
+| This type | parser | control | extern | action | function |
+| --- | --- | --- | --- | --- | --- |
+| package | no | no | no | no | no |
+| parser | no | no | no | no | no |
+| control | no | no | no | no | no |
+| extern | yes | yes | yes | no | no |
+| table | no | no | no | no | no |
+| value-set | no | no | no | no | no |
+| action | no | no | no | no | no |
+| function | no | no | no | no | no |
+| value types | yes | yes | yes | yes | yes |
 
 Extern method and extern function calls may only return a value that is
 a value type, or no value at all (specified by a return type of `void`).
@@ -109,17 +113,17 @@ One way that an extern can be called from the top level of a parser or
 control is in an initializer expression for a declared variable,
 e.g. `bit<32> x = rand.get();`.
 
-|————-|———–|———|———–|———|——–|———-| | | can be called at run time from
-this place in a P4 program |||||| | |———–|———|———–|———|——–|———-| | | |
-control | parser or | | | | | | parser | apply | control | | | | | This
-type | state | block | top level | action | extern | function |
-+————-+:———:+:——-:+:———:+:——-:+:——:+:——–:+ | package | N/A |
-N/A | N/A | N/A | N/A | N/A | | parser | yes | no | no | no | no | no |
-| control | no | yes | no | no | no | no | | extern | yes | yes | yes |
-yes | no | no | | table | no | yes | no | no | no | no | | value-set |
-yes | no | no | no | no | no | | action | no | yes | no | yes | no | no
-| | function | yes | yes | no | yes | no | yes | | value types | N/A |
-N/A | N/A | N/A | N/A | N/A | |————-|———–|———|———–|———|——–|———-|
+| This type | top level | parser state | control apply block | top level within a parser or control | action | extern | function |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| package | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| parser | no | yes | no | no | no | no | no |
+| control | no | no | yes | no | no | no | no |
+| extern | no | yes | yes | yes | yes | no | yes |
+| table | no | no | yes | no | no | no | no |
+| value-set | no | yes | no | no | no | no | no |
+| action | no | no | yes | no | yes | no | no |
+| function | no \[1\] | yes | yes | yes | yes | no | yes |
+| value types | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 
 There may not be any recursion in calls, neither by a thing calling
 itself directly, nor mutual recursion.
