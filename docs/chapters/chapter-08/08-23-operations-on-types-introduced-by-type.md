@@ -4,7 +4,7 @@ operations:
   - assignment to left-values of the same type
   - comparisons for equality and inequality if the original type
     supported such comparisons
-  - casts to and from the original type
+casts to and from the original type
 
 ```p4
 type bit<32> U32;

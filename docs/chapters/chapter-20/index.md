@@ -33,7 +33,7 @@ to one type of annotation or the other for any one element. An
 annotation used on one element does not affect the annotation on another
 because they have different scope.
 
-  - This is legal:
+This is legal:
 
 ```p4
 @my_anno(1) table T { /* body omitted */ }
@@ -41,7 +41,7 @@ because they have different scope.
                                            // use of my_anno
 ```
 
-  - This is illegal:
+This is illegal:
 
 ```p4
 @my_anno(1)
@@ -55,14 +55,14 @@ element. In contrast, only one structured annotation using a given
 `name` may appear on an element; multiple uses of the same `name` will
 produce an error.
 
-  - This is legal:
+This is legal:
 
 ```p4
 @my_anno(1)
 @my_anno(2) table U { /* body omitted */ }  // OK - unstructured annos accumulate
 ```
 
-  - This is illegal:
+This is illegal:
 
 ```p4
 @my_anno[1]

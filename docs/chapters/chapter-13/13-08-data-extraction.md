@@ -70,14 +70,14 @@ with data from the packet and its validity bit is set to `true`. This
 method may fail in various ways—e.g., if there are not enough bits left
 in the packet to fill the specified header.
 
-  - For example, the following program fragment extracts an Ethernet
-    header:  
-    ```p4
+For example, the following program fragment extracts an Ethernet header:
+
+```p4
 struct Result { Ethernet_h ethernet;  /* more fields omitted */ }
 parser P(packet_in b, out Result r) {
-    state start {
-        b.extract(r.ethernet);
-    }
+state start {
+    b.extract(r.ethernet);
+}
 }
 ```
 
@@ -105,9 +105,9 @@ void packet_in.extract<T>(out T headerLValue) {
 
 ### Variable-width extraction
 
-  - The two-argument `extract` handles variable-width headers, and is
-    declared in P4 as follows:  
-    ```p4
+The two-argument `extract` handles variable-width headers, and is declared in P4 as follows:
+
+```p4
 void extract<T>(out T headerLvalue, in bit<32> variableFieldSize);
 ```
 
@@ -226,25 +226,25 @@ T packet_in.lookahead<T>() {
 }
 ```
 
-  - The TCP options example from Section [Operations on header unions](../chapter-08/08-19-operations-on-header-unions.md#sec-expr-hu) also
-    illustrates how `lookahead` can be used:  
-    ```p4
+The TCP options example from Section [Operations on header unions](../chapter-08/08-19-operations-on-header-unions.md#sec-expr-hu) also illustrates how `lookahead` can be used:
+
+```p4
 state start {
-    transition select(b.lookahead<bit<8>>()) {
-        0: parse_tcp_option_end;
-        1: parse_tcp_option_nop;
-        2: parse_tcp_option_ss;
-        3: parse_tcp_option_s;
-        5: parse_tcp_option_sack;
-    }
+transition select(b.lookahead<bit<8>>()) {
+    0: parse_tcp_option_end;
+    1: parse_tcp_option_nop;
+    2: parse_tcp_option_ss;
+    3: parse_tcp_option_s;
+    5: parse_tcp_option_sack;
+}
 }
 
 // Some states omitted
 
 state parse_tcp_option_sack {
-    bit<8> n = b.lookahead<Tcp_option_sack_top>().length;
-    b.extract(vec.next.sack, (bit<32>) (8 * n - 16));
-    transition start;
+bit<8> n = b.lookahead<Tcp_option_sack_top>().length;
+b.extract(vec.next.sack, (bit<32>) (8 * n - 16));
+transition start;
 }
 ```
 

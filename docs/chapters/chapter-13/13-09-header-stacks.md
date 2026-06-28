@@ -24,30 +24,30 @@ attempting to access `mpls.last` when the `nextIndex` counter is equal
 to `0` causes a transition to `reject` and sets the error to
 `error.StackOutOfBounds`.
 
-  - The following example shows a simplified parser for MPLS
-    processing:  
-    ```p4
+The following example shows a simplified parser for MPLS processing:
+
+```p4
 struct Pkthdr {
-   Ethernet_h ethernet;
-   Mpls_h[3] mpls;
-   // other headers omitted
+Ethernet_h ethernet;
+Mpls_h[3] mpls;
+// other headers omitted
 }
 
 parser P(packet_in b, out Pkthdr p) {
-    state start {
-        b.extract(p.ethernet);
-        transition select(p.ethernet.etherType) {
-           0x8847: parse_mpls;
-           0x0800: parse_ipv4;
-        }
+state start {
+    b.extract(p.ethernet);
+    transition select(p.ethernet.etherType) {
+       0x8847: parse_mpls;
+       0x0800: parse_ipv4;
     }
-    state parse_mpls {
-         b.extract(p.mpls.next);
-         transition select(p.mpls.last.bos) {
-            0: parse_mpls; // This creates a loop
-            1: parse_ipv4;
-         }
-    }
-    // other states omitted
+}
+state parse_mpls {
+     b.extract(p.mpls.next);
+     transition select(p.mpls.last.bos) {
+        0: parse_mpls; // This creates a loop
+        1: parse_ipv4;
+     }
+}
+// other states omitted
 }
 ```

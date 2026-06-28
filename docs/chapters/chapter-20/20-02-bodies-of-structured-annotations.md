@@ -105,12 +105,12 @@ table t {
 
 **Illegal Duplicate Key**
 
-  - The following example is invalid because the same key occurs more
-    than once:  
-    ```p4
+The following example is invalid because the same key occurs more than once:
+
+```p4
 @DupKey[k1=4,k1=5] // illegal duplicate key
 table t {
-    /* body omitted */
+/* body omitted */
 }
 ```
 

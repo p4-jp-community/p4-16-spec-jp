@@ -69,14 +69,14 @@ u.hi = e;
 
 has the following meaning:
 
-  - if `e` is valid, then it is equivalent to:
+if `e` is valid, then it is equivalent to:
 
 ```p4
   u.hi.setValid();
   u.hi = e;
 ```
 
-  - if `e` is invalid, then it is equivalent to:
+if `e` is invalid, then it is equivalent to:
 
 ```p4
   u.hi.setInvalid();

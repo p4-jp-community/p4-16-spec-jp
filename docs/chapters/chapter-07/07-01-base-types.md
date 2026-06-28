@@ -20,8 +20,7 @@ P4 supports the following built-in base types:
   - Bit-strings of fixed width, denoted by `bit<>`
   - Fixed-width signed integers represented using two’s complement
     `int<>`
-  - Bit-strings of dynamically-computed width with a fixed maximum width
-    `varbit<>`
+Bit-strings of dynamically-computed width with a fixed maximum width `varbit<>`
 
 ```bison
 baseType
@@ -89,13 +88,13 @@ matchKindDeclaration
     ;
 ```
 
-  - The P4 core library contains the following match\_kind
-    declaration:  
-    ```p4
+The P4 core library contains the following match\_kind declaration:
+
+```p4
 match_kind {
-   exact,
-   ternary,
-   lpm
+exact,
+ternary,
+lpm
 }
 ```
 

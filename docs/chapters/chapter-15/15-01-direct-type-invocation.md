@@ -25,11 +25,11 @@ apply {
 }
 ```
     
-    ```bison
+```bison
 directApplication
-    : typeName "." APPLY "(" argumentList ")" ";"
-    | specializedType "." APPLY "(" argumentList ")" ";"
-    ;
+: typeName "." APPLY "(" argumentList ")" ";"
+| specializedType "." APPLY "(" argumentList ")" ";"
+;
 ```
 
 This feature is intended to streamline the common case where a type is

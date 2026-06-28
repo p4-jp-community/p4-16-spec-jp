@@ -91,36 +91,36 @@ manipulate the elements at the front and back of the stack:
 
 <!-- end list -->
 
-  - The following pseudocode defines the behavior of `push_front` and
-    `pop_front`:  
-    ```text
+The following pseudocode defines the behavior of `push_front` and `pop_front`:
+
+```text
 void push_front(int count) {
-    for (int i = this.size-1; i >= 0; i -= 1) {
-        if (i >= count) {
-            this[i] = this[i-count];
-        } else {
-            this[i].setInvalid();
-        }
+for (int i = this.size-1; i >= 0; i -= 1) {
+    if (i >= count) {
+        this[i] = this[i-count];
+    } else {
+        this[i].setInvalid();
     }
-    this.nextIndex = this.nextIndex + count;
-    if (this.nextIndex > this.size) this.nextIndex = this.size;
-    // Note: this.last, this.next, and this.lastIndex adjust with this.nextIndex
+}
+this.nextIndex = this.nextIndex + count;
+if (this.nextIndex > this.size) this.nextIndex = this.size;
+// Note: this.last, this.next, and this.lastIndex adjust with this.nextIndex
 }
 
 void pop_front(int count) {
-    for (int i = 0; i < this.size; i++) {
-        if (i+count < this.size) {
-            this[i] = this[i+count];
-        } else {
-            this[i].setInvalid();
-        }
-    }
-    if (this.nextIndex >= count) {
-        this.nextIndex = this.nextIndex - count;
+for (int i = 0; i < this.size; i++) {
+    if (i+count < this.size) {
+        this[i] = this[i+count];
     } else {
-        this.nextIndex = 0;
+        this[i].setInvalid();
     }
-    // Note: this.last, this.next, and this.lastIndex adjust with this.nextIndex
+}
+if (this.nextIndex >= count) {
+    this.nextIndex = this.nextIndex - count;
+} else {
+    this.nextIndex = 0;
+}
+// Note: this.last, this.next, and this.lastIndex adjust with this.nextIndex
 }
 ```
 

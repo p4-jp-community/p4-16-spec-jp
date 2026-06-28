@@ -36,10 +36,7 @@ including:
   - Block statements, which introduce local lexically-enclosed scopes,
   - `parser`, `table`, `action`, and `control` blocks, which introduce
     local scopes
-  - Declarations with type variables, which introduce a new scope for
-    those variables. For example, in the following `extern` declaration,
-    the scope of the type variable `H` extends to the end of the
-    declaration:
+Declarations with type variables, which introduce a new scope for those variables. For example, in the following `extern` declaration, the scope of the type variable `H` extends to the end of the declaration:
 
 ```p4
 extern E<H>(/* parameters omitted */) { /* body omitted */ } // scope of H ends here.

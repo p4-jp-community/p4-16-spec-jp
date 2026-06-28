@@ -79,12 +79,12 @@ select (headers.ipv4.protocol) {
 }
 ```
 
-  - For example, to detect TCP reserved ports (\< 1024) one could
-    write:  
-    ```p4
+For example, to detect TCP reserved ports (\< 1024) one could write:
+
+```p4
 select (p.tcp.port) {
-    16w0 &&& 16w0xFC00: well_known_port;
-    _: other_port;
+16w0 &&& 16w0xFC00: well_known_port;
+_: other_port;
 }
 ```
 

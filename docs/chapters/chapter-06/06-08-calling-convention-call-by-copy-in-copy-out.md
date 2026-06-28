@@ -69,22 +69,22 @@ is not performed for parameters with any direction that is not `out`.
 
 <!-- end list -->
 
-  - For example, if a direction `out` parameter has type `s2_t` named
-    `p`:  
-    ```p4
+For example, if a direction `out` parameter has type `s2_t` named `p`:
+
+```p4
 header h1_t {
-    bit<8> f1;
-    bit<8> f2;
+bit<8> f1;
+bit<8> f2;
 }
 struct s1_t {
-    h1_t h1a;
-    bit<3> a;
-    bit<7> b;
+h1_t h1a;
+bit<3> a;
+bit<7> b;
 }
 struct s2_t {
-    h1_t h1b;
-    s1_t s1;
-    bit<5> c;
+h1_t h1b;
+s1_t s1;
+bit<5> c;
 }
 ```
 
@@ -193,8 +193,7 @@ There are additional benefits of using copy-in copy-out semantics:
     references (e.g., where all data is allocated to named registers.
     Such architectures may require indices into header stacks that
     appear in a program to be compile-time known values.)
-  - It simplifies some compiler analyses, since function parameters can
-    never alias to each other within the function body.
+It simplifies some compiler analyses, since function parameters can never alias to each other within the function body.
 
 ```bison
 parameterList
@@ -245,9 +244,7 @@ directions:
   - Default expressions are only allowed for ‘in’ or direction-less
     parameters, and the expressions supplied as defaults must be
     compile-time known values.
-  - If parameters with default values do not appear at the end of the
-    list of parameters, invocations that use the default values must use
-    named arguments, as in the following example:
+If parameters with default values do not appear at the end of the list of parameters, invocations that use the default values must use named arguments, as in the following example:
 
 ```p4
 extern void f(in bit a, in bit<3> b = 2, in bit<5> c);

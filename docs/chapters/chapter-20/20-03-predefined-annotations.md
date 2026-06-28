@@ -28,8 +28,7 @@ annotations have no bodies.
 
   - `@tableonly`: actions with this annotation can only appear within
     the table, and never as default action.
-  - `@defaultonly`: actions with this annotation can only appear in the
-    default action, and never in the table.
+`@defaultonly`: actions with this annotation can only appear in the default action, and never in the table.
 
 ```p4
 table t {

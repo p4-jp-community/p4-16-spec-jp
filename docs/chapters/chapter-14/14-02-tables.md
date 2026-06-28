@@ -147,13 +147,13 @@ purposes:
 
 <!-- end list -->
 
-  - The P4 core library contains three predefined `match_kind`
-    identifiers:  
-    ```p4
+The P4 core library contains three predefined `match_kind` identifiers:
+
+```p4
 match_kind {
-   exact,
-   ternary,
-   lpm
+exact,
+ternary,
+lpm
 }
 ```
 

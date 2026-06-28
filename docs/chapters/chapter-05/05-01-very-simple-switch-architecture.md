@@ -124,10 +124,7 @@ error `parseError`, and the `inCtrl` control data. Figure
 information. The pipeline writes its outputs into `outCtrl`, and it must
 update in place the headers to be consumed by the deparser.
 
-  - The top-level package is called `VSS`; in order to program a VSS,
-    the user will have to instantiate a package of this type (shown in
-    the next section). The top-level package declaration also depends on
-    a type variable H:
+The top-level package is called `VSS`; in order to program a VSS, the user will have to instantiate a package of this type (shown in the next section). The top-level package declaration also depends on a type variable H:
 
 ```p4
 package VSS<H>

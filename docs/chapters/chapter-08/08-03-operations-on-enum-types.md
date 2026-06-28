@@ -1,8 +1,7 @@
 <a id="sec-enum-exprs"></a>
-  - Symbolic names declared by an enum belong to the namespace
-    introduced by the enum declaration rather than the top-level
-    namespace.  
-    ```p4
+Symbolic names declared by an enum belong to the namespace introduced by the enum declaration rather than the top-level namespace.
+
+```p4
 enum X { v1, v2, v3 }
 X.v1  // reference to v1
 v1    // error - v1 is not in the top-level namespace
@@ -13,13 +12,13 @@ type only support equality (`==`) and inequality (`!=`) comparisons.
 Expressions whose type is an `enum` without a specified underlying type
 cannot be cast to or from any other type.
 
-  - An `enum` may also specify an underlying type, such as the
-    following:  
-    ```p4
+An `enum` may also specify an underlying type, such as the following:
+
+```p4
 enum bit<8> E {
-  e1 = 0,
-  e2 = 1,
-  e3 = 2
+e1 = 0,
+e2 = 1,
+e3 = 2
 }
 ```
 
@@ -64,46 +63,46 @@ E  a = E.e2
 bit<8> y = a << 3; // sets y to 8 (a is automatically casted to bit<8> and then shifted)
 ```
 
-  - Implicit casting from an underlying fixed-width type to an enum is
-    *not* supported.  
-    ```p4
+Implicit casting from an underlying fixed-width type to an enum is *not* supported.
+
+```p4
 enum bit<8> E1 {
-   e1 = 0, e2 = 1, e3 = 2
+e1 = 0, e2 = 1, e3 = 2
 }
 
 enum bit<8> E2 {
-   e1 = 10, e2 = 11, e3 = 12
+e1 = 10, e2 = 11, e3 = 12
 }
 E1 a = E1.e1;
 E2 b = E2.e2;
 
 a = b;      // Error: b is automatically casted to bit<8>,
-            // but bit<8> cannot be automatically casted to E1
+        // but bit<8> cannot be automatically casted to E1
 
 a = (E1) b; // OK
 
 a = E1.e1 + 1; // Error: E.e1 is automatically casted to bit<8>,
-               // and the right-hand expression has
-               // the type bit<8>, which cannot be casted to E automatically.
+           // and the right-hand expression has
+           // the type bit<8>, which cannot be casted to E automatically.
 
 a = (E1)(E1.e1 + 1); // Final explicit casting makes the assignment legal
 
 a = E1.e1 + E1.e2; // Error: both arguments to the addition are automatically
-                   // casted to bit<8>. Thus the addition itself is legal, but
-                   // the assignment is not
+               // casted to bit<8>. Thus the addition itself is legal, but
+               // the assignment is not
 
 a = (E1)(E2.e1 + E2.e2); //  Final explicit casting makes the assignment legal
 ```
 
-  - A reasonable compiler might generate a warning in cases that involve
-    multiple automatic casts.  
-    ```p4
+A reasonable compiler might generate a warning in cases that involve multiple automatic casts.
+
+```p4
 E1     a = E1.e1;
 E2     b = E2.e2;
 bit<8> c;
 
 if (a > b) { // Potential warning: two automatic and different casts to bit<8>.
-   // code omitted
+// code omitted
 }
 
 c = a + b; // Legal, but a warning would be reasonable

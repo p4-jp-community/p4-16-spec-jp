@@ -127,9 +127,7 @@ the following types:
     value `W`.
   - a signed integer, i.e. `int<W>` for some local compile-time known
     value `W`.
-  - a type name declared via `typedef`, where the base type of that type
-    is either one of the types listed above, or another `typedef` name
-    that meets these conditions. For example, the declaration
+a type name declared via `typedef`, where the base type of that type is either one of the types listed above, or another `typedef` name that meets these conditions. For example, the declaration
 
 ```p4
 enum bit<16> EtherType {
@@ -279,9 +277,9 @@ header Ethernet_h {
 }
 ```
 
-  - The following variable declaration uses the newly introduced type
-    `Ethernet_h`:  
-    ```p4
+The following variable declaration uses the newly introduced type `Ethernet_h`:
+
+```p4
 Ethernet_h ethernetHeader;
 ```
 
@@ -657,11 +655,11 @@ either by the number of arguments or by the names of the arguments, when
 calls are specifying argument names. Argument type information is not
 used in disambiguating calls.
 
-  - Notice that overloading of parsers, controls, or packages is not
-    allowed:  
-    ```p4
+Notice that overloading of parsers, controls, or packages is not allowed:
+
+```p4
 parser p(packet_in p, out bit<32> value) {
-  ...
+...
 }
 
 // The following will cause an error about a duplicate declaration
@@ -800,7 +798,7 @@ For example, the following is a type declaration of a parser type named
 as input a `packet_in` value `b` and produces two values:
 
   - A value with a user-defined type `H`
-  - A value with a predefined type `Counters`
+A value with a predefined type `Counters`
 
 ```p4
 struct Counters { /* Fields omitted */ }
@@ -811,13 +809,13 @@ parser P<H>(packet_in b,
 
 #### Control type declarations
 
-  - A control type declaration describes the signature of a control
-    block.  
-    ```bison
+A control type declaration describes the signature of a control block.
+
+```bison
 controlTypeDeclaration
-    : optAnnotations CONTROL name optTypeParameters
-      "(" parameterList ")"
-    ;
+: optAnnotations CONTROL name optTypeParameters
+  "(" parameterList ")"
+;
 ```
 
 Control type declarations are similar to parser type declarations.

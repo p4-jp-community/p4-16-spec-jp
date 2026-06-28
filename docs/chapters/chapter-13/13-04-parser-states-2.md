@@ -26,27 +26,27 @@ transitions to that state, including:
 
 <!-- end list -->
 
-  - The syntax for parser statements is given by the following grammar
-    rules:  
-    ```bison
+The syntax for parser statements is given by the following grammar rules:
+
+```bison
 parserStatements
-    : /* empty */
-    | parserStatements parserStatement
-    ;
+: /* empty */
+| parserStatements parserStatement
+;
 
 parserStatement
-    : assignmentOrMethodCallStatement
-    | directApplication
-    | emptyStatement
-    | variableDeclaration
-    | constantDeclaration
-    | parserBlockStatement
-    | conditionalStatement
-    ;
+: assignmentOrMethodCallStatement
+| directApplication
+| emptyStatement
+| variableDeclaration
+| constantDeclaration
+| parserBlockStatement
+| conditionalStatement
+;
 
 parserBlockStatement
-    : optAnnotations "{" parserStatements "}"
-    ;
+: optAnnotations "{" parserStatements "}"
+;
 ```
 
 Architectures may place restrictions on the expressions and statements

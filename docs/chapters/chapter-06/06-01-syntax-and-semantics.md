@@ -7,14 +7,14 @@ when we provide excerpts from the grammar:
 
   - `UPPERCASE` symbols denote terminals in the grammar.
 
-  -   - Excerpts from the grammar are given in BNF notation as
-        follows:  
-        ```bison
+Excerpts from the grammar are given in BNF notation as follows:
+
+```bison
 p4program
-    : /* empty */
-    | p4program declaration
-    | p4program ";"  /* empty declaration */
-    ;
+: /* empty */
+| p4program declaration
+| p4program ";"  /* empty declaration */
+;
 ```
 
 Pseudo-code (mostly used for describing the semantics of various P4
