@@ -6,17 +6,18 @@ In order to support libraries of useful P4 components, both `parser`s
 and `control` blocks can be additionally parameterized through the use
 of constructor parameters.
 
-  - Consider again the parser declaration syntax:  
-    ```bison
+Consider again the parser declaration syntax:
+
+```bison
 parserDeclaration
-    : parserTypeDeclaration optConstructorParameters
-      "{" parserLocalElements parserStates "}"
-    ;
+: parserTypeDeclaration optConstructorParameters
+  "{" parserLocalElements parserStates "}"
+;
 
 optConstructorParameters
-    : /* empty */
-    | "(" parameterList ")"
-    ;
+: /* empty */
+| "(" parameterList ")"
+;
 ```
 
 From this grammar fragment we infer that a `parser` declaration may have
@@ -30,32 +31,33 @@ Constructor parameters must be directionless (i.e., they cannot be `in`,
 possible to fully evaluate the expressions supplied for these parameters
 at compilation time.
 
-  - Consider the following example:  
-    ```p4
+Consider the following example:
+
+```p4
 parser GenericParser(packet_in b, out Packet_header p)
-                    (bool udpSupport) {   // constructor parameters
-    state start {
-        b.extract(p.ethernet);
-        transition select(p.ethernet.etherType) {
-            16w0x0800: ipv4;
-        }
+                (bool udpSupport) {   // constructor parameters
+state start {
+    b.extract(p.ethernet);
+    transition select(p.ethernet.etherType) {
+        16w0x0800: ipv4;
     }
-    state ipv4 {
-        b.extract(p.ipv4);
-        transition select(p.ipv4.protocol) {
-           6: tcp;
-           17: tryudp;
-        }
+}
+state ipv4 {
+    b.extract(p.ipv4);
+    transition select(p.ipv4.protocol) {
+       6: tcp;
+       17: tryudp;
     }
-    state tryudp {
-        transition select(udpSupport) {
-            false: accept;
-            true : udp;
-        }
+}
+state tryudp {
+    transition select(udpSupport) {
+        false: accept;
+        true : udp;
     }
-    state udp {
-         // body omitted
-    }
+}
+state udp {
+     // body omitted
+}
 }
 ```
 

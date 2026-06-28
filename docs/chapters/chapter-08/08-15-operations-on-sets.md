@@ -90,8 +90,9 @@ the mask indicates a “don’t care” bit. More formally, the set denoted by
 a &&& b = { c where a & b = c & b }
 ```
 
-  - For example:  
-    ```p4
+For example:
+
+```p4
 8w0x0A &&& 8w0x0F
 ```
 
@@ -133,13 +134,14 @@ an empty set.
 
 ### Products
 
-  - Multiple sets can be combined using Cartesian product:  
-    ```p4
+Multiple sets can be combined using Cartesian product:
+
+```p4
 select(hdr.ipv4.ihl, hdr.ipv4.protocol) {
-     (4w0x5, 8w0x1): parse_icmp;
-     (4w0x5, 8w0x6): parse_tcp;
-     (4w0x5, 8w0x11): parse_udp;
-     (_, _): accept; }
+ (4w0x5, 8w0x1): parse_icmp;
+ (4w0x5, 8w0x6): parse_tcp;
+ (4w0x5, 8w0x11): parse_udp;
+ (_, _): accept; }
 ```
 
 The type of a product of sets is a set of tuples.

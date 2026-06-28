@@ -41,13 +41,14 @@ expression
     | "{#}"
 ```
 
-  - For example:  
-    ```p4
+For example:
+
+```p4
 header H { bit<32> x; bit<32> y; }
 H h;
 h = {#};   // This make the header h become invalid
 if (h == {#}) {     // This is equivalent to the condition !h.isValid()
-    // ...
+// ...
 }
 ```
 

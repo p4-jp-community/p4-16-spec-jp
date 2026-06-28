@@ -47,18 +47,19 @@ To allow users to express atomic execution of larger code blocks, P4
 provides an `@atomic` annotation, which can be applied to block
 statements, parser states, control blocks, or whole parsers.
 
-  - Consider the following example:  
-    ```p4
+Consider the following example:
+
+```p4
 extern Register { /* body omitted */ }
 control Ingress() {
-  Register() r;
-  table flowlet { /* read state of r in an action */ }
-  table new_flowlet { /* write state of r in an action */ }
-  apply {
-    @atomic {
-       flowlet.apply();
-       if (ingress_metadata.flow_ipg > FLOWLET_INACTIVE_TIMEOUT)
-          new_flowlet.apply();
+Register() r;
+table flowlet { /* read state of r in an action */ }
+table new_flowlet { /* write state of r in an action */ }
+apply {
+@atomic {
+   flowlet.apply();
+   if (ingress_metadata.flow_ipg > FLOWLET_INACTIVE_TIMEOUT)
+      new_flowlet.apply();
 }}}
 ```
 

@@ -19,8 +19,9 @@ As a consequence, a program that is valid in a language like C such as,
 if (x) /* body omitted */
 ```
 
-  - (where x has an integer type) must instead be written in P4 as:  
-    ```p4
+(where x has an integer type) must instead be written in P4 as:
+
+```p4
 if (x != 0) /* body omitted */
 ```
 

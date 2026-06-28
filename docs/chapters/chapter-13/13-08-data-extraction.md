@@ -204,8 +204,9 @@ type, or a struct containing headers), the headers values in the
 returned result are always valid (otherwise `lookahead` must have
 transitioned to the `reject` state).
 
-  - The `lookahead` method can be invoked as follows:  
-    ```p4
+The `lookahead` method can be invoked as follows:
+
+```p4
 b.lookahead<T>()
 ```
 

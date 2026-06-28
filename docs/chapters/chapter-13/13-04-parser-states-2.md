@@ -1,10 +1,11 @@
 <a id="sec-parser-state-stmt"></a>
-  - A parser state is declared with the following syntax:  
-    ```bison
+A parser state is declared with the following syntax:
+
+```bison
 parserState
-    : optAnnotations STATE name
-      "{" parserStatements transitionStatement "}"
-    ;
+: optAnnotations STATE name
+  "{" parserStatements transitionStatement "}"
+;
 ```
 
 Each state has a name and a body. The body consists of a sequence of

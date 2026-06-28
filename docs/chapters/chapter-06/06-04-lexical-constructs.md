@@ -127,8 +127,9 @@ tools or compiler-backends, including the terminating quotes. These
 tools can define their own handling of escape sequences (e.g., how to
 specify Unicode characters, or handle unprintable ASCII characters).
 
-  - Here are 3 examples of string literals:  
-    ```p4
+Here are 3 examples of string literals:
+
+```p4
 "simple string"
 "string \" with \" embedded \" quotes"
 "string with embedded

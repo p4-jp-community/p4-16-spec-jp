@@ -14,13 +14,14 @@ control Caller(/* parameters omitted */)(/* parameters omitted */) {
 }
 ```
 
-  - The definition of `Caller` is equivalent to the following.  
-    ```p4
+The definition of `Caller` is equivalent to the following.
+
+```p4
 control Caller(/* parameters omitted */)(/* parameters omitted */) {
-    @name("Callee") Callee() Callee_inst; // local instance of Callee
-    apply {
-        Callee_inst.apply(/* arguments omitted */);         // Callee_inst is applied
-    }
+@name("Callee") Callee() Callee_inst; // local instance of Callee
+apply {
+    Callee_inst.apply(/* arguments omitted */);         // Callee_inst is applied
+}
 }
 ```
     

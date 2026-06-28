@@ -3,14 +3,15 @@ subroutines. To invoke the services of another control, it must be first
 instantiated; the services of an instance are invoked by calling it
 using its `apply` method.
 
-  - The following example shows a control invocation:  
-    ```p4
+The following example shows a control invocation:
+
+```p4
 control Callee(inout IPv4 ipv4) { /* body omitted */ }
 control Caller(inout Headers h) {
-     Callee() instance;  // instance of callee
-     apply {
-          instance.apply(h.ipv4);  // invoke control
-     }
+ Callee() instance;  // instance of callee
+ apply {
+      instance.apply(h.ipv4);  // invoke control
+ }
 }
 ```
 

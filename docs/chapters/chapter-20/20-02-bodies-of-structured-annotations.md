@@ -44,11 +44,12 @@ kvPair
 
 **Empty Expression List**
 
-  - The following example produces an empty annotation:  
-    ```p4
+The following example produces an empty annotation:
+
+```p4
 @Empty[]
 table t {
-    /* body omitted */
+/* body omitted */
 }
 ```
 
@@ -68,11 +69,12 @@ table t {
 }
 ```
 
-  - **kvList of Strings**  
-    ```p4
+**kvList of Strings**
+
+```p4
 @Labels[short="Short Label", hover="My Longer Table Label to appear in hover-help"]
 table t {
-    /* body omitted */
+/* body omitted */
 }
 ```
 

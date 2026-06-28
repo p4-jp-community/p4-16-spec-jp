@@ -21,15 +21,17 @@ extern Checksum16 {
 }
 ```
 
-  - IP checksum verification could be done in a parser as:  
-    ```p4
+IP checksum verification could be done in a parser as:
+
+```p4
 ck16.clear();           // prepare checksum unit
 ck16.update(h.ipv4);    // write header
 verify(ck16.get() == 16w0, error.IPv4ChecksumError); // check for 0 checksum
 ```
 
-  - IP checksum generation could be done as:  
-    ```p4
+IP checksum generation could be done as:
+
+```p4
 h.ipv4.hdrChecksum = 16w0;
 ck16.clear();
 ck16.update(h.ipv4);

@@ -6,27 +6,31 @@ a suitable substitution of the type variables. The type substitution can
 be expressed directly, using type specialization, or can be inferred by
 a compiler, using a unification algorithm like Hindley-Milner.
 
-  - For example, given the following type declarations:  
-    ```p4
+For example, given the following type declarations:
+
+```p4
 parser Prs<T>(packet_in b, out T result);
 control Pipe<T>(in T data);
 package Switch<T>(Prs<T> p, Pipe<T> map);
 ```
 
-  - and the following declarations:  
-    ```p4
+and the following declarations:
+
+```p4
 parser P(packet_in b, out bit<32> index) { /* body omitted */ }
 control Pipe1(in bit<32> data) { /* body omitted */ }
 control Pipe2(in bit<8> data) { /* body omitted */ }
 ```
 
-  - The following is a legal declaration for the top-level target:  
-    ```p4
+The following is a legal declaration for the top-level target:
+
+```p4
 Switch(P(), Pipe1()) main;
 ```
 
-  - And the following is illegal:  
-    ```p4
+And the following is illegal:
+
+```p4
 Switch(P(), Pipe2()) main;
 ```
 

@@ -27,23 +27,25 @@ particular, if a set is specified as a range or mask expression, the
 endpoints of the range and mask expression are implicitly cast to type
 `T` using the standard rules for casts.
 
-  - In terms of the `ParserModel`, the meaning of a select expression:  
-    ```p4
+In terms of the `ParserModel`, the meaning of a select expression:
+
+```p4
 select(e) {
-    ks[0]: s[0];
-    ks[1]: s[1];
-    /* more labels omitted */
-    ks[n-2]: s[n-1];
-    _ : sd;  // ks[n-1] is default
+ks[0]: s[0];
+ks[1]: s[1];
+/* more labels omitted */
+ks[n-2]: s[n-1];
+_ : sd;  // ks[n-1] is default
 }
 ```
 
-  - is defined in pseudo-code as:  
-    ```text
+is defined in pseudo-code as:
+
+```text
 key = eval(e);
 for (int i=0; i < n; i++) {
-    keyset = eval(ks[i]);
-    if (keyset.contains(key)) return s[i];
+keyset = eval(ks[i]);
+if (keyset.contains(key)) return s[i];
 }
 verify(false, error.NoMatch);
 ```

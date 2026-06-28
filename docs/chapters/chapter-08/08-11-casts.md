@@ -70,10 +70,11 @@ whenever appropriate, including but not limited to in shifts,
 concatenation, bit slicing indexes, header stack indexes as well as
 other unary and binary operations.
 
-  - For example, given the following declarations,  
-    ```p4
+For example, given the following declarations,
+
+```p4
 enum bit<8> E {
-   a = 5
+a = 5
 }
 
 bit<8>  x;

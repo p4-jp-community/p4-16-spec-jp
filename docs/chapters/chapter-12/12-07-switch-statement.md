@@ -1,70 +1,71 @@
 <a id="sec-switch-stmt"></a>
-  - The `switch` statement can only be used within `control` blocks.  
-    ```bison
+The `switch` statement can only be used within `control` blocks.
+
+```bison
 switchStatement
-    : SWITCH "(" expression ")" "{" switchCases "}"
-    ;
+: SWITCH "(" expression ")" "{" switchCases "}"
+;
 
 switchCases
-    : /* empty */
-    | switchCases switchCase
-    ;
+: /* empty */
+| switchCases switchCase
+;
 
 switchCase
-    : switchLabel ":" blockStatement
-    | switchLabel ":"  // fall-through
-    ;
+: switchLabel ":" blockStatement
+| switchLabel ":"  // fall-through
+;
 
 switchLabel
-    : DEFAULT
-    | nonBraceExpression
-    ;
+: DEFAULT
+| nonBraceExpression
+;
 
 nonBraceExpression
-    : INTEGER
-    | STRING_LITERAL
-    | TRUE
-    | FALSE
-    | THIS
-    | prefixedNonTypeName
-    | nonBraceExpression "[" expression "]"
-    | nonBraceExpression "[" expression ":" expression "]"
-    | nonBraceExpression "[" expression "+" ":" expression "]"
-    | "(" expression ")"
-    | "!" expression %prec PREFIX
-    | "~" expression %prec PREFIX
-    | "-" expression %prec PREFIX
-    | "+" expression %prec PREFIX
-    | typeName "." member
-    | ERROR "." member
-    | nonBraceExpression "." member
-    | nonBraceExpression "*" expression
-    | nonBraceExpression "/" expression
-    | nonBraceExpression "%" expression
-    | nonBraceExpression "+" expression
-    | nonBraceExpression "-" expression
-    | nonBraceExpression "|+|" expression
-    | nonBraceExpression "|-|" expression
-    | nonBraceExpression "<<" expression
-    | nonBraceExpression ">>" expression
-    | nonBraceExpression "<=" expression
-    | nonBraceExpression ">=" expression
-    | nonBraceExpression "<" expression
-    | nonBraceExpression ">" expression
-    | nonBraceExpression "!=" expression
-    | nonBraceExpression "==" expression
-    | nonBraceExpression "&" expression
-    | nonBraceExpression "^" expression
-    | nonBraceExpression "|" expression
-    | nonBraceExpression "++" expression
-    | nonBraceExpression "&&" expression
-    | nonBraceExpression "||" expression
-    | nonBraceExpression "?" expression ":" expression
-    | nonBraceExpression "<" realTypeArgumentList ">" "(" argumentList ")"
-    | nonBraceExpression "(" argumentList ")"
-    | namedType "(" argumentList ")"
-    | "(" typeRef ")" expression
-    ;
+: INTEGER
+| STRING_LITERAL
+| TRUE
+| FALSE
+| THIS
+| prefixedNonTypeName
+| nonBraceExpression "[" expression "]"
+| nonBraceExpression "[" expression ":" expression "]"
+| nonBraceExpression "[" expression "+" ":" expression "]"
+| "(" expression ")"
+| "!" expression %prec PREFIX
+| "~" expression %prec PREFIX
+| "-" expression %prec PREFIX
+| "+" expression %prec PREFIX
+| typeName "." member
+| ERROR "." member
+| nonBraceExpression "." member
+| nonBraceExpression "*" expression
+| nonBraceExpression "/" expression
+| nonBraceExpression "%" expression
+| nonBraceExpression "+" expression
+| nonBraceExpression "-" expression
+| nonBraceExpression "|+|" expression
+| nonBraceExpression "|-|" expression
+| nonBraceExpression "<<" expression
+| nonBraceExpression ">>" expression
+| nonBraceExpression "<=" expression
+| nonBraceExpression ">=" expression
+| nonBraceExpression "<" expression
+| nonBraceExpression ">" expression
+| nonBraceExpression "!=" expression
+| nonBraceExpression "==" expression
+| nonBraceExpression "&" expression
+| nonBraceExpression "^" expression
+| nonBraceExpression "|" expression
+| nonBraceExpression "++" expression
+| nonBraceExpression "&&" expression
+| nonBraceExpression "||" expression
+| nonBraceExpression "?" expression ":" expression
+| nonBraceExpression "<" realTypeArgumentList ">" "(" argumentList ")"
+| nonBraceExpression "(" argumentList ")"
+| namedType "(" argumentList ")"
+| "(" typeRef ")" expression
+;
 ```
 
 The `nonBraceExpression` is the same as `expression` as defined in

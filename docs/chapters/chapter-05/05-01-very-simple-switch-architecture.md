@@ -94,8 +94,9 @@ Let us describe some of these elements:
 
   - `error` is a built-in P4 type for holding error codes
 
-  -   - Next follows the declaration of a parser:  
-        ```p4
+Next follows the declaration of a parser:
+
+```p4
 parser Parser<H>(packet_in b, out H parsedHeaders);
 ```  
         This declaration describes the interface for a parser, but not
@@ -107,12 +108,13 @@ parser Parser<H>(packet_in b, out H parsedHeaders);
         The type of this argument is `H`, yet unknown—it will also be
         provided by the programmer.
 
-  -   - The declaration  
-        ```p4
+The declaration
+
+```p4
 control Pipe<H>(inout H headers,
-                in error parseError,
-                in InControl inCtrl,
-                out OutControl outCtrl);
+        in error parseError,
+        in InControl inCtrl,
+        out OutControl outCtrl);
 ```  
         describes the interface of a Match-Action pipeline named `Pipe`.
 

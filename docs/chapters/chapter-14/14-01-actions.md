@@ -24,10 +24,11 @@ Syntactically actions resemble functions with no return value. Actions
 may be declared within a control block; in this case they can only be
 used within instances of that control block.
 
-  - The following example shows an action declaration:  
-    ```p4
+The following example shows an action declaration:
+
+```p4
 action Forward_a(out bit<9> outputPort, bit<9> port) {
-    outputPort = port;
+outputPort = port;
 }
 ```
 

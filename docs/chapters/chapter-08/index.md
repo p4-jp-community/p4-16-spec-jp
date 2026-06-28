@@ -5,93 +5,94 @@
 This section describes all expressions that can be used in P4, grouped
 by the type of value they produce.
 
-  - The grammar production rule for general expressions is as follows:  
-    ```bison
+The grammar production rule for general expressions is as follows:
+
+```bison
 expression
-    : INTEGER
-    | DOTS                           // DOTS is ...
-    | STRING_LITERAL
-    | TRUE
-    | FALSE
-    | prefixedNonTypeName
-    | expression '[' expression ']'
-    | expression '[' expression ':' expression ']'
-    | '{' expressionList optTrailingComma '}'
-    | "{#}"
-    | '{' kvList optTrailingComma '}'
-    | "{" kvList "," DOTS optTrailingComma "}"
-    | '(' expression ')'
-    | '!' expression
-    | '~' expression
-    | '-' expression
-    | '+' expression
-    | typeName '.' member
-    | ERROR '.' member
-    | expression '.' member
-    | expression '*' expression
-    | expression '/' expression
-    | expression '%' expression
-    | expression '+' expression
-    | expression '-' expression
-    | expression '|+|' expression
-    | expression '|-|' expression
-    | expression SHL expression      // SHL is <<
-    | expression '>''>' expression   // check that >> are contiguous
-    | expression LE expression       // LE is <=
-    | expression GE expression       // GE is >=
-    | expression '<' expression
-    | expression '>' expression
-    | expression NE expression       // NE is !=
-    | expression EQ expression       // EQ is ==
-    | expression '&' expression
-    | expression '^' expression
-    | expression '|' expression
-    | expression PP expression       // PP is ++
-    | expression AND expression      // AND is &&
-    | expression OR expression       // OR is ||
-    | expression '?' expression ':' expression
-    | expression '<' realTypeArgumentList '>' '(' argumentList ')'
-    | expression '(' argumentList ')'
-    | namedType '(' argumentList ')'
-    | '(' typeRef ')' expression
-    ;
+: INTEGER
+| DOTS                           // DOTS is ...
+| STRING_LITERAL
+| TRUE
+| FALSE
+| prefixedNonTypeName
+| expression '[' expression ']'
+| expression '[' expression ':' expression ']'
+| '{' expressionList optTrailingComma '}'
+| "{#}"
+| '{' kvList optTrailingComma '}'
+| "{" kvList "," DOTS optTrailingComma "}"
+| '(' expression ')'
+| '!' expression
+| '~' expression
+| '-' expression
+| '+' expression
+| typeName '.' member
+| ERROR '.' member
+| expression '.' member
+| expression '*' expression
+| expression '/' expression
+| expression '%' expression
+| expression '+' expression
+| expression '-' expression
+| expression '|+|' expression
+| expression '|-|' expression
+| expression SHL expression      // SHL is <<
+| expression '>''>' expression   // check that >> are contiguous
+| expression LE expression       // LE is <=
+| expression GE expression       // GE is >=
+| expression '<' expression
+| expression '>' expression
+| expression NE expression       // NE is !=
+| expression EQ expression       // EQ is ==
+| expression '&' expression
+| expression '^' expression
+| expression '|' expression
+| expression PP expression       // PP is ++
+| expression AND expression      // AND is &&
+| expression OR expression       // OR is ||
+| expression '?' expression ':' expression
+| expression '<' realTypeArgumentList '>' '(' argumentList ')'
+| expression '(' argumentList ')'
+| namedType '(' argumentList ')'
+| '(' typeRef ')' expression
+;
 
 expressionList
-    : /* empty */
-    | expression
-    | expressionList "," expression
-    ;
+: /* empty */
+| expression
+| expressionList "," expression
+;
 
 member
-    : name
-    ;
+: name
+;
 
 argumentList
-    : /* empty */
-    | nonEmptyArgList
-    ;
+: /* empty */
+| nonEmptyArgList
+;
 
 nonEmptyArgList
-    : argument
-    | nonEmptyArgList "," argument
-    ;
+: argument
+| nonEmptyArgList "," argument
+;
 
 argument
-    : expression
-    ;
+: expression
+;
 
 typeArg
-    : typeRef
-    | nonTypeName
-    | VOID
-    | "_"
-    ;
+: typeRef
+| nonTypeName
+| VOID
+| "_"
+;
 
 typeArgumentList
-    : /* empty */
-    | typeArg
-    | typeArgumentList "," typeArg
-    ;
+: /* empty */
+| typeArg
+| typeArgumentList "," typeArg
+;
 ```
 
 See Appendix [P4 grammar](../appendix-G/index.md#sec-grammar) for the complete P4 grammar.

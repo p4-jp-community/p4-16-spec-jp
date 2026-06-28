@@ -11,16 +11,17 @@ Value sets are declared locally within a parser. They should be declared
 before being referenced in parser `keysetExpression` and can be used as
 a label in a select expression.
 
-  - The syntax for declaring value sets is:  
-    ```bison
+The syntax for declaring value sets is:
+
+```bison
 valueSetDeclaration
-  : optAnnotations
-      VALUESET "<" baseType ">" "(" expression ")" name ";"
-  | optAnnotations
-      VALUESET "<" tupleType ">" "(" expression ")" name ";"
-  | optAnnotations
-      VALUESET "<" typeName ">" "(" expression ")" name ";"
-  ;
+: optAnnotations
+  VALUESET "<" baseType ">" "(" expression ")" name ";"
+| optAnnotations
+  VALUESET "<" tupleType ">" "(" expression ")" name ";"
+| optAnnotations
+  VALUESET "<" typeName ">" "(" expression ")" name ";"
+;
 ```
 
 Parser Value Sets support a `size` argument to provide hints to the

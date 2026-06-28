@@ -150,11 +150,12 @@ can be inferred from context, e.g., when initializing a variable with a
 header stack type. Each expression in the list must evaluate to a header
 of the same type as the other stack elements.
 
-  - Here is an example:  
-    ```p4
+Here is an example:
+
+```p4
 header H<T> {
-    bit<32> b;
-    T t;
+bit<32> b;
+T t;
 }
 H<bit<32>>[3] s = (H<bit<32>>[3]){ {0, 1}, {2, 3}, (H<bit<32>>){#} };
 // without an explicit cast

@@ -18,8 +18,9 @@ the top-level namespace:
 
 Note that all stateful values are instantiated at compilation time.
 
-  - As an example, consider the following program fragment:  
-    ```p4
+As an example, consider the following program fragment:
+
+```p4
 // architecture declaration
 parser P(/* parameters omitted */);
 control C(/* parameters omitted */);
@@ -37,8 +38,8 @@ control Pipe(/* parameters omitted */) { /* body omitted */}
 control TopDeparser(/* parameters omitted */)(Checksum16 unit) { /* body omitted */}
 
 Switch(TopParser(ck16),
-       Pipe(),
-       TopDeparser(ck16)) main;
+   Pipe(),
+   TopDeparser(ck16)) main;
 ```
 
 The evaluation of this program proceeds as follows:

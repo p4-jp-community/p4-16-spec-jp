@@ -122,14 +122,15 @@ keyElement
     ;
 ```
 
-  - For example, consider the following program fragment:  
-    ```p4
+For example, consider the following program fragment:
+
+```p4
 table Fwd {
-    key = {
-       ipv4header.dstAddress : ternary;
-       ipv4header.version    : exact;
-    }
-    // more fields omitted
+key = {
+   ipv4header.dstAddress : ternary;
+   ipv4header.version    : exact;
+}
+// more fields omitted
 }
 ```
 
@@ -352,31 +353,32 @@ Entries declared in the P4 source are installed in the table when the
 program is loaded onto the target. Entries cannot be specified for a
 table with no key (see Sec. [Keys](#sec-table-keys)).
 
-  - Table entries are defined using the following syntax:  
-    ```bison
+Table entries are defined using the following syntax:
+
+```bison
 tableProperty
- : optAnnotations optCONST ENTRIES '=' '{' entriesList '}'
- ;
+: optAnnotations optCONST ENTRIES '=' '{' entriesList '}'
+;
 
 entriesList
-    : /* empty */
-    | entriesList entry
-    ;
+: /* empty */
+| entriesList entry
+;
 
 optCONST
-    : /* empty */
-    | CONST
-    ;
+: /* empty */
+| CONST
+;
 
 entryPriority
- : PRIORITY '=' INTEGER ":"
- | PRIORITY '=' '(' expression ')' ":"
- ;
+: PRIORITY '=' INTEGER ":"
+| PRIORITY '=' '(' expression ')' ":"
+;
 
 entry
-    : optCONST entryPriority keysetExpression ':' actionRef optAnnotations ';'
-    | optCONST keysetExpression ':' actionRef optAnnotations ';'
-    ;
+: optCONST entryPriority keysetExpression ':' actionRef optAnnotations ';'
+| optCONST keysetExpression ':' actionRef optAnnotations ';'
+;
 ```
 
 Table entries defined using `const entries` are immutable—i.e., they can
@@ -421,51 +423,52 @@ the number of synthesized entries exceeds the table size, the compiler
 implementation may choose to issue a warning or an error, depending on
 target capabilities.
 
-  - To illustrate, consider the following example:  
-    ```p4
+To illustrate, consider the following example:
+
+```p4
 header hdr {
-    bit<8>  e;
-    bit<16> t;
-    bit<8>  l;
-    bit<8>  r;
-    bit<1>  v;
+bit<8>  e;
+bit<16> t;
+bit<8>  l;
+bit<8>  r;
+bit<1>  v;
 }
 
 struct Header_t {
-    hdr h;
+hdr h;
 }
 struct Meta_t {}
 
 control ingress(inout Header_t h, inout Meta_t m,
-                inout standard_metadata_t standard_meta) {
+            inout standard_metadata_t standard_meta) {
 
-    action a() { standard_meta.egress_spec = 0; }
-    action a_params(bit<9> x) { standard_meta.egress_spec = x; }
+action a() { standard_meta.egress_spec = 0; }
+action a_params(bit<9> x) { standard_meta.egress_spec = x; }
 
-    table t_exact_ternary {
+table t_exact_ternary {
 
-  	key = {
-            h.h.e : exact;
-            h.h.t : ternary;
-        }
+	key = {
+        h.h.e : exact;
+        h.h.t : ternary;
+    }
 
 	actions = {
-            a;
-            a_params;
-        }
+        a;
+        a_params;
+    }
 
 	default_action = a;
 
-        const entries = {
-            (0x01, 0x1111 &&& 0xF   ) : a_params(1);
-            (0x02, 0x1181           ) : a_params(2);
-            (0x03, 0x1111 &&& 0xF000) : a_params(3);
-            (0x04, 0x1211 &&& 0x02F0) : a_params(4);
-            (0x04, 0x1311 &&& 0x02F0) : a_params(5);
-            (0x06, _                ) : a_params(6);
-            _                         : a;
-        }
+    const entries = {
+        (0x01, 0x1111 &&& 0xF   ) : a_params(1);
+        (0x02, 0x1181           ) : a_params(2);
+        (0x03, 0x1111 &&& 0xF000) : a_params(3);
+        (0x04, 0x1211 &&& 0x02F0) : a_params(4);
+        (0x04, 0x1311 &&& 0x02F0) : a_params(5);
+        (0x06, _                ) : a_params(6);
+        _                         : a;
     }
+}
 
 }
 ```
@@ -804,8 +807,9 @@ switch (dmac.apply().action_run) {
 
 ### Match-action unit execution semantics
 
-  - The semantics of a table invocation statement:  
-    ```p4
+The semantics of a table invocation statement:
+
+```p4
 m.apply();
 ```
 

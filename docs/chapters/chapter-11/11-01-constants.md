@@ -1,12 +1,13 @@
-  - Constant values are defined with the syntax:  
-    ```bison
+Constant values are defined with the syntax:
+
+```bison
 constantDeclaration
-    : optAnnotations CONST typeRef name "=" initializer ";"
-    ;
+: optAnnotations CONST typeRef name "=" initializer ";"
+;
 
 initializer
-    : expression
-    ;
+: expression
+;
 ```
 
 Such a declaration introduces a constant whose value has the specified

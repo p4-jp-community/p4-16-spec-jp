@@ -1,23 +1,24 @@
-  - A P4 program is a list of declarations:  
-    ```bison
+A P4 program is a list of declarations:
+
+```bison
 p4program
-    : /* empty */
-    | p4program declaration
-    | p4program ";"  /* empty declaration */
-    ;
+: /* empty */
+| p4program declaration
+| p4program ";"  /* empty declaration */
+;
 
 declaration
-    : constantDeclaration
-    | externDeclaration
-    | actionDeclaration
-    | parserDeclaration
-    | typeDeclaration
-    | controlDeclaration
-    | instantiation
-    | errorDeclaration
-    | matchKindDeclaration
-    | functionDeclaration
-    ;
+: constantDeclaration
+| externDeclaration
+| actionDeclaration
+| parserDeclaration
+| typeDeclaration
+| controlDeclaration
+| instantiation
+| errorDeclaration
+| matchKindDeclaration
+| functionDeclaration
+;
 ```
 
 An empty declarations is indicated with a single semicolon. (Allowing

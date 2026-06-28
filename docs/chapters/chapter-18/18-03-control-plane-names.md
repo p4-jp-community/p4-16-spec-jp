@@ -133,8 +133,9 @@ name, that name becomes its local control plane name. For example, if
 control C(/* parameters omitted */)() { /* body omitted */ }
 ```
 
-  - and instantiated as,  
-    ```p4
+and instantiated as,
+
+```p4
 C(E()) c_inst;
 ```
 
@@ -149,8 +150,9 @@ extern E { /* body omitted */ }
 control C( /* parameters omitted */ )(E e_in) { /* body omitted */ }
 ```
 
-  - and instantiated as,  
-    ```p4
+and instantiated as,
+
+```p4
 C() c_inst;
 ```
 

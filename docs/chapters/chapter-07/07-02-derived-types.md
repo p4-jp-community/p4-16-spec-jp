@@ -78,31 +78,33 @@ typeName
 
 ### Enumeration types
 
-  - An enumeration type is defined using the following syntax:  
-    ```bison
+An enumeration type is defined using the following syntax:
+
+```bison
 enumDeclaration
-    : optAnnotations ENUM name "{" identifierList optTrailingComma "}"
-    | optAnnotations ENUM typeRef name "{"
-      specifiedIdentifierList optTrailingComma "}"
-    ;
+: optAnnotations ENUM name "{" identifierList optTrailingComma "}"
+| optAnnotations ENUM typeRef name "{"
+  specifiedIdentifierList optTrailingComma "}"
+;
 
 identifierList
-    : name
-    | identifierList "," name
-    ;
+: name
+| identifierList "," name
+;
 
 specifiedIdentifierList
-    : specifiedIdentifier
-    | specifiedIdentifierList "," specifiedIdentifier
-    ;
+: specifiedIdentifier
+| specifiedIdentifierList "," specifiedIdentifier
+;
 
 specifiedIdentifier
-    : name "=" initializer
-    ;
+: name "=" initializer
+;
 ```
 
-  - For example, the declaration  
-    ```p4
+For example, the declaration
+
+```p4
 enum Suits { Clubs, Diamonds, Hearths, Spades }
 ```
 
@@ -155,13 +157,14 @@ Compiler implementations are expected to raise an error if the
 fixed-width integer representation for an enumeration entry falls
 outside the representation range of the underlying type.
 
-  - For example, the declaration  
-    ```p4
+For example, the declaration
+
+```p4
 enum bit<8> FailingExample {
-  first           = 1,
-  second          = 2,
-  third           = 3,
-  unrepresentable = 300
+first           = 1,
+second          = 2,
+third           = 3,
+unrepresentable = 300
 }
 ```
 
@@ -224,8 +227,9 @@ valid. A program executes `h2.setInvalid()` followed by
 `h2`? Similarly, should `h1.setInvalid()` invalidate all headers
 contained within `h1`, regardless of how deeply they are nested?
 
-  - Header types may be empty:  
-    ```p4
+Header types may be empty:
+
+```p4
 header Empty_h { }
 ```
 
@@ -287,22 +291,23 @@ in Section [Data extraction](../chapter-13/13-08-data-extraction.md#sec-packet-d
 an `extract` operation also sets the validity bit of the extracted
 header to `true`.
 
-  - Here is an example of an IPv4 header with variable-sized options:  
-    ```p4
+Here is an example of an IPv4 header with variable-sized options:
+
+```p4
 header IPv4_h {
-   bit<4>       version;
-   bit<4>       ihl;
-   bit<8>       diffserv;
-   bit<16>      totalLen;
-   bit<16>      identification;
-   bit<3>       flags;
-   bit<13>      fragOffset;
-   bit<8>       ttl;
-   bit<8>       protocol;
-   bit<16>      hdrChecksum;
-   bit<32>      srcAddr;
-   bit<32>      dstAddr;
-   varbit<320>  options;
+bit<4>       version;
+bit<4>       ihl;
+bit<8>       diffserv;
+bit<16>      totalLen;
+bit<16>      identification;
+bit<3>       flags;
+bit<13>      fragOffset;
+bit<8>       ttl;
+bit<8>       protocol;
+bit<16>      hdrChecksum;
+bit<32>      srcAddr;
+bit<32>      dstAddr;
+varbit<320>  options;
 }
 ```
 
@@ -333,13 +338,14 @@ header stacks are not supported. At runtime a stack contains `n` values
 with type `typeName`, only some of which may be valid. Expressions on
 header stacks are discussed in Section [Operations on header stacks](../chapter-08/08-18-operations-on-header-stacks.md#sec-expr-hs).
 
-  - For example, the following declarations,  
-    ```p4
+For example, the following declarations,
+
+```p4
 header Mpls_h {
-    bit<20> label;
-    bit<3>  tc;
-    bit     bos;
-    bit<8>  ttl;
+bit<20> label;
+bit<3>  tc;
+bit     bos;
+bit<8>  ttl;
 }
 Mpls_h[10] mpls;
 ```
@@ -357,11 +363,12 @@ several different headers. Header unions can be used to represent
 compilers that only one alternative will be present, allowing them to
 conserve storage resources.
 
-  - A header union is defined as:  
-    ```bison
+A header union is defined as:
+
+```bison
 headerUnionDeclaration
-    : optAnnotations HEADER_UNION name optTypeParameters "{" structFieldList "}"
-    ;
+: optAnnotations HEADER_UNION name optTypeParameters "{" structFieldList "}"
+;
 ```
 
 This declaration introduces a new type with the specified name in the
@@ -385,11 +392,12 @@ Operation on header unions are described in Section [Operations on header unions
 
 ### Struct types
 
-  - P4 `struct` types are defined with the following syntax:  
-    ```bison
+P4 `struct` types are defined with the following syntax:
+
+```bison
 structTypeDeclaration
-    : optAnnotations STRUCT name optTypeParameters "{" structFieldList "}"
-    ;
+: optAnnotations STRUCT name optTypeParameters "{" structFieldList "}"
+;
 ```
 
 This declaration introduces a new type with the specified name in the
@@ -529,12 +537,13 @@ extern functions) and methods during type-checking. We also call the
 type of a function its signature. Libraries can contain functions and
 extern function declarations.
 
-  - For example, consider the following declarations:  
-    ```p4
+For example, consider the following declarations:
+
+```p4
 extern void random(in bit<5> logRange, out bit<32> value);
 
 bit<32> add(in bit<32> left, in bit<32> right) {
-   return left + right;
+return left + right;
 }
 ```
 
@@ -815,12 +824,13 @@ Control type declarations are similar to parser type declarations.
 
 ### Package types
 
-  - A package type describes the signature of a package.  
-    ```bison
+A package type describes the signature of a package.
+
+```bison
 packageTypeDeclaration
-    : optAnnotations PACKAGE name optTypeParameters
-      "(" parameterList ")"
-    ;
+: optAnnotations PACKAGE name optTypeParameters
+  "(" parameterList ")"
+;
 ```
 
 All parameters of a package are evaluated at compilation time, and in

@@ -31,8 +31,9 @@ for the following reasons:
 
 <!-- end list -->
 
-  - Consider the following examples:  
-    ```p4
+Consider the following examples:
+
+```p4
 bit<8> x;
 bit<16> y;
 bit<16> z = y << x;

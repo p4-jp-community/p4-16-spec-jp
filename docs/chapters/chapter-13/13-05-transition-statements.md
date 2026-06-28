@@ -26,8 +26,9 @@ can be formalized as follows:
 goto eval(stateExpression)
 ```
 
-  - For example, this statement:  
-    ```p4
+For example, this statement:
+
+```p4
 transition accept;
 ```
 
