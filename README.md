@@ -1,7 +1,7 @@
 # P4‑16 Specification — 非公式日本語訳
 
 > [!NOTE]
-> 本リポジトリは、P4‑16公式仕様 **v1.2.5** を基にした **非公式（コミュニティ）** の日本語訳プロジェクトです。現時点では多くの章が英語のままで、クロスリファレンスも未解決です。正確な情報のためには公式仕様の確認を推奨します。
+> 本リポジトリは、P4‑16公式仕様 **v1.2.5** を基にした **非公式（コミュニティ）** の日本語訳プロジェクトです。現時点では多くの章が英語のままで、翻訳や体裁調整を継続しています。正確な情報のためには公式仕様の確認を推奨します。
 > - 上流（公式仕様）: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 > - 本プロジェクト: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
 > - 法的情報: [NOTICE](docs/notice.md) / [LICENSE](docs/license.md)
@@ -12,16 +12,22 @@
 
 ```
 .
+├─ .github/              # GitHub Actions / リポジトリ設定
 ├─ docs/                 # 公開用 Markdown（章・付録）と静的アセット
 │  ├─ index.md
 │  ├─ chapters/
 │  ├─ assets/figs/
+│  ├─ notice.md
+│  ├─ license.md
 │  └─ stylesheets/announce.css
 ├─ overrides/main.html   # MkDocs(Material) の announce バナー（JP/EN）
 ├─ mkdocs.yml            # サイト設定（Material テーマ）
+├─ pyproject.toml        # 開発ツール設定
+├─ uv.lock               # 依存ロックファイル
 ├─ LICENSE.txt           # Apache License 2.0
 ├─ NOTICE.md             # 帰属・注意事項
-└─ THIRD_PARTY_NOTICES.md
+├─ THIRD_PARTY_NOTICES.md
+└─ site/                 # MkDocs ビルド生成物
 ```
 
 ## 公開先 / Published Site
@@ -44,7 +50,7 @@
 
 ## English (brief)
 
-This repository hosts an **unofficial**, community‑maintained Japanese translation project for the **P4‑16 Language Specification v1.2.5**. The content is published as a MkDocs site, while many chapters remain in English and some cross‑references are unresolved.
+This repository hosts an **unofficial**, community‑maintained Japanese translation project for the **P4‑16 Language Specification v1.2.5**. The content is published as a MkDocs site, while many chapters remain in English and translation and formatting work are ongoing.
 
 * Upstream: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 * Project: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
