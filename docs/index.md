@@ -1,7 +1,7 @@
 # P4_16 Language Specification — 非公式日本語訳
 
 !!! warning
-    このサイトはコミュニティ**p4‑jp‑community**による**非公式**の公開物です。P4 Language Consortiumが公開する[p4-specリポジトリ](https://github.com/p4lang/p4-spec/tree/main/p4-16/spec)の **P4_16 Language Specification v1.2.5** を基に、MkDocsでWeb公開しています。未訳の部分や誤訳、リンクの失効等が含まれる可能性があるため、正確な情報は**公式仕様**を参照してください。
+    このサイトはコミュニティ**p4‑jp‑community**による**非公式**の公開物です。P4 Language Consortiumが公開する[p4-specリポジトリ](https://github.com/p4lang/p4-spec/tree/main/p4-16/spec)の **P4_16 Language Specification v1.2.5** を基に、MkDocsでWeb公開しています。未訳の部分や誤訳、体裁上の不備が含まれる可能性があるため、正確な情報は**公式仕様**を参照してください。
 
 - 公式仕様: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 - 本プロジェクト（GitHub）: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
@@ -23,7 +23,7 @@
 
 ## English (short)
 
-This site is an **unofficial**, community‑maintained publication by **p4‑jp‑community**, based on the **P4_16 Language Specification v1.2.5** and published with MkDocs. Many chapters are still in English and cross‑references may be unresolved. Please consult the official specification alongside this site.
+This site is an **unofficial**, community‑maintained publication by **p4‑jp‑community**, based on the **P4_16 Language Specification v1.2.5** and published with MkDocs. Many chapters are still in English, and translation and formatting work are ongoing. Please consult the official specification alongside this site.
 
 - Upstream: [https://github.com/p4lang/p4-spec](https://github.com/p4lang/p4-spec)
 - Project: [https://github.com/p4-jp-community/p4-16-spec-jp](https://github.com/p4-jp-community/p4-16-spec-jp)
